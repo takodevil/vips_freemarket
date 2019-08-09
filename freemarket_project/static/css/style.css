@@ -1,0 +1,123 @@
+body {
+    color: #333;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 6px 6px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+table > tbody > tr {
+    height: 52px;
+    border-bottom: solid 1px #eee;
+}
+
+table > tbody > tr:nth-child(even) {
+    background-color: #f9fcff;
+}
+
+th {
+    padding: 8px;
+    color: white;
+    background-color: #fc7a62;
+}
+
+td {
+    padding: 4px 8px;
+}
+
+label {
+    font-weight: 600;
+}
+
+form > ul > li {
+    list-style: none;
+    margin: 8px 0;
+}
+
+form > ul > li > label {
+    margin-right: 8px;
+}
+
+form > ul > li:not(:first-child) {
+    border-top: solid 1px #eee;
+    padding-top: 8px;
+}
+
+input:not([type="submit"]), textarea {
+    border-radius: 2px;
+    border: solid 1px #bbb;
+    padding: 4px;
+}
+
+
+.wrapper {
+    margin: 0 auto;
+    max-width: 960px;
+    flex: 1;
+}
+
+/* Header */
+
+.header {
+    margin-bottom: 16px;
+    padding: 8px 0;
+    background: #66cdaa;
+    font-family: "Nico Moji";
+}
+
+.header a {
+    text-decoration: none;
+    font-family: "Nico Moji";
+    color: white;
+}
+
+.header a.brand {
+    font-family: "Nico Moji";
+    font-size: 32px;
+}
+
+.header > .wrapper {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.header ul {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.header ul > li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.header ul > li:not(:last-child) {
+    margin-right: 12px;
+}
+
+/* Paginator */
+
+.paginator {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.paginator > span.page-number {
+    margin: 0 0px;
+    border: solid 1px #ddd;
+    border-radius: 4px;
+    padding: 4px 12px;
+}

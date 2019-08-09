@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<form method="post">
+    <table>
+        {% csrf_token %}
+        <tbody>
+        <tr>
+            <th>Product</th>
+            <td>{{ form.product_name }}</td>
+        </tr>
+        <tr>
+            <th>Seller</th>
+            <td>{{ form.seller }}</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>{{ form.price }}</td>
+        </tr>
+        <tr>
+            <th>Stock</th>
+            <td>{{ form.stock }}</td>
+        </tr>
+        <tr>
+            <th>GoogleDriveId</th>
+            <td>{{ form.googledocid }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    <a href="{% url 'products:list' %}">Back</a>
+    <input type="submit" class="btn btn-primary" value="Confirm">
+</form>
+
+{% endblock %}

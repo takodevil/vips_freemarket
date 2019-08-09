@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+{% block header %}
+<head lang="ja">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    {% block stylesheet %}{% endblock %}
+    <title>frema</title>
+</head>
+{% endblock %}
+  <div class="header">
+    <div class="wrapper">
+        <ul>
+            {% if user.is_authenticated %}
+            <li><b>{{ user.username }}</b></li>
+            {% endif %}
+        </ul>
+        <ul>
+            {% if not user.is_authenticated %}
+            <li><a href="{% url 'login' %}" class="btn btn-primary">Log in</a></li>
+            <li><a href="{% url 'signup' %}" class="btn btn-primary">Sign up</a></li>
+            {% endif %}
+            <div class="dropdown">
+              <button type="button" id="dropdown1"
+                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                Menu
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdown1">
+                <a class="dropdown-item text-primary" href="#">History</a>
+                <a class="dropdown-item text-primary" href="#">Account Management</a>
+                <a class="dropdown-item text-primary" href="{% url 'products:sell' %}">Exhibit</a>
+                <a class="dropdown-item text-primary" href="{% url 'logout' %}">Log out</a>
+              </div>
+            </div>
+        </ul>
+    </div>
+  </div>
+<body>
+{% block contents %}
+{% endblock %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/web3.min.js' %}"></script>
+<script src="{% static 'js/HelloWorld.js' %}"></script>
+<button id="btn" class="btn btn-success">test</button>
+</body>
+</html>

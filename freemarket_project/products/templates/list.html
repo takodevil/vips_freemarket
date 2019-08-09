@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<table class="table table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Seller</th>
+        <th scope="col">Price</th>
+        <th scope="col">Stock</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    {% for product in products %}
+      <tr>
+          <td><a href="{% url 'products:buy' product_id=product.id %}">{{ product.product_name }}</a></td>
+          <td>{{ product.seller }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.stock }}</td>
+      </tr>
+    {% endfor %}
+</table>
+<div class="paginator">
+  {% if products.has_previous %}
+    <a href="?page={{ products.previous_page_number }}">&lt;pre </a>
+  {% else %}
+    <span>&lt;pre </span>
+  {% endif %}
+
+    <span class="page-number">{{ products.number }}</span>
+
+  {% if products.has_next %}
+    <a href="?page={{ products.next_page_number }}"> &gt;next</a>
+  {% else %}
+    <span> &gt;next</span>
+  {% endif %}
+</div>
+{% endblock %}
