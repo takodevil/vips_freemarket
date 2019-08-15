@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 {% block contents %}
-  <script src="{% static 'js/smart_contract.js' %}"></script>
 
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
@@ -17,7 +16,7 @@
             {% csrf_token %}
             {% include 'includes/form.html' %}
 <!--            <button id="signup" type="submit" class="btn btn-primary btn-block">Create an account</button>-->
-                <button id="signup" onclick="create_account()" class="btn btn-primary btn-block">Create an account</button>
+                <button id="signup" onclick="registerAccount()" class="btn btn-primary btn-block">Create an account</button>
           </form>
         </div>
         <div class="card-footer text-muted text-center">
@@ -26,4 +25,9 @@
       </div>
     </div>
   </div>
+<script src="{% static 'js/smart_contract.js' %}"></script>
+<button id="getMessage" class="btn btn-success">getMessage</button>
+<button id="setMessage" class="btn btn-success">setMessage</button>
+<button id="getAccount" class="btn btn-success">getAccount</button>
+<button id="registerAccount" class="btn btn-success">registerAccount</button>
 {% endblock %}

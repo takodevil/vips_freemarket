@@ -48,6 +48,38 @@ form > ul > li:not(:first-child) {
     padding-top: 8px;
 }
 
+#id_product_name {
+    width: 400px;
+    height:32px;
+}
+
+#id_seller {
+    width: 400px;
+    height:32px;
+}
+
+#id_price {
+    width: 50px;
+    height:32px;
+}
+
+#id_stock {
+    width: 50px;
+    height:32px;
+}
+
+#id_description {
+    text-align: left;
+    vertical-align: top;
+    width: 800px;
+    height:150px;
+}
+
+#id_googledocid {
+    width: 400px;
+    height:32px;
+}
+
 input:not([type="submit"]), textarea {
     border-radius: 2px;
     border: solid 1px #bbb;

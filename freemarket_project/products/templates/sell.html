@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block contents %}
 <form method="post">
     <table>
@@ -22,6 +24,11 @@
             <td>{{ form.stock }}</td>
         </tr>
         <tr>
+            <th>Description</th>
+            <td>{{ form.description }}</td>
+        </tr>
+
+        <tr>
             <th>GoogleDriveId</th>
             <td>{{ form.googledocid }}</td>
         </tr>
@@ -31,5 +38,7 @@
     <a href="{% url 'products:list' %}">Back</a>
     <input type="submit" class="btn btn-primary" value="Confirm">
 </form>
+<script src="{% static 'js/smart_contract.js' %}"></script>
+<button id="sell" class="btn btn-success">sell</button>
 
 {% endblock %}
