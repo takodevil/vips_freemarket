@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
-
-from .forms import SignUpForm
+from django.contrib.auth.decorators import login_required
+from .forms import SignUpForm, ModifyForm
 
 def signup(request):
     if request.method == 'POST':
@@ -13,3 +13,15 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+@login_required
+def modify_account(request):
+    if request.method == 'POST':
+        form = ModifyForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('products:list')
+    else:
+        form = ModifyForm()
+    return render(request, 'modify_account.html', {'form': form})
+
