@@ -1,14 +1,21 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm, ModifyForm
+from .forms import SignUpForm, ModifyForm, LoginForm
+
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            return redirect('products:list')
+    else:
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
             return redirect('products:list')
     else:
         form = SignUpForm()

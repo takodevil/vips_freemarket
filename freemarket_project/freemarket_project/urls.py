@@ -23,15 +23,6 @@ urlpatterns = [
     path('', include('products.urls'), name='home'),
     path('signup/', accounts_views.signup, name='signup'),
     path('modify_account/', accounts_views.modify_account, name='modify_account'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', accounts_views.login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path(
-        'settings/password/',
-        auth_views.PasswordChangeView.as_view(
-            template_name='password_change.html'),
-        name='password_change'),
-    path('settings/password/done/',
-         auth_views.PasswordChangeDoneView.as_view(
-             template_name='password_change_done.html'),
-         name='password_change_done'),
 ]
