@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0xB129Df567C71dA50D5303595ECaAb7be3986A71F";
+var address = "0xC43e4B09890A476528deD34B060Bc8669A4f393E";
 //abi情報
 var abi =
 [
@@ -183,6 +183,14 @@ var abi =
         {
           "name": "",
           "type": "address"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
         }
       ],
       "payable": false,

@@ -53,9 +53,9 @@ contract VIPSMarket {
         accounts[msg.sender].email = _email;
 		accounts[msg.sender].vips_address = msg.sender;
     }
-	// アカウント確認
-	function getAccount() public onlyUser view returns(address)  {
-		return msg.sender;
+	// アカウント情報取得
+	function getAccount() public onlyUser view returns(address, string memory, string memory)  {
+		return (msg.sender, accounts[msg.sender].name, accounts[msg.sender].email);
 	}
 	// 商品情報
 	struct item {

@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', function(){
         web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
         var contract = new web3.eth.Contract(abi,address);
     }
-    $("#signup").click(function(){
+    $("#modifyAccount").click(function(){
         // 入力値を読み取ってアカウントをコントラクト上に登録する
         var username = document.getElementById("id_username").value;
         var email_address = document.getElementById("id_email_address").value;
@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', function(){
         // 成功ならフォームをsubmitする
         result.then(console.log).then(
             function(){
-                $('#signup_form').submit();
+                $('#modifyAccount_form').submit();
             });
         });
 
