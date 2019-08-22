@@ -1,22 +1,20 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     vipstarcoin_address = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
 
     class Meta:
-        model = User
         fields = ('vipstarcoin_address',)
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(forms.Form):
+    username = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
     email_address = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
     vipstarcoin_address = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
 
     class Meta:
-        model = User
         fields = ('username', 'email_address', 'vipstarcoin_address')
 
     def clean_email(self):
@@ -26,12 +24,12 @@ class SignUpForm(forms.ModelForm):
         except ValidationError:
             raise ValidationError("正しいメールアドレスを指定して下さい。")
 
-class ModifyForm(forms.ModelForm):
+class ModifyForm(forms.Form):
+    username = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
     email_address = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
     vipstarcoin_address = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
 
     class Meta:
-        model = User
         fields = ('username', 'email_address', 'vipstarcoin_address')
 
     def clean_email(self):

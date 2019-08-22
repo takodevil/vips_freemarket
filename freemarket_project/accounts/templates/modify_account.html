@@ -12,6 +12,10 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">Modify Account</h3>
+          Username_now:<div id="username_now"></div>
+          Email address_now:<div id="mailaddress_now"></div>
+          vipsaddress_now:<div id="vipsaddress_now"></div>
+
           <form name="modifyAccount_form" method="post" novalidate>
             {% csrf_token %}
             {% include 'includes/form.html' %}
@@ -23,4 +27,5 @@
   </div>
 <script src="{% static 'js/address_and_abi.js' %}"></script>
 <script src="{% static 'js/modify_contract.js' %}"></script>
+<script src="{% static 'js/header_control.js' %}"></script>
 {% endblock %}

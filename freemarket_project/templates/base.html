@@ -16,13 +16,12 @@
   <div class="header">
     <div class="wrapper">
         <ul>
+            <li><b><a href="{% url 'products:list' %}">VIPSTARCOIN_MARKET</a></b></li>
             <li><b><span id="vipsmarket_name"></span></b></li>
         </ul>
         <ul>
-            {% if not user.is_authenticated %}
             <li><a id="header_login" href="{% url 'login' %}" class="btn btn-primary">Log in</a></li>
             <li><a id="header_signup" href="{% url 'signup' %}" class="btn btn-primary">Sign up</a></li>
-            {% endif %}
             <div id="header_dropdown" class="dropdown">
               <button type="button" id="dropdown1"
                   class="btn btn-secondary btn-sm dropdown-toggle"
@@ -49,5 +48,6 @@
 <script src="{% static 'js/web3.min.js' %}"></script>
 <script src="{% static 'js/logout.js' %}"></script>
 <script src="{% static 'js/header_control.js' %}"></script>
+<button id="remove_strage">remove_strage</button>
 </body>
 </html>

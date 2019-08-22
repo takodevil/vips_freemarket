@@ -4,5 +4,9 @@ window.addEventListener('DOMContentLoaded', function(){
         localStorage.removeItem('vipsmarket_name');
         localStorage.removeItem('vipsmarket_email');
     });
+    // 開発用
+    $("#remove_strage").click(function(){
+        localStorage.clear();
+    });
 });
 

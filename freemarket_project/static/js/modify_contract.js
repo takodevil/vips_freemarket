@@ -1,5 +1,8 @@
-
 window.addEventListener('DOMContentLoaded', function(){
+    document.getElementById("username_now").innerHTML = localStorage.getItem('vipsmarket_name');
+    document.getElementById("mailaddress_now").innerHTML = localStorage.getItem('vipsmarket_email');
+    document.getElementById("vipsaddress_now").innerHTML = localStorage.getItem('vipsmarket_address');
+
     if (typeof web3 == 'undefined') {
         var web3 = new Web3();
         web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));

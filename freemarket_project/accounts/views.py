@@ -26,7 +26,6 @@ def modify_account(request):
     if request.method == 'POST':
         form = ModifyForm(request.POST)
         if form.is_valid():
-            form.save()
             return redirect('products:list')
     else:
         form = ModifyForm()

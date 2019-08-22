@@ -39,7 +39,7 @@ contract VIPSMarket {
 		return message;
 	}
 	// アカウント登録
-    function registerAccount(string memory _name, string memory _email) public  {
+    function registerAccount(string memory _name, string memory _email) public {
         require(!accounts[msg.sender].registered);
 
 		accounts[msg.sender].registered = true;
