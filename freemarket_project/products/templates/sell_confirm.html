@@ -1,21 +1,27 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block contents %}
-  <form method="post">
+  <form id="sell_form" method="post">
     {% csrf_token %}
       <input type="hidden" name="confirmed" value="1">
       {% for field in form %}
           {{ field.as_hidden }}
       {% endfor %}
-
-    <ul>
-    <li><label>Product:</label><span>{{ product.product_name }}</span></li>
-      <li><label>Seller:</label><span>{{ product.seller }}</span></li>
-      <li><label>Price:</label><span>{{ product.price }}</span></li>
-      <li><label>Stock:</label><span>{{ product.stock }}</span></li>
-      <li><label>GoogleDriveId:</label><span>{{ product.googledocid }}</span></li>
-    </ul>
-    <a href="{% url 'products:list' %}">Back</a>
-    <input type="submit" class="btn btn-primary" value="Commit">
+    <table>
+      <tbody>
+      <tr><th>Product</th><td id="id_product_name">{{ product.product_name }}</td></tr>
+      <tr><th>Price</th><td id="id_price">{{ product.price }}</td></tr>
+      <tr><th>Stock</th><td id="id_stock">{{ product.stock }}</td></tr>
+      <tr><th>Description</th><td id="id_description">{{ product.description }}</td></tr>
+      <tr><th>GoogleDriveId</th><td id="id_googledocid">{{ product.googledocid }}</td></tr>
+      </tbody>
+    </table>
+    <font color="red"><span id="message"></span></font>
+    <button type="button" id="exhibit" class="btn btn-primary">Commit</button>
+    <a href="javascript:history.back()">Back</a>
   </form>
+<script src="{% static 'js/address_and_abi.js' %}"></script>
+<script src="{% static 'js/exhibit_contract.js' %}"></script>
 {% endblock %}

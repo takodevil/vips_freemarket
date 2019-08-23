@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x7f77910655bb2C3C2B58a8ef647E5f725Db6ecF8";
+var address = "0xFc6245605521a0BEcB3292f75780c7B8188F9137";
 //abi情報
 var abi =
 [
@@ -205,23 +205,23 @@ var abi =
           "type": "string"
         },
         {
-          "name": "_description",
-          "type": "string"
-        },
-        {
           "name": "_price",
           "type": "uint256"
         },
         {
-          "name": "_googleDocID",
+          "name": "_stock",
+          "type": "uint256"
+        },
+        {
+          "name": "_description",
           "type": "string"
         },
         {
-          "name": "_stock",
-          "type": "uint256"
+          "name": "_googleDocID",
+          "type": "string"
         }
       ],
-      "name": "sell",
+      "name": "exhibit",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",

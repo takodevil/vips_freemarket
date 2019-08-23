@@ -51,7 +51,6 @@ contract VIPSMarket {
     function modifyAccount(string memory _name, string memory _email) public onlyUser {
         accounts[msg.sender].name = _name;
         accounts[msg.sender].email = _email;
-		accounts[msg.sender].vips_address = msg.sender;
     }
 	// アカウント情報取得
 	function getAccount() public onlyUser view returns(address, string memory, string memory)  {
@@ -71,7 +70,7 @@ contract VIPSMarket {
 	mapping(uint => item) public items;
 
 	// 出品する関数
-    function sell(string memory _name, string memory _description, uint _price, string memory _googleDocID, uint _stock) public onlyUser isStopped {
+    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _googleDocID) public onlyUser isStopped {
         items[numItems].sellerAddr = msg.sender;
         items[numItems].seller = accounts[msg.sender].name;
         items[numItems].name = _name;
@@ -79,8 +78,8 @@ contract VIPSMarket {
         items[numItems].price = _price;
         items[numItems].googleDocID = _googleDocID;
         items[numItems].stock = _stock;
+		numItems++;
     }
-
 
     // ================
     // セキュリティー対策

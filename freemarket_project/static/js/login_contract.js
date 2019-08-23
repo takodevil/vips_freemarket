@@ -13,46 +13,50 @@ window.addEventListener('DOMContentLoaded', function(){
             var email;
             // 入力したvipsアドレスを送信元にしてチェーン上にアドレスがあるか確認
             var vipstarcoin_address = document.getElementById("id_vipstarcoin_address").value;
-            try {
-                contract.methods.getAccount().call({
-                    from:vipstarcoin_address,
-                    gas:3000000
-                },function(error, result){
-                    // コントラクトに登録済ならアドレスが戻ってくる
-                    if (typeof result != 'undefined'){
-                        // getAccountの戻り値を保存
-                        // なぜか大文字小文字が入力時とばらばらになるので小文字で統一
-                        vips_address_oncontract = result[0].toLowerCase();
-                        name = result[1];
-                        email = result[2];
-                        console.log(vips_address_oncontract);
-                        console.log(name);
-                        console.log(email);
-                    };
-                    vipstarcoin_address = vipstarcoin_address.toLowerCase();
-                    // ログイン
-                    // 入力したアドレスとチェーン上のアドレスが一致したら登録済なのでログイン
-                    if (vips_address_oncontract == vipstarcoin_address){
-                        // 取得した値をlocalStorageに保持する　ログアウトするときに消す
-                        if (!localStorage.getItem('vipsmarket_address')){
-                            console.log('ブラウザにアドレス未保存');
-                            localStorage.setItem('vipsmarket_address', vipstarcoin_address);
-                            localStorage.setItem('vipsmarket_name', name);
-                            localStorage.setItem('vipsmarket_email', email);
+            if(vipstarcoin_address.length > 0){
+                try {
+                    contract.methods.getAccount().call({
+                        from:vipstarcoin_address,
+                        gas:3000000
+                    },function(error, result){
+                        // コントラクトに登録済ならアドレスが戻ってくる
+                        if (typeof result != 'undefined'){
+                            // getAccountの戻り値を保存
+                            // なぜか大文字小文字が入力時とばらばらになるので小文字で統一
+                            vips_address_oncontract = result[0].toLowerCase();
+                            name = result[1];
+                            email = result[2];
+                            console.log(vips_address_oncontract);
+                            console.log(name);
+                            console.log(email);
+                        };
+                        vipstarcoin_address = vipstarcoin_address.toLowerCase();
+                        // ログイン
+                        // 入力したアドレスとチェーン上のアドレスが一致したら登録済なのでログイン
+                        if (vips_address_oncontract == vipstarcoin_address){
+                            // 取得した値をlocalStorageに保持する　ログアウトするときに消す
+                            if (!localStorage.getItem('vipsmarket_address')){
+                                console.log('ブラウザにアドレス未保存');
+                                localStorage.setItem('vipsmarket_address', vipstarcoin_address);
+                                localStorage.setItem('vipsmarket_name', name);
+                                localStorage.setItem('vipsmarket_email', email);
+                            }
+                            else{
+                                console.log('ブラウザにアドレス保存済み');
+                            }
+                            // 最後にsubmit
+                            $('#login_form').submit();
                         }
-                        else{
-                            console.log('ブラウザにアドレス保存済み');
+                        else {
+                            message.innerHTML = "未登録のアドレスです";
                         }
-                        // 最後にsubmit
-                        $('#login_form').submit();
-                    }
-                    else {
-                        message.innerHTML = "未登録のアドレスです";
-                    }
-                });
-            } catch(e){
-                // アドレスのチェックサムに引っかかった場合
-                message.innerHTML = "アドレスを正しく入力してください";
+                    });
+                } catch(e){
+                    // アドレスのチェックサムに引っかかった場合
+                    message.innerHTML = "アドレスを正しく入力してください";
+                }
+            } else{
+                message.innerHTML = "アドレスを入力してください";
             }
     });
 });

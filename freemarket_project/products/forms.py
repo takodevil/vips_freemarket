@@ -7,7 +7,6 @@ class ProductSellingForm(forms.ModelForm):
         model = models.Product
         fields = (
             'product_name',
-            'seller',
             'price',
             'stock',
             'description',
@@ -19,7 +18,6 @@ class ProductBuyingForm(forms.ModelForm):
         model = models.Product
         fields = (
             'product_name',
-            'seller',
             'price',
             'stock',
             'description',

@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -27,10 +26,9 @@ class SignUpForm(forms.Form):
 class ModifyForm(forms.Form):
     username = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
     email_address = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
-    vipstarcoin_address = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
 
     class Meta:
-        fields = ('username', 'email_address', 'vipstarcoin_address')
+        fields = ('username', 'email_address')
 
     def clean_email(self):
         email = self.cleaned_data["email_address"]

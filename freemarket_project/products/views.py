@@ -1,11 +1,8 @@
-from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from . import models
 from . import forms
-from django.contrib.auth.decorators import login_required
 
 def product_list(request):
     """ 商品一覧画面
@@ -19,13 +16,12 @@ def product_list(request):
         products = paginator.page(1)
     return TemplateResponse(request, 'list.html', {'products':products})
 
-@login_required
 def product_sell(request):
     """ 出品画面・確認画面・出品
     """
     # メソッドが GET の場合は ProductSellingForm を表示（テンプレートは sell.html ）
     # 1度目の POST で入力が正しい場合、確認画面とフォームを再度表示（テンプレートは sell_confirm.html）
-    # 確認画面からの2度目の POST で入力が正しい場合、商品を作成する
+    # 確認画面からの2度目の POST で入力が正しい場合、商品を作成する⇒sell_confirm.htmlのボタンを押下した時にコントラクトに保存する
 
     # POSTが1度目か2度目かはどうやって判断すればいい？
     # 確認画面sell_confirm.htmlから来ていれば2回目のはず
@@ -35,16 +31,15 @@ def product_sell(request):
 
     if request.method == 'POST':
         if 'confirmed' in request.POST:
-            # 2回目の場合は出品するチケットを作成する
+            # 2回目の場合は出品する商品をコントラクトに保存する
             form = forms.ProductSellingForm(request.POST)
             if form.is_valid():
-                product = form.save(commit=False)
-#                product.seller = request.user
-                product.save()
                 return redirect('products:list')
         # 1回目の場合は確認画面とフォームを再度表示
         form = forms.ProductSellingForm(request.POST)
         if form.is_valid():
+            # DBは一時的な保存場所として使うのでcommitする必要はない
+            # formをそのまま使うと再びformフィールドになって入力できてしまうので一旦productに移してから送信する
             product = form.save(commit=False)
             return TemplateResponse(request, 'sell_confirm.html',
                                     {'form': form,
@@ -55,7 +50,7 @@ def product_sell(request):
 
     return TemplateResponse(request, 'sell.html',
                         {'form': form})
-@login_required
+
 def product_buy(request, product_id):
     """ 購入確認画面
     """

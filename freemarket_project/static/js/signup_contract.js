@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', function(){
                     gas:3000000
                     });
                 // 自分が持っているアカウントでなければsender account not recognized
-                // ノードが秘密鍵を知っているアカウントからのみトランザクションを送信できる
+                // ノードが秘密鍵を知っているアカウントからのみトランザクションを送信できる？
                 result.then(
                     function(){
                         window.alert("登録に成功しました。ログインしてください。")

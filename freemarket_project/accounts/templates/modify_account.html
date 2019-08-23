@@ -2,24 +2,21 @@
 
 {% load static %}
 
-{% block stylesheet %}
-  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
-{% endblock %}
 {% block contents %}
 
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="card">
+      <p class="card">
+      <h3 class="card-title">Modify Account</h3>
         <div class="card-body">
-          <h3 class="card-title">Modify Account</h3>
-          Username_now:<div id="username_now"></div>
-          Email address_now:<div id="mailaddress_now"></div>
-          vipsaddress_now:<div id="vipsaddress_now"></div>
-
-          <form name="modifyAccount_form" method="post" novalidate>
+          <p class="card-text"><b>Username_now:</b><div id="username_now"></div></p>
+          <p class="card-text"><b>Email address_now:</b><div id="mailaddress_now"></div></p>
+        </div>
+          <form id="modifyAccount_form" method="post" novalidate>
             {% csrf_token %}
             {% include 'includes/form.html' %}
-                <button id="modifyAccount" class="btn btn-primary btn-block">Modify an account</button>
+            <button id="modifyAccount" type="button" class="btn btn-primary btn-block">Modify an account</button>
+            <font color="red"><span id="message"></span></font>
           </form>
         </div>
       </div>
@@ -27,5 +24,4 @@
   </div>
 <script src="{% static 'js/address_and_abi.js' %}"></script>
 <script src="{% static 'js/modify_contract.js' %}"></script>
-<script src="{% static 'js/header_control.js' %}"></script>
 {% endblock %}

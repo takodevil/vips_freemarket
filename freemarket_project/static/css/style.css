@@ -3,8 +3,8 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    background-image: url(../img/papyrus.png);
 }
-
 table {
     border-collapse: collapse;
     width: 100%;
@@ -24,6 +24,8 @@ th {
     padding: 8px;
     color: white;
     background-color: #fc7a62;
+    white-space: nowrap;
+    width: 100px;
 }
 
 td {
