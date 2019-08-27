@@ -1,8 +1,7 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.8;
 
 contract VIPSMarket {
 
-	string private message;
 	address owner;
 	uint public numItems;
 	bool public stopped;
@@ -32,12 +31,6 @@ contract VIPSMarket {
 	}	
 	mapping(address => Account) public accounts;
 
-	function setMessage(string memory _message) public {
-		message = _message;
-	}
-	function getMessage() public view returns(string memory){
-		return message;
-	}
 	// アカウント登録
     function registerAccount(string memory _name, string memory _email) public {
         require(!accounts[msg.sender].registered);
@@ -63,23 +56,31 @@ contract VIPSMarket {
 		string name;
 		string description;
 		uint price;
-		string googleDocID;
+	    string image_uri;
 		uint stock;
 	
 	}
 	mapping(uint => item) public items;
 
 	// 出品する関数
-    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _googleDocID) public onlyUser isStopped {
+    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped {
         items[numItems].sellerAddr = msg.sender;
         items[numItems].seller = accounts[msg.sender].name;
         items[numItems].name = _name;
         items[numItems].description = _description;
         items[numItems].price = _price;
-        items[numItems].googleDocID = _googleDocID;
+        items[numItems].image_uri = _image_uri;
         items[numItems].stock = _stock;
 		numItems++;
     }
+    // 商品データを取得する取得する関数
+    function getItem(uint _numItems) public view returns(address, string memory,string memory,string memory,uint,string memory,uint){
+        return (items[_numItems].sellerAddr, items[_numItems].seller, items[_numItems].name, items[_numItems].description, items[_numItems].price, items[_numItems].image_uri, items[_numItems].stock);
+    }
+
+	function getnumItems() public view returns(uint){
+		return numItems;
+	}
 
     // ================
     // セキュリティー対策

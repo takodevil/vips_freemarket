@@ -10,7 +10,7 @@ class ProductSellingForm(forms.ModelForm):
             'price',
             'stock',
             'description',
-            'googledocid'
+            'image_uri',
         )
 
 class ProductBuyingForm(forms.ModelForm):
@@ -21,5 +21,5 @@ class ProductBuyingForm(forms.ModelForm):
             'price',
             'stock',
             'description',
-            'googledocid'
+            'image_uri',
         )

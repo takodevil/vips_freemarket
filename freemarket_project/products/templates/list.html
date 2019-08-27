@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block contents %}
 <table class="table table-bordered table-hover table-striped">
     <thead class="thead-dark">
@@ -11,29 +13,40 @@
     </tr>
     </thead>
     <tbody>
-    </tbody>
     {% for product in products %}
-      <tr>
+      <tr class="table-light">
           <td><a href="{% url 'products:buy' product_id=product.id %}">{{ product.product_name }}</a></td>
           <td>{{ product.seller }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.stock }}</td>
       </tr>
+    </tbody>
     {% endfor %}
 </table>
-<div class="paginator">
+<ul class="pagination">
   {% if products.has_previous %}
-    <a href="?page={{ products.previous_page_number }}">&lt;pre </a>
+    <li><a class="page-link text-primary d-inline-block" href="?page={{ products.previous_page_number }}">前</a></li>
   {% else %}
-    <span>&lt;pre </span>
+    <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">前</div></li>
   {% endif %}
 
-    <span class="page-number">{{ products.number }}</span>
+    {% for link_page in products.paginator.page_range %}
+        {% if link_page %}
+            {% if link_page == products.number %}
+                <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">{{ link_page }}</div></li>
+            {% else %}
+                <li><a class="page-link text-primary d-inline-block" href="?page={{ link_page }}">{{ link_page }}</a></li>
+            {% endif %}
+        {% else %}
+            <li class="disabled"><a class="page-link text-secondary d-inline-block text-muted" href="#">・・・</a></li>
+        {% endif %}
+    {% endfor %}
 
-  {% if products.has_next %}
-    <a href="?page={{ products.next_page_number }}"> &gt;next</a>
-  {% else %}
-    <span> &gt;next</span>
-  {% endif %}
-</div>
+    {% if products.has_next %}
+        <li><a class="page-link text-primary d-inline-block" href="?page={{ products.next_page_number }}">次</a></li>
+    {% else %}
+        <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">次</div></li>
+    {% endif %}
+</ul>
+<script src="{% static 'js/getnumItems_contract.js' %}"></script>
 {% endblock %}

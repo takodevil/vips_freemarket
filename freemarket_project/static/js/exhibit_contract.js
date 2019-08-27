@@ -13,12 +13,12 @@ window.addEventListener('DOMContentLoaded', function(){
         var price = document.getElementById("id_price").value;
         var stock = document.getElementById("id_stock").value;
         var description = document.getElementById("id_description").value;
-        var googledocid = document.getElementById("id_googledocid").value;
+        var image_uri = document.getElementById("id_image_uri").value;
         // アドレスはログインしていればローカルから取れる
         var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
 
         try{
-            var result = contract.methods.exhibit(product_name, price, stock, description, googledocid).send({
+            var result = contract.methods.exhibit(product_name, price, stock, description, image_uri).send({
                 from:vipstarcoin_address,
                 gas:3000000
                 });

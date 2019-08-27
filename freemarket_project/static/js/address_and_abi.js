@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0xFc6245605521a0BEcB3292f75780c7B8188F9137";
+var address = "0x4f83396596d229aD9266713D876411d9CDD48c96";
 //abi情報
 var abi =
 [
@@ -93,7 +93,7 @@ var abi =
           "type": "uint256"
         },
         {
-          "name": "googleDocID",
+          "name": "image_uri",
           "type": "string"
         },
         {
@@ -110,34 +110,6 @@ var abi =
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "constructor"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_message",
-          "type": "string"
-        }
-      ],
-      "name": "setMessage",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getMessage",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "constant": false,
@@ -217,7 +189,7 @@ var abi =
           "type": "string"
         },
         {
-          "name": "_googleDocID",
+          "name": "_image_uri",
           "type": "string"
         }
       ],
@@ -225,6 +197,63 @@ var abi =
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_numItems",
+          "type": "uint256"
+        }
+      ],
+      "name": "getItem",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getnumItems",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
