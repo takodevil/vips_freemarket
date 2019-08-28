@@ -3,6 +3,18 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from . import models
 from . import forms
+import json
+def top(request):
+    """トップ画面
+    """
+    x = 'init'
+    if request.method == 'POST':
+        x = 'POST'
+        x = request.POST['prm']
+#        x =json.loads(x)
+#        if form.is_valid():
+#            return redirect('products:list')
+    return TemplateResponse(request, 'top.html',{'x':x})
 
 def product_list(request):
     """ 商品一覧画面
