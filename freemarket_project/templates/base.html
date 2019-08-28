@@ -40,13 +40,7 @@
         </ul>
     </div>
   </div>
-    <form id="getItems_form" method="post">
-        {% csrf_token %}
-        {% include 'includes/form.html' %}
-        <button type="button" id="getItemsInfo" class="btn btn-primary btn-lg">getItemsInfo</button>
-        <input type="hidden" id="Items" name="prm">
-    </form>
-    {{ product_info }}
+
 <body>
 {% block contents %}
 {% endblock %}
