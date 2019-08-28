@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function(){
         // エラーメッセージ用
         var message = document.getElementById("message");
         message.innerHTML = "";
-        // 入力値を読み取ってアカウントをコントラクト上に登録する
+        // 入力値を読み取って商品データをコントラクト上に登録する
         var product_name = document.getElementById("id_product_name").value;
         var price = document.getElementById("id_price").value;
         var stock = document.getElementById("id_stock").value;

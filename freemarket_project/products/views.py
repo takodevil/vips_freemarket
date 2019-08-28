@@ -4,21 +4,15 @@ from django.template.response import TemplateResponse
 from . import models
 from . import forms
 import json
-def top(request):
-    """トップ画面
-    """
-    x = 'init'
-    if request.method == 'POST':
-        x = 'POST'
-        x = request.POST['prm']
-#        x =json.loads(x)
-#        if form.is_valid():
-#            return redirect('products:list')
-    return TemplateResponse(request, 'top.html',{'x':x})
 
 def product_list(request):
     """ 商品一覧画面
     """
+    # json文字列で商品の全データを受け取る
+    if request.method == 'POST':
+        product_info = json.loads(request.POST['prm'])
+        return TemplateResponse(request, 'list.html', {'product_info': product_info})
+    # 書き換える予定
     products = models.Product.objects.all()
     paginator = Paginator(products, 5)
     page = request.GET.get('page', 1)

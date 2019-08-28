@@ -40,6 +40,13 @@
         </ul>
     </div>
   </div>
+    <form id="getItems_form" method="post">
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="button" id="getItemsInfo" class="btn btn-primary btn-lg">getItemsInfo</button>
+        <input type="hidden" id="Items" name="prm">
+    </form>
+    {{ product_info }}
 <body>
 {% block contents %}
 {% endblock %}
@@ -49,5 +56,6 @@
 <script src="{% static 'js/logout.js' %}"></script>
 <script src="{% static 'js/header_control.js' %}"></script>
 <script src="{% static 'js/address_and_abi.js' %}"></script>
+<script src="{% static 'js/getItemsInfo_contract.js' %}"></script>
 </body>
 </html>

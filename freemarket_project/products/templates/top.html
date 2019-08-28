@@ -10,20 +10,10 @@
     <title>frema</title>
 </head>
 <body>
-<form id="getItems_form" method="post">
-    {% csrf_token %}
-    {% include 'includes/form.html' %}
-    <div style="position:absolute;top:0px;left:0px;right:0px;bottom:0px;margin:auto;width:128px;height:64px;">
-        <button type="button" id="getItemsInfo" class="btn btn-primary btn-lg">getItemsInfo</button>
-    </div>
-    <input type="hidden" id="Items" name="prm">
-</form>
-{{ x }}
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/web3.min.js' %}"></script>
 <script src="{% static 'js/address_and_abi.js' %}"></script>
-<script src="{% static 'js/getItemsInfo_contract.js' %}"></script>
 </body>
 </html>
 
