@@ -60,8 +60,14 @@ def product_sell(request):
     return TemplateResponse(request, 'sell.html',
                         {'form': form})
 
+def product_modify_sell(request):
+    """出品中の商品の編集画面
+    """
+    pass
+
+
 def product_buy(request, product_id):
-    """ 購入確認画面
+    """ 購入画面
     """
     return TemplateResponse(request, 'buy.html')
 #    product = get_object_or_404(models.Product, id=product_id)
