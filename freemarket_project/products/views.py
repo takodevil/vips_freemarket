@@ -10,17 +10,17 @@ def product_list(request):
     """
     # json文字列で商品の全データを受け取る
     if request.method == 'POST':
-        product_info = json.loads(request.POST['prm'])
-        return TemplateResponse(request, 'list.html', {'product_info': product_info})
-    # 書き換える予定
-    products = models.Product.objects.all()
-    paginator = Paginator(products, 5)
-    page = request.GET.get('page', 1)
-    try:
-        products = paginator.page(page)
-    except (EmptyPage, PageNotAnInteger):
-        products = paginator.page(1)
-    return TemplateResponse(request, 'list.html', {'products':products})
+        products = json.loads(request.POST['prm'])
+        paginator = Paginator(products, 5)
+        page = request.GET.get('page', 1)
+        try:
+            products = paginator.page(page)
+        except (EmptyPage, PageNotAnInteger):
+            products = paginator.page(1)
+        return TemplateResponse(request, 'list.html', {'products': products})
+    else:
+        # getなら強制的にPOST
+        return TemplateResponse(request, 'getproduct.html')
 
 def product_sell(request):
     """ 出品画面・確認画面・出品
@@ -40,7 +40,10 @@ def product_sell(request):
             # 2回目の場合は出品する商品をコントラクトに保存する
             form = forms.ProductSellingForm(request.POST)
             if form.is_valid():
-                return redirect('products:list')
+                # コントラクトが更新されるので情報を再取得する
+                # 直後はgetで来る
+                return TemplateResponse(request, 're_getproduct.html')
+
         # 1回目の場合は確認画面とフォームを再度表示
         form = forms.ProductSellingForm(request.POST)
         if form.is_valid():
@@ -60,9 +63,10 @@ def product_sell(request):
 def product_buy(request, product_id):
     """ 購入確認画面
     """
-    product = get_object_or_404(models.Product, id=product_id)
-    form = forms.ProductBuyingForm()
+    return TemplateResponse(request, 'buy.html')
+#    product = get_object_or_404(models.Product, id=product_id)
+#    form = forms.ProductBuyingForm()
 
-    return TemplateResponse(request, 'buy_confirm.html',
-                        {'form': form,
-                         'product':product})
+ #   return TemplateResponse(request, 'buy_confirm.html',
+ #                       {'form': form,
+#                       'product':product})

@@ -5,7 +5,10 @@ window.addEventListener('DOMContentLoaded', function(){
         web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
         var contract = new web3.eth.Contract(abi,address);
     }
-    $("#getItemsInfo").click(function(){
+    // 一回取得したらセッションストレージに保存されている
+    var ProductsInfo = sessionStorage.getItem('ProductsInfo');
+    // なければコントラクトから取ってくる
+    if (ProductsInfo==null){
         var result_array = [];
         var numItems = 0;
         var copy_numItems = 0;
@@ -27,12 +30,17 @@ window.addEventListener('DOMContentLoaded', function(){
                 ).then(function(){
                     if(copy_numItems==0){
                         console.log(result_array);
-                        // hiddenにセットしてjson文字列に変換してsubmit
+                        // hiddenにセットしてjson文字列に変換してsubmit sessionStorageにも保存しておく
                         document.getElementById("Items").value = JSON.stringify(result_array);
+                        sessionStorage.setItem('ProductsInfo',JSON.stringify(result_array));
                         $('#getItems_form').submit();
                     }
                 });
             };
          });
-    });
+    // あればそのまま返す
+    }else{
+        document.getElementById("Items").value = ProductsInfo;
+        $('#getItems_form').submit();
+    }
 });

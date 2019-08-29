@@ -62,12 +62,12 @@ form > ul > li:not(:first-child) {
 }
 
 #id_price {
-    width: 50px;
+    width: 100px;
     height:32px;
 }
 
 #id_stock {
-    width: 50px;
+    width: 100px;
     height:32px;
 }
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block contents %}
+<table class="table table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Seller</th>
+        <th scope="col">Price</th>
+        <th scope="col">Stock</th>
+    </tr>
+    </thead>
+</table>
+<form id="getItems_form" method="post">
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <input type="hidden" id="Items" name="prm">
+</form>
+<script src="{% static 'js/getproduct_contract.js' %}"></script>
+{% endblock %}
