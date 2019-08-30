@@ -94,5 +94,6 @@ def product_edit(request):
 
 def product_buy(request, product_id):
     """ 購入画面
+    未実装
     """
     return TemplateResponse(request, 'buy.html')

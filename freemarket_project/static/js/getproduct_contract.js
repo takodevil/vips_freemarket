@@ -25,8 +25,11 @@ window.addEventListener('DOMContentLoaded', function(){
                 contract.methods.getItem(i).call({},
                     function(error,result){
                         // 最後に商品のインデックスを追加しておく
-                        result['7'] = numItems-copy_numItems;
-                        result_array.push(result);
+                        result['id'] = numItems-copy_numItems;
+                        // 削除済は不要なので除外
+                        if (result['0'] != 0x0000000000000000000000000000000000000000){
+                            result_array.push(result);
+                        }
                         copy_numItems--;
                     }
                 ).then(function(){

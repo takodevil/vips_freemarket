@@ -39,12 +39,18 @@
 <font color="red"><span id="message"></span></font>
 <script>
     // 商品情報一覧はセッションストレージにJSON文字列で保存されているのでIDでどの商品か特定する
-    var productinfo = JSON.parse(sessionStorage.getItem('ProductsInfo'))[{{ id }}];
-    document.getElementById("id_product").innerHTML = productinfo['2'];
-    document.getElementById("id_price").innerHTML = productinfo['4'];
-    document.getElementById("id_stock").innerHTML = productinfo['6'];
-    document.getElementById("id_description").innerHTML = productinfo['3'];
-    document.getElementById("id_image_uri").innerHTML = productinfo['5'];
+    var productinfo = JSON.parse(sessionStorage.getItem('ProductsInfo'));
+    var target_id = {{ id }};
+    var targetList = productinfo.filter((product) => {
+        return (product.id === target_id);
+    });
+    // 通し番号なので一つしかとれないはず
+    target = targetList[0];
+    document.getElementById("id_product").innerHTML = target['2'];
+    document.getElementById("id_price").innerHTML = target['4'];
+    document.getElementById("id_stock").innerHTML = target['6'];
+    document.getElementById("id_description").innerHTML = target['3'];
+    document.getElementById("id_image_uri").innerHTML = target['5'];
 </script>
 <script src="{% static 'js/edit_contract.js' %}"></script>
 {% endblock %}

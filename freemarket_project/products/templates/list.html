@@ -23,7 +23,7 @@
               // 自分が出品している商品ならEdit、他人が出品している商品ならBuy、未ログインなら空
               // 商品IDを次の画面にクエリパラメータとして渡す
                 if (localStorage.getItem('vipsmarket_address')=={{ product.0 }}){
-                    document.write("<a href='{% url "products:edit" %}?id={{ product.7 }}'>Edit</a>");
+                    document.write("<a href='{% url "products:edit" %}?id={{ product.id }}'>Edit</a>");
                 } else if (!localStorage.getItem('vipsmarket_address')){
                     ;
                 } else {
@@ -31,7 +31,7 @@
                 }
                 </script>
           </td>
-          <td>{{ product.7 }}</td>
+          <td>{{ product.id }}</td>
           <td>{{ product.2 }}</td>
           <td>{{ product.1 }}</td>
           <td>{{ product.4 }}</td>
