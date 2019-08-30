@@ -7,6 +7,7 @@
     <thead class="thead-dark">
     <tr align="center">
         <th scope="col">Command</th>
+        <th scope="col">No</th>
         <th scope="col">Product</th>
         <th scope="col">Seller</th>
         <th scope="col">Price</th>
@@ -20,8 +21,9 @@
           <td>
               <script>
               // 自分が出品している商品ならEdit、他人が出品している商品ならBuy、未ログインなら空
+              // 商品IDを次の画面にクエリパラメータとして渡す
                 if (localStorage.getItem('vipsmarket_address')=={{ product.0 }}){
-                    document.write("<a href='#'>Edit</a>");
+                    document.write("<a href='{% url "products:edit" %}?id={{ product.7 }}'>Edit</a>");
                 } else if (!localStorage.getItem('vipsmarket_address')){
                     ;
                 } else {
@@ -29,6 +31,7 @@
                 }
                 </script>
           </td>
+          <td>{{ product.7 }}</td>
           <td>{{ product.2 }}</td>
           <td>{{ product.1 }}</td>
           <td>{{ product.4 }}</td>
@@ -40,9 +43,9 @@
 </table>
 <ul class="pagination">
   {% if products.has_previous %}
-    <li><a class="page-link text-primary d-inline-block" href="?page={{ products.previous_page_number }}">前</a></li>
+    <li><a class="page-link text-primary d-inline-block" href="?page={{ products.previous_page_number }}">＜</a></li>
   {% else %}
-    <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">前</div></li>
+    <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＜</div></li>
   {% endif %}
 
     {% for link_page in products.paginator.page_range %}
@@ -58,9 +61,9 @@
     {% endfor %}
 
     {% if products.has_next %}
-        <li><a class="page-link text-primary d-inline-block" href="?page={{ products.next_page_number }}">次</a></li>
+        <li><a class="page-link text-primary d-inline-block" href="?page={{ products.next_page_number }}">＞</a></li>
     {% else %}
-        <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">次</div></li>
+        <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
     {% endif %}
 </ul>
 {% endblock %}

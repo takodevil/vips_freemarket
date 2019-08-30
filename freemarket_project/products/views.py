@@ -1,5 +1,4 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from . import models
 from . import forms
@@ -41,8 +40,8 @@ def product_sell(request):
             form = forms.ProductSellingForm(request.POST)
             if form.is_valid():
                 # コントラクトが更新されるので情報を再取得する
-                # 直後はgetで来る
-                return TemplateResponse(request, 're_getproduct.html')
+                # 実際にはここに飛ぶ前に一覧画面に飛ぶがこのコードを削除すると構文上エラーになる
+                return TemplateResponse(request, 'list.html')
 
         # 1回目の場合は確認画面とフォームを再度表示
         form = forms.ProductSellingForm(request.POST)
@@ -60,19 +59,40 @@ def product_sell(request):
     return TemplateResponse(request, 'sell.html',
                         {'form': form})
 
-def product_modify_sell(request):
+def product_edit(request):
     """出品中の商品の編集画面
     """
-    pass
+    if "id" in request.GET:
+        id = request.GET.get("id")
 
+    if request.method == 'POST':
+        if 'confirmed' in request.POST:
+            # 2回目の場合は出品する商品をコントラクトに保存する
+            form = forms.ProductSellingForm(request.POST)
+            if form.is_valid():
+                # コントラクトが更新されるので情報を再取得する
+                # 直後はgetで来る
+                return TemplateResponse(request, 'list.html')
+
+        # 1回目の場合は確認画面とフォームを再度表示
+        form = forms.ProductSellingForm(request.POST)
+        if form.is_valid():
+            # DBは一時的な保存場所として使うのでcommitする必要はない
+            # formをそのまま使うと再びformフィールドになって入力できてしまうので一旦productに移してから送信する
+            product = form.save(commit=False)
+            return TemplateResponse(request, 'edit_confirm.html',
+                                    {'form': form,
+                                     'product': product,
+                                     'id': id})
+    else:
+        # GETの場合やバリデーションに失敗した場合はProductSellingFormを表示
+        form = forms.ProductSellingForm()
+
+    return TemplateResponse(request, 'edit.html',
+                            {'form': form,
+                             'id':id})
 
 def product_buy(request, product_id):
     """ 購入画面
     """
     return TemplateResponse(request, 'buy.html')
-#    product = get_object_or_404(models.Product, id=product_id)
-#    form = forms.ProductBuyingForm()
-
- #   return TemplateResponse(request, 'buy_confirm.html',
- #                       {'form': form,
-#                       'product':product})

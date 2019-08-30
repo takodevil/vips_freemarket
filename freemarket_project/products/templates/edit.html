@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+<form method="post">
+<table>
+    <tr>
+    <td>
+    <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
+        <tbody>
+        <tr><th>No</th><td id="id_no">{{ id }}</td></tr>
+        <tr><th>Product</th><td id="id_product"></td></tr>
+        <tr><th>Price</th><td id="id_price"></td></tr>
+        <tr><th>Stock</th><td id="id_stock"></td></tr>
+        <tr><th>Description</th><td id="id_description"></td></tr>
+        <tr><th>Image_URI</th><td id="id_image_uri"></td></tr>
+        </tbody>
+    </table>
+    </td>
+    <td>
+    <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
+        {% csrf_token %}
+        <tbody>
+        <tr><td>{{ id }}</td></tr>
+        <tr><td>{{ form.product_name }}</td></tr>
+        <tr><td>{{ form.price }}</td></tr>
+        <tr><td>{{ form.stock }}</td></tr>
+        <tr><td>{{ form.description }}</td></tr>
+        <tr><td>{{ form.image_uri }}</td></tr>
+        </tbody>
+    </table>
+    </td>
+    </tr>
+</table>
+    <input type="submit" class="btn btn-primary" value="Confirm">
+    <button type="button" id="delete" class="btn btn-primary">Delete</button>
+</form>
+<font color="red"><span id="message"></span></font>
+<script>
+    // 商品情報一覧はセッションストレージにJSON文字列で保存されているのでIDでどの商品か特定する
+    var productinfo = JSON.parse(sessionStorage.getItem('ProductsInfo'))[{{ id }}];
+    document.getElementById("id_product").innerHTML = productinfo['2'];
+    document.getElementById("id_price").innerHTML = productinfo['4'];
+    document.getElementById("id_stock").innerHTML = productinfo['6'];
+    document.getElementById("id_description").innerHTML = productinfo['3'];
+    document.getElementById("id_image_uri").innerHTML = productinfo['5'];
+</script>
+<script src="{% static 'js/edit_contract.js' %}"></script>
+{% endblock %}

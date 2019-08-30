@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+  <form id="edit_form" method="post">
+    {% csrf_token %}
+      <input type="hidden" name="confirmed" value="1">
+      {% for field in form %}
+          {{ field.as_hidden }}
+      {% endfor %}
+    <table>
+      <tbody>
+      <tr><th>No</th><td id="id_no">{{ id }}</td></tr>
+      <tr><th>Product</th><td id="id_product_name">{{ product.product_name }}</td></tr>
+      <tr><th>Price</th><td id="id_price">{{ product.price }}</td></tr>
+      <tr><th>Stock</th><td id="id_stock">{{ product.stock }}</td></tr>
+      <tr><th>Description</th><td id="id_description">{{ product.description }}</td></tr>
+      <tr><th>Image_URI</th><td id="id_image_uri">{{ product.image_uri }}</td></tr>
+      </tbody>
+    </table>
+    <font color="red"><span id="message"></span></font>
+    <button type="button" id="edit" class="btn btn-primary">Commit</button>
+    <a href="javascript:history.back()">Back</a>
+  </form>
+<script src="{% static 'js/edit_contract.js' %}"></script>
+{% endblock %}

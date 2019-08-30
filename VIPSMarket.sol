@@ -57,8 +57,7 @@ contract VIPSMarket {
 		string description;
 		uint price;
 	    string image_uri;
-		uint stock;
-	
+		uint stock;	
 	}
 	mapping(uint => item) public items;
 
@@ -73,13 +72,40 @@ contract VIPSMarket {
         items[numItems].stock = _stock;
 		numItems++;
     }
-    // 商品データを取得する取得する関数
-    function getItem(uint _numItems) public view returns(address, string memory,string memory,string memory,uint,string memory,uint){
-        return (items[_numItems].sellerAddr, items[_numItems].seller, items[_numItems].name, items[_numItems].description, items[_numItems].price, items[_numItems].image_uri, items[_numItems].stock);
+    // 商品データを取得
+	/*
+		戻り値
+		0:sellerAddr
+		1:seller
+		2:name
+		3:description
+		4:price
+		5:image_uri
+		6:stock
+	*/
+    function getItem(uint _numItems) public view returns(address, string memory, string memory, string memory, uint, string memory, uint){
+        return (items[_numItems].sellerAddr, items[_numItems].seller, items[_numItems].name, items[_numItems].description, items[_numItems].price, items[_numItems].image_uri, items[_numItems].stock) ;
     }
-
+	
+	// 全体の商品登録数を取得
 	function getnumItems() public view returns(uint){
 		return numItems;
+	}
+	// 商品データを編集
+	function editItem(uint _numItems, string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped{
+		require(msg.sender == items[_numItems].sellerAddr);
+		
+		items[_numItems].name = _name;
+		items[_numItems].price = _price;
+		items[_numItems].stock = _stock;
+		items[_numItems].description = _description;
+		items[_numItems].image_uri = _image_uri;
+	}
+	// 商品を削除
+	function removeItem(uint _numItems) public onlyUser isStopped{
+		require(msg.sender == items[_numItems].sellerAddr);
+		// 値としてゼロを割り当てる
+		delete items[_numItems];
 	}
 
     // ================

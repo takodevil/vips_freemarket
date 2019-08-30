@@ -24,12 +24,13 @@ window.addEventListener('DOMContentLoaded', function(){
                 // ループ回数が分かっているので消化したらsubmitする
                 contract.methods.getItem(i).call({},
                     function(error,result){
+                        // 最後に商品のインデックスを追加しておく
+                        result['7'] = numItems-copy_numItems;
                         result_array.push(result);
                         copy_numItems--;
                     }
                 ).then(function(){
                     if(copy_numItems==0){
-                        console.log(result_array);
                         // hiddenにセットしてjson文字列に変換してsubmit sessionStorageにも保存しておく
                         document.getElementById("Items").value = JSON.stringify(result_array);
                         sessionStorage.setItem('ProductsInfo',JSON.stringify(result_array));

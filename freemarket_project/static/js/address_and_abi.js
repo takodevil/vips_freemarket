@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x8Ee6cfc03566ff44643041E795a8224c84cd5035";
+var address = "0x7E6BF450fE67EC4661300a66d5e6FB0f1cFB88fE";
 //abi情報
 var abi =
 [
@@ -254,6 +254,54 @@ var abi =
       ],
       "payable": false,
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_numItems",
+          "type": "uint256"
+        },
+        {
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "name": "_price",
+          "type": "uint256"
+        },
+        {
+          "name": "_stock",
+          "type": "uint256"
+        },
+        {
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "name": "_image_uri",
+          "type": "string"
+        }
+      ],
+      "name": "editItem",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_numItems",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeItem",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
