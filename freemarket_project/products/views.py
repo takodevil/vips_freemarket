@@ -1,11 +1,10 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.response import TemplateResponse
-from . import models
 from . import forms
 import json
 
 def product_list(request):
-    """ 商品一覧画面
+    """ 商品一覧
     """
     # json文字列で商品の全データを受け取る
     if request.method == 'POST':
@@ -20,6 +19,36 @@ def product_list(request):
     else:
         # getなら強制的にPOST
         return TemplateResponse(request, 'getproduct.html')
+
+def product_search(request):
+    """ 検索機能
+        一覧画面で検索ボタンを押したときだけ実行される
+        未完成
+    """
+    # POSTでしか来ないはず
+    if request.method == 'POST':
+        # POSTする時にセッションストレージの全商品データを一緒に送信する
+        data_list = json.loads(request.POST['prm'])
+        Search_Conditions = request.POST['Search_Conditions']
+        # とりあえず
+        products = []
+        if Search_Conditions:
+            for product in data_list:
+                if product['1'] == 'user_0':
+                    products.append(product)
+
+        paginator = Paginator(products, 5)
+        page = request.GET.get('page', 1)
+
+        try:
+            products = paginator.page(page)
+        except (EmptyPage, PageNotAnInteger):
+            products = paginator.page(1)
+        return TemplateResponse(request, 'list.html', {'products': products})
+
+    else:
+        return TemplateResponse(request, 'getproduct.html')
+
 
 def product_sell(request):
     """ 出品画面・確認画面・出品
@@ -92,8 +121,35 @@ def product_edit(request):
                             {'form': form,
                              'id':id})
 
-def product_buy(request, product_id):
+def product_buy(request):
     """ 購入画面
-    未実装
     """
-    return TemplateResponse(request, 'buy.html')
+    if "id" in request.GET:
+        id = request.GET.get("id")
+
+    if request.method == 'POST':
+        if 'confirmed' in request.POST:
+            # 2回目の場合は出品する商品をコントラクトに保存する
+            form = forms.ProductBuyingForm(request.POST)
+            if form.is_valid():
+                # コントラクトが更新されるので情報を再取得する
+                # 直後はgetで来る
+                return TemplateResponse(request, 'list.html')
+
+        # 1回目の場合は確認画面とフォームを再度表示
+        form = forms.ProductBuyingForm(request.POST)
+        if form.is_valid():
+            # DBは一時的な保存場所として使うのでcommitする必要はない
+            # formをそのまま使うと再びformフィールドになって入力できてしまうので一旦productに移してから送信する
+            product = form.save(commit=False)
+            return TemplateResponse(request, 'buy_confirm.html',
+                                    {'form': form,
+                                     'product': product,
+                                     'id': id})
+    else:
+        # GETの場合やバリデーションに失敗した場合はProductBuyingFormを表示
+        form = forms.ProductBuyingForm()
+
+    return TemplateResponse(request, 'buy.html',
+                            {'form': form,
+                             'id':id})

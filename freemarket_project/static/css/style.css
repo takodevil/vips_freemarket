@@ -9,6 +9,7 @@ table {
     border-collapse: collapse;
     width: 100%;
     box-shadow: 6px 6px 4px 0px rgba(0, 0, 0, 0.5);
+    vertical-align: middle;
 }
 
 table > tbody > tr {
@@ -52,7 +53,7 @@ form > ul > li:not(:first-child) {
 }
 
 #id_product_name {
-    width: 400px;
+    width: 800px;
     height:32px;
 }
 
@@ -78,8 +79,8 @@ form > ul > li:not(:first-child) {
     height:150px;
 }
 
-#id_googledocid {
-    width: 400px;
+#id_image_uri {
+    width: 800px;
     height:32px;
 }
 

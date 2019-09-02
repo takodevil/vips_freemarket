@@ -15,7 +15,36 @@
       <tr><th>Price</th><td id="id_price">{{ product.price }}</td></tr>
       <tr><th>Stock</th><td id="id_stock">{{ product.stock }}</td></tr>
       <tr><th>Description</th><td id="id_description">{{ product.description }}</td></tr>
-      <tr><th>Image_URI</th><td id="id_image_uri">{{ product.image_uri }}</td></tr>
+      <tr><th>Image_URI</th>
+        <td>
+        <div id="loading"><img src="{% static 'img/loading.gif' %}"></div>
+          <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+          <script type="text/javascript">
+            //コンテンツの非表示
+            $(function(){
+                $('#contents').css('display', 'none');
+            });
+            //ページの読み込み完了後に実行
+            window.onload = function(){
+                $(function() {
+                    //ページの読み込みが完了したのでアニメーションはフェードアウトさせる
+                    $("#loading").fadeOut();
+                    //ページの表示準備が整ったのでコンテンツをフェードインさせる
+                    $("#contents").fadeIn();
+                });
+            }
+          </script>
+      <div id="contents">
+        {% if product.image_uri %}
+          <img src={{ product.image_uri }} onerror='this.src="{% static 'img/noimage.png' %}"' width="400" height="auto">
+        {% else %}
+          <img src="{% static 'img/noimage.png' %}">
+        {% endif %}
+      </div>
+        <div id="id_image_uri">
+            {{ product.image_uri }}
+        </div>
+      </td></tr>
       </tbody>
     </table>
     <font color="red"><span id="message"></span></font>

@@ -23,3 +23,4 @@ class ProductBuyingForm(forms.ModelForm):
             'description',
             'image_uri',
         )
+

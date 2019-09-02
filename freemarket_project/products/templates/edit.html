@@ -4,33 +4,21 @@
 
 {% block contents %}
 <form method="post">
+    {% csrf_token %}
 <table>
     <tr>
-    <td>
-    <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
-        <tbody>
-        <tr><th>No</th><td id="id_no">{{ id }}</td></tr>
-        <tr><th>Product</th><td id="id_product"></td></tr>
-        <tr><th>Price</th><td id="id_price"></td></tr>
-        <tr><th>Stock</th><td id="id_stock"></td></tr>
-        <tr><th>Description</th><td id="id_description"></td></tr>
-        <tr><th>Image_URI</th><td id="id_image_uri"></td></tr>
-        </tbody>
-    </table>
-    </td>
-    <td>
-    <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
-        {% csrf_token %}
-        <tbody>
-        <tr><td>{{ id }}</td></tr>
-        <tr><td>{{ form.product_name }}</td></tr>
-        <tr><td>{{ form.price }}</td></tr>
-        <tr><td>{{ form.stock }}</td></tr>
-        <tr><td>{{ form.description }}</td></tr>
-        <tr><td>{{ form.image_uri }}</td></tr>
-        </tbody>
-    </table>
-    </td>
+        <td>
+            <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
+                <tbody>
+                <tr><th>No</th><td id="id_no">{{ id }}</td><td>{{ id }}</td></tr>
+                <tr><th>Product</th><td id="id_product"></td><td>{{ form.product_name }}</td></tr>
+                <tr><th>Price</th><td id="id_price"></td><td>{{ form.price }}</td></tr>
+                <tr><th>Stock</th><td id="id_stock"></td><td>{{ form.stock }}</td></tr>
+                <tr><th>Description</th><td id="id_description"></td><td>{{ form.description }}</td></tr>
+                <tr><th>Image_URI</th><td id="id_image_uri"></td><td>{{ form.image_uri }}</td></tr>
+                </tbody>
+            </table>
+        </td>
     </tr>
 </table>
     <input type="submit" class="btn btn-primary" value="Confirm">

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block contents %}
-  <form id="edit_form" method="post">
+  <form id="buy_form" method="post">
     {% csrf_token %}
       <input type="hidden" name="confirmed" value="1">
       {% for field in form %}
@@ -50,8 +50,8 @@
       </tbody>
     </table>
     <font color="red"><span id="message"></span></font>
-    <button type="button" id="edit" class="btn btn-primary">Commit</button>
+    <button type="button" id="buy" class="btn btn-primary">Commit</button>
     <a href="javascript:history.back()">Back</a>
   </form>
-<script src="{% static 'js/edit_contract.js' %}"></script>
+<script src="{% static 'js/buy_contract.js' %}"></script>
 {% endblock %}

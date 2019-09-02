@@ -7,6 +7,7 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     // 一回取得したらセッションストレージに保存されている
     var ProductsInfo = sessionStorage.getItem('ProductsInfo');
+    console.log('test');
     // なければコントラクトから取ってくる
     if (ProductsInfo==null){
         var result_array = [];
@@ -45,6 +46,7 @@ window.addEventListener('DOMContentLoaded', function(){
     // あればそのまま返す
     }else{
         document.getElementById("Items").value = ProductsInfo;
+        console.log(ProductsInfo);
         $('#getItems_form').submit();
     }
 });
