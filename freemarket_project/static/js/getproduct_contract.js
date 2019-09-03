@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     // 一回取得したらセッションストレージに保存されている
     var ProductsInfo = sessionStorage.getItem('ProductsInfo');
-    console.log('test');
     // なければコントラクトから取ってくる
     if (ProductsInfo==null){
         var result_array = [];
@@ -29,13 +28,27 @@ window.addEventListener('DOMContentLoaded', function(){
                         result['id'] = numItems-copy_numItems;
                         // 削除済は不要なので除外
                         if (result['0'] != 0x0000000000000000000000000000000000000000){
-                            result_array.push(result);
+                            // 検索フラグがONの場合はデータをフィルタする
+                            if (sessionStorage.getItem('SearchFlag') == 'on'){
+                                if(result['0'].toLowerCase() == localStorage.getItem('vipsmarket_address').toLowerCase()){
+                                    result_array.push(result);
+                                }
+                            }else{
+                                result_array.push(result);
+                            }
+
                         }
                         copy_numItems--;
                     }
                 ).then(function(){
                     if(copy_numItems==0){
                         // hiddenにセットしてjson文字列に変換してsubmit sessionStorageにも保存しておく
+                        // IDの降順（新しいもの順）でソートする
+                        result_array.sort((a, b) => {
+                            if (a.id > b.id) return -1;
+                            if (a.id < b.id) return 1;
+                            return 0;
+                        });
                         document.getElementById("Items").value = JSON.stringify(result_array);
                         sessionStorage.setItem('ProductsInfo',JSON.stringify(result_array));
                         $('#getItems_form').submit();
@@ -46,7 +59,6 @@ window.addEventListener('DOMContentLoaded', function(){
     // あればそのまま返す
     }else{
         document.getElementById("Items").value = ProductsInfo;
-        console.log(ProductsInfo);
         $('#getItems_form').submit();
     }
 });

@@ -6,49 +6,26 @@ import json
 def product_list(request):
     """ 商品一覧
     """
-    # json文字列で商品の全データを受け取る
     if request.method == 'POST':
+        # json文字列で商品の全データを受け取る
         products = json.loads(request.POST['prm'])
-        paginator = Paginator(products, 5)
+        # ページネーション
         page = request.GET.get('page', 1)
+        paginator = Paginator(products, 5)
         try:
             products = paginator.page(page)
         except (EmptyPage, PageNotAnInteger):
             products = paginator.page(1)
         return TemplateResponse(request, 'list.html', {'products': products})
+
     else:
         # getなら強制的にPOST
+        # 一旦getproduct.htmlに投げる（ヘッダ部分だけの表示）
+        # すると読み込んだ時点で自動的にgetproduct_contract.jsを読み込む
+        # セッションストレージまたはコントラクトから商品データを読み込んで
+        # getItems_formのhiddenパラメータにセットしてsubmitする
+        # するとこの関数がPOSTで実行される
         return TemplateResponse(request, 'getproduct.html')
-
-def product_search(request):
-    """ 検索機能
-        一覧画面で検索ボタンを押したときだけ実行される
-        未完成
-    """
-    # POSTでしか来ないはず
-    if request.method == 'POST':
-        # POSTする時にセッションストレージの全商品データを一緒に送信する
-        data_list = json.loads(request.POST['prm'])
-        Search_Conditions = request.POST['Search_Conditions']
-        # とりあえず
-        products = []
-        if Search_Conditions:
-            for product in data_list:
-                if product['1'] == 'user_0':
-                    products.append(product)
-
-        paginator = Paginator(products, 5)
-        page = request.GET.get('page', 1)
-
-        try:
-            products = paginator.page(page)
-        except (EmptyPage, PageNotAnInteger):
-            products = paginator.page(1)
-        return TemplateResponse(request, 'list.html', {'products': products})
-
-    else:
-        return TemplateResponse(request, 'getproduct.html')
-
 
 def product_sell(request):
     """ 出品画面・確認画面・出品

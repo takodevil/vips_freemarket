@@ -3,28 +3,20 @@
 {% load static %}
 
 {% block contents %}
-<script>
-    function test(){
-        document.getElementById("Items").value = ProductsInfo;
-        console.log(ProductsInfo);
-        console.log('test');
-    }
-</script>
-<form method="POST">
-    {% csrf_token %}
-    <input type="button" class="btn btn-primary" value="Search" onclick="test()">
-</form>
+<input type="button" id="Search" class="btn btn-primary" onclick="Search()" value="自分の商品のみ表示" >
+<input type="button" id="All" class="btn btn-primary" onclick="All()" value="全件表示">
+
 <table class="table table-bordered table-hover table-striped">
     <thead class="thead-dark">
     <tr align="center">
         <th scope="col"></th>
-        <th scope="col">Command</th>
-        <th scope="col">No</th>
-        <th scope="col">Product</th>
-        <th scope="col">Seller</th>
-        <th scope="col">Price</th>
-        <th scope="col">Stock</th>
-        <th scope="col">SellerAddr</th>
+        <th scope="col">コマンド</th>
+        <th scope="col">商品ID</th>
+        <th scope="col">商品名</th>
+        <th scope="col">出品者</th>
+        <th scope="col">価格</th>
+        <th scope="col">在庫</th>
+        <th scope="col">出品者アドレス</th>
     </tr>
     </thead>
     <tbody>
@@ -45,11 +37,11 @@
               // 自分が出品している商品ならEdit、他人が出品している商品ならBuy、未ログインなら空
               // 商品IDを次の画面にクエリパラメータとして渡す
                 if (localStorage.getItem('vipsmarket_address')=={{ product.0 }}){
-                    document.write("<a href='{% url "products:edit" %}?id={{ product.id }}'>Edit</a>");
+                    document.write("<a href='{% url "products:edit" %}?id={{ product.id }}'>編集</a>");
                 } else if (!localStorage.getItem('vipsmarket_address')){
                     ;
                 } else {
-                    document.write("<a href='{% url "products:buy" %}?id={{ product.id }}'>Buy</a>");
+                    document.write("<a href='{% url "products:buy" %}?id={{ product.id }}'>購入</a>");
                 }
                 </script>
           </td>
@@ -88,4 +80,5 @@
         <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
     {% endif %}
 </ul>
+<script src="{% static 'js/search_product.js' %}"></script>
 {% endblock %}

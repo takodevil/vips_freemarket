@@ -7,7 +7,7 @@ class Product(models.Model):
     seller = models.CharField(max_length=200)
     price = models.PositiveIntegerField()
     stock = models.PositiveIntegerField()
-    description = models.CharField(max_length=10000,blank=True)
+    description = models.TextField(max_length=10000,blank=True)
     image_uri  = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
