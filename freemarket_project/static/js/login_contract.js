@@ -45,6 +45,7 @@ window.addEventListener('DOMContentLoaded', function(){
                                 console.log('ブラウザにアドレス保存済み');
                             }
                             // 最後にsubmit
+                            window.alert("ログインに成功しました");
                             $('#login_form').submit();
                         }
                         else {

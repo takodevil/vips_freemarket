@@ -25,6 +25,9 @@
     <button type="button" id="delete" class="btn btn-primary">Delete</button>
 </form>
 <font color="red"><span id="message"></span></font>
+
+<script src="{% static 'js/edit_contract.js' %}"></script>
+<script src="{% static 'js/escapeHTML.js' %}"></script>
 <script>
     // 商品情報一覧はセッションストレージにJSON文字列で保存されているのでIDでどの商品か特定する
     var productinfo = JSON.parse(sessionStorage.getItem('ProductsInfo'));
@@ -34,11 +37,10 @@
     });
     // 通し番号なので一つしかとれないはず
     target = targetList[0];
-    document.getElementById("id_product").innerHTML = target['2'];
-    document.getElementById("id_price").innerHTML = target['4'];
-    document.getElementById("id_stock").innerHTML = target['6'];
-    document.getElementById("id_description").innerHTML = target['3'];
-    document.getElementById("id_image_uri").innerHTML = target['5'];
+    document.getElementById("id_product").innerHTML = escapeHtml(target['2']);
+    document.getElementById("id_price").innerHTML = escapeHtml(target['4']);
+    document.getElementById("id_stock").innerHTML = escapeHtml(target['6']);
+    document.getElementById("id_description").innerHTML = escapeHtml(target['3']);
+    document.getElementById("id_image_uri").innerHTML = escapeHtml(target['5']);
 </script>
-<script src="{% static 'js/edit_contract.js' %}"></script>
 {% endblock %}

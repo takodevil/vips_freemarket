@@ -46,7 +46,6 @@ def product_sell(request):
             form = forms.ProductSellingForm(request.POST)
             if form.is_valid():
                 # コントラクトが更新されるので情報を再取得する
-                # 実際にはここに飛ぶ前に一覧画面に飛ぶがこのコードを削除すると構文上エラーになる
                 return TemplateResponse(request, 'list.html')
 
         # 1回目の場合は確認画面とフォームを再度表示
@@ -106,7 +105,7 @@ def product_buy(request):
 
     if request.method == 'POST':
         if 'confirmed' in request.POST:
-            # 2回目の場合は出品する商品をコントラクトに保存する
+            # 2回目の場合は購入する商品をコントラクトに保存する
             form = forms.ProductBuyingForm(request.POST)
             if form.is_valid():
                 # コントラクトが更新されるので情報を再取得する
