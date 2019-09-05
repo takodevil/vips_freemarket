@@ -1,4 +1,5 @@
 document.getElementById("vipsmarket_name").innerHTML = localStorage.getItem('vipsmarket_name');
+document.getElementById("vipsmarket_address").innerHTML = localStorage.getItem('vipsmarket_address');
 
 if (!localStorage.getItem('vipsmarket_address')){
 // 未ログイン

@@ -20,21 +20,28 @@ contract VIPSMarket {
 	// 登録済みユーザだけが実行できる
     modifier onlyUser {
         require(accounts[msg.sender].registered);
+        require(!accounts[msg.sender].banned);
         _;
     }
+
+    // ================
+    // アカウント
+    // ================
+
 	// アカウント情報
 	struct Account {
 		address vips_address;
 		string name;
 		string email;
 		bool registered;
+		bool banned;
 	}	
 	mapping(address => Account) public accounts;
-
+	
 	// アカウント登録
-    function registerAccount(string memory _name, string memory _email) public {
+    function registerAccount(string memory _name, string memory _email) payable public {
         require(!accounts[msg.sender].registered);
-
+        require(msg.value >= 10000);
 		accounts[msg.sender].registered = true;
         accounts[msg.sender].name = _name;   
         accounts[msg.sender].email = _email; 
@@ -49,6 +56,21 @@ contract VIPSMarket {
 	function getAccount() public onlyUser view returns(address, string memory, string memory)  {
 		return (msg.sender, accounts[msg.sender].name, accounts[msg.sender].email);
 	}
+	// アカウントban（オーナー）
+    function banAccount(address _target) public onlyOwner {
+        require(!accounts[_target].banned);
+		accounts[msg.sender].banned = true;
+    }
+	// アカウントban解除（オーナー）
+    function bancancelAccount(address _target) public onlyOwner {
+        require(accounts[_target].banned);
+		accounts[msg.sender].banned = false;
+    }
+
+    // ================
+    // 商品
+    // ================
+
 	// 商品情報
 	struct item {
 		address sellerAddr;
@@ -107,6 +129,24 @@ contract VIPSMarket {
 		// 値としてゼロを割り当てる
 		delete items[_numItems];
 	}
+	// 商品を削除（オーナー）
+	function removeItemOwner(uint _numItems) public onlyOwner isStopped{
+		// 値としてゼロを割り当てる
+		delete items[_numItems];
+	}
+
+    // ================
+    // 取引
+    // ================
+
+	// 取引データ
+	/* どの商品を誰がどれだけ買おうとしているか
+	   商品IDと購入者アドレスと注文数量と取引の進捗状況が必要
+	   同じ人が同じ商品について並行で取引することはできないものとする
+	   先払いの場合⇒購入者が申請して出品者が承認することで取引成立
+       後払いの場合⇒購入者が申請して出品者が承認、購入者が商品を受け取って承認することで取引成立
+	*/
+
 
     // ================
     // セキュリティー対策

@@ -10,12 +10,12 @@
         <td>
             <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
                 <tbody>
-                <tr><th>No</th><td id="id_no">{{ id }}</td></tr>
-                <tr><th>Product</th><td id="id_product"></td></tr>
-                <tr><th>Price</th><td id="id_price"></td></tr>
-                <tr><th>Stock</th><td id="id_stock"></td></tr>
-                <tr><th>Description</th><td id="id_description"></td></tr>
-                <tr><th>Image_URI</th>
+                <tr><th>商品ID</th><td id="id_no">{{ id }}</td></tr>
+                <tr><th>商品名</th><td id="id_product"></td></tr>
+                <tr><th>価格</th><td id="id_price"></td></tr>
+                <tr><th>在庫</th><td id="id_stock"></td></tr>
+                <tr><th>説明</th><td id="id_description"></td></tr>
+                <tr><th>画像ファイルのURI</th>
                   <td>
                     <div id="loading"><img src="{% static 'img/loading.gif' %}"></div>
                     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
@@ -51,8 +51,8 @@
         </td>
     </tr>
 </table>
-    <input type="submit" class="btn btn-primary" value="Confirm">
-    <button type="button" id="delete" class="btn btn-primary">Delete</button>
+    <input type="submit" class="btn btn-primary" value="確認">
+    <button type="button" id="delete" class="btn btn-primary">削除</button>
 </form>
 <font color="red"><span id="message"></span></font>
 <script src="{% static 'js/escapeHTML.js' %}"></script>

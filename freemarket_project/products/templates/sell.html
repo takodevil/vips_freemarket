@@ -7,14 +7,14 @@
     <table>
         {% csrf_token %}
         <tbody>
-        <tr><th>Product</th><td>{{ form.product_name }}</td></tr>
-        <tr><th>Price</th><td>{{ form.price }}</td></tr>
-        <tr><th>Stock</th><td>{{ form.stock }}</td></tr>
-        <tr><th>Description</th><td>{{ form.description }}</td></tr>
-        <tr><th>Image_URI</th><td>{{ form.image_uri }}</td></tr>
+        <tr><th>商品名</th><td>{{ form.product_name }}</td></tr>
+        <tr><th>価格</th><td>{{ form.price }}</td></tr>
+        <tr><th>在庫</th><td>{{ form.stock }}</td></tr>
+        <tr><th>説明</th><td>{{ form.description }}</td></tr>
+        <tr><th>画像ファイルのURI</th><td>{{ form.image_uri }}</td></tr>
         </tbody>
     </table>
-    <input type="submit" class="btn btn-primary" value="Confirm">
+    <input type="submit" class="btn btn-primary" value="確認">
 </form>
 
 {% endblock %}

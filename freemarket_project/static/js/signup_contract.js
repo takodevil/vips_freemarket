@@ -17,7 +17,8 @@ window.addEventListener('DOMContentLoaded', function(){
             try{
                 var result = contract.methods.registerAccount(username,email_address).send({
                     from:vipstarcoin_address,
-                    gas:3000000
+                    gas:3000000,
+                    value:10000
                     });
                 // 自分が持っているアカウントでなければsender account not recognized
                 // ノードが秘密鍵を知っているアカウントからのみトランザクションを送信できる？

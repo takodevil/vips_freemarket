@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0xfDF42BA339FEf5874F6D15DB511Fe9847bE3481F";
+var address = "0x802C667395f54935fB345139AA5D557a2dd57887";
 //abi情報
 var abi =
 [
@@ -41,6 +41,10 @@ var abi =
         },
         {
           "name": "registered",
+          "type": "bool"
+        },
+        {
+          "name": "banned",
           "type": "bool"
         }
       ],
@@ -125,8 +129,8 @@ var abi =
       ],
       "name": "registerAccount",
       "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -167,6 +171,34 @@ var abi =
       ],
       "payable": false,
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_target",
+          "type": "address"
+        }
+      ],
+      "name": "banAccount",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_target",
+          "type": "address"
+        }
+      ],
+      "name": "bancancelAccount",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -299,6 +331,20 @@ var abi =
         }
       ],
       "name": "removeItem",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_numItems",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeItemOwner",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",

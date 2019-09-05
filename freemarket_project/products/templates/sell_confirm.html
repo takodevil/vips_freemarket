@@ -11,11 +11,11 @@
       {% endfor %}
     <table>
       <tbody>
-      <tr><th>Product</th><td id="id_product_name">{{ product.product_name }}</td></tr>
-      <tr><th>Price</th><td id="id_price">{{ product.price }}</td></tr>
-      <tr><th>Stock</th><td id="id_stock">{{ product.stock }}</td></tr>
-      <tr><th>Description</th><td id="id_description">{{ product.description }}</td></tr>
-      <tr><th>Image_URI</th>
+      <tr><th>商品名</th><td id="id_product_name">{{ product.product_name }}</td></tr>
+      <tr><th>価格</th><td id="id_price">{{ product.price }}</td></tr>
+      <tr><th>在庫</th><td id="id_stock">{{ product.stock }}</td></tr>
+      <tr><th>説明</th><td id="id_description">{{ product.description }}</td></tr>
+      <tr><th>画像ファイルのURI</th>
         <td>
         <div id="loading"><img src="{% static 'img/loading.gif' %}"></div>
           <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
@@ -48,8 +48,8 @@
       </tbody>
     </table>
     <font color="red"><span id="message"></span></font>
-    <button type="button" id="exhibit" class="btn btn-primary">Commit</button>
-    <a href="javascript:history.back()">Back</a>
+    <button type="button" id="exhibit" class="btn btn-primary">確定</button>
+    <a href="javascript:history.back()">戻る</a>
   </form>
 <script src="{% static 'js/exhibit_contract.js' %}"></script>
 {% endblock %}
