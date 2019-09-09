@@ -5,11 +5,17 @@
 {% block contents %}
 <form method="post">
     {% csrf_token %}
+        <p>
+            　注文数量　<input type="number" id="id_ordercount" size="10" required>
+        </p>
+    <button type="button" id="buy" class="btn btn-primary">購入</button>
+    <font color="red"><span id="message"></span></font>
 <table>
     <tr>
         <td>
             <table boader="0" style="box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)">
                 <tbody>
+                <tr><th>出品者アドレス</th><td id="id_sellerAddr"></td></tr>
                 <tr><th>商品ID</th><td id="id_no">{{ id }}</td></tr>
                 <tr><th>商品名</th><td id="id_product"></td></tr>
                 <tr><th>価格</th><td id="id_price"></td></tr>
@@ -51,10 +57,7 @@
         </td>
     </tr>
 </table>
-    <input type="submit" class="btn btn-primary" value="確認">
-    <button type="button" id="delete" class="btn btn-primary">削除</button>
 </form>
-<font color="red"><span id="message"></span></font>
 <script src="{% static 'js/escapeHTML.js' %}"></script>
 <script>
     // 商品情報一覧はセッションストレージにJSON文字列で保存されているのでIDでどの商品か特定する
@@ -65,6 +68,7 @@
     });
     // 通し番号なので一つしかとれないはず
     target = targetList[0];
+    document.getElementById("id_sellerAddr").innerHTML = escapeHtml(target['0']);
     document.getElementById("id_product").innerHTML = escapeHtml(target['2']);
     document.getElementById("id_price").innerHTML = escapeHtml(target['4']);
     document.getElementById("id_stock").innerHTML = escapeHtml(target['6']);

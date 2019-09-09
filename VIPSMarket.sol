@@ -4,12 +4,14 @@ contract VIPSMarket {
 
 	address owner;
 	uint public numItems;
+	uint public transaction_count;
 	bool public stopped;
 
 	// コントラクトをデプロイしたアドレスをオーナーに設定するコンストラクタ
     constructor() public {
         owner = msg.sender;
 		numItems = 0;
+		transaction_count;
 		stopped = false;
     }
 	// オーナーだけが実行できる
@@ -105,8 +107,26 @@ contract VIPSMarket {
 		5:image_uri
 		6:stock
 	*/
-    function getItem(uint _numItems) public view returns(address, string memory, string memory, string memory, uint, string memory, uint){
-        return (items[_numItems].sellerAddr, items[_numItems].seller, items[_numItems].name, items[_numItems].description, items[_numItems].price, items[_numItems].image_uri, items[_numItems].stock) ;
+    function getItem(uint _numItems) public view 
+		returns(
+			address, 
+			string memory, 
+			string memory, 
+			string memory, 
+			uint, 
+			string memory, 
+			uint
+		)
+	{
+        return (
+			items[_numItems].sellerAddr, 
+			items[_numItems].seller, 
+			items[_numItems].name, 
+			items[_numItems].description, 
+			items[_numItems].price, 
+			items[_numItems].image_uri, 
+			items[_numItems].stock
+		);
     }
 	
 	// 全体の商品登録数を取得
@@ -140,11 +160,9 @@ contract VIPSMarket {
     // ================
 
 	// 取引データ
-	/* どの商品を誰がどれだけ買おうとしているか
-	   商品IDと購入者アドレスと注文数量と取引の進捗状況が必要
-	   同じ人が同じ商品について並行で取引することはできないものとする
-	   先払いの場合⇒購入者が申請して出品者が承認することで取引成立
-       後払いの場合⇒購入者が申請して出品者が承認、購入者が商品を受け取って承認することで取引成立
+	/* 誰がどの商品をどれだけ買ったか
+		購入ボタンを押したときに送金する
+		送金自体はsolidityではなくweb3.jsで直接送る
 	*/
 
 

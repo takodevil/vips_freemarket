@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x802C667395f54935fB345139AA5D557a2dd57887";
+var address = "0xd2f7d7d360C51aC0Ee4C3965aFc4EB01677Ff154";
 //abi情報
 var abi =
 [
@@ -102,6 +102,20 @@ var abi =
         },
         {
           "name": "stock",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "transaction_count",
+      "outputs": [
+        {
+          "name": "",
           "type": "uint256"
         }
       ],

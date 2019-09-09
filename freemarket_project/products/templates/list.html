@@ -10,7 +10,7 @@
     <thead class="thead-dark">
     <tr align="center">
         <th scope="col"></th>
-        <th scope="col">コマンド</th>
+        <th scope="col">　　　</th>
         <th scope="col">商品ID</th>
         <th scope="col">商品名</th>
         <th scope="col">出品者</th>
@@ -34,7 +34,7 @@
           </td>
           <td style="vertical-align:middle;">
               <script>
-              // 自分が出品している商品ならEdit、他人が出品している商品ならBuy、未ログインなら空
+              // 自分が出品している商品なら編集、他人が出品している商品なら購入、未ログインなら空
               // 商品IDを次の画面にクエリパラメータとして渡す
                 if (localStorage.getItem('vipsmarket_address')=={{ product.0 }}){
                     document.write("<a href='{% url "products:edit" %}?id={{ product.id }}'>編集</a>");

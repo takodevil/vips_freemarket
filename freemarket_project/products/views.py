@@ -98,30 +98,18 @@ def product_edit(request):
                              'id':id})
 
 def product_buy(request):
-    """ 購入画面
+    """ 購入申請画面
     """
     if "id" in request.GET:
         id = request.GET.get("id")
 
     if request.method == 'POST':
-        if 'confirmed' in request.POST:
-            # 2回目の場合は購入する商品をコントラクトに保存する
-            form = forms.ProductBuyingForm(request.POST)
-            if form.is_valid():
-                # コントラクトが更新されるので情報を再取得する
-                # 直後はgetで来る
-                return TemplateResponse(request, 'list.html')
-
-        # 1回目の場合は確認画面とフォームを再度表示
         form = forms.ProductBuyingForm(request.POST)
         if form.is_valid():
-            # DBは一時的な保存場所として使うのでcommitする必要はない
-            # formをそのまま使うと再びformフィールドになって入力できてしまうので一旦productに移してから送信する
-            product = form.save(commit=False)
-            return TemplateResponse(request, 'buy_confirm.html',
-                                    {'form': form,
-                                     'product': product,
-                                     'id': id})
+            # コントラクトが更新されるので情報を再取得する
+            # 直後はgetで来る
+            return TemplateResponse(request, 'list.html')
+
     else:
         # GETの場合やバリデーションに失敗した場合はProductBuyingFormを表示
         form = forms.ProductBuyingForm()
@@ -129,3 +117,4 @@ def product_buy(request):
     return TemplateResponse(request, 'buy.html',
                             {'form': form,
                              'id':id})
+
