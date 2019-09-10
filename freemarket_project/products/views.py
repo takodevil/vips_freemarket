@@ -11,7 +11,7 @@ def product_list(request):
         products = json.loads(request.POST['prm'])
         # ページネーション
         page = request.GET.get('page', 1)
-        paginator = Paginator(products, 5)
+        paginator = Paginator(products, 10)
         try:
             products = paginator.page(page)
         except (EmptyPage, PageNotAnInteger):
@@ -118,3 +118,20 @@ def product_buy(request):
                             {'form': form,
                              'id':id})
 
+def product_transact(request):
+    """ 取引一覧
+    """
+    if request.method == 'POST':
+        # json文字列で取引の全データを受け取る
+        transacts = json.loads(request.POST['prm'])
+        # ページネーション
+        page = request.GET.get('page', 1)
+        paginator = Paginator(transacts, 10)
+        try:
+            transacts = paginator.page(page)
+        except (EmptyPage, PageNotAnInteger):
+            transacts = paginator.page(1)
+        return TemplateResponse(request, 'transact.html', {'transacts': transacts})
+
+    else:
+        return TemplateResponse(request, 'gettransact.html')

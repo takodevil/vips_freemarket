@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', function(){
                             name = result[1];
                             email = result[2];
                             console.log(vips_address_oncontract);
-                            console.log(name);
+                            console.log(web3.utils.hexToUtf8(name));
                             console.log(email);
                         };
                         vipstarcoin_address = vipstarcoin_address.toLowerCase();
@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', function(){
                             if (!localStorage.getItem('vipsmarket_address')){
                                 console.log('ブラウザにアドレス未保存');
                                 localStorage.setItem('vipsmarket_address', vipstarcoin_address);
-                                localStorage.setItem('vipsmarket_name', name);
+                                localStorage.setItem('vipsmarket_name', web3.utils.hexToUtf8(name));
                                 localStorage.setItem('vipsmarket_email', email);
                             }
                             else{

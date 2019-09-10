@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block contents %}
+<input type="button" id="Search" class="btn btn-primary" onclick="Search()" value="自分の商品のみ表示" >
+<input type="button" id="All" class="btn btn-primary" onclick="All()" value="全件表示">
+
+<table class="table table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+    <tr align="center">
+        <th scope="col">トランザクションハッシュ</th>
+        <th scope="col">商品ID</th>
+        <th scope="col">価格（当時）</th>
+        <th scope="col">注文数</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for transact in transacts %}
+      <tr class="table-light" align="center">
+          <td style="vertical-align:middle;">{{ transact.0 }}</td>
+          <td style="vertical-align:middle;">{{ transact.1 }}</td>
+          <td style="vertical-align:middle;">{{ transact.2 }}</td>
+          <td style="vertical-align:middle;">{{ transact.3 }}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+</table>
+<ul class="pagination">
+  {% if transacts.has_previous %}
+    <li><a class="page-link text-primary d-inline-block" href="?page={{ transacts.previous_page_number }}">＜</a></li>
+  {% else %}
+    <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＜</div></li>
+  {% endif %}
+
+    {% for link_page in transacts.paginator.page_range %}
+        {% if link_page %}
+            {% if link_page == transacts.number %}
+                <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">{{ link_page }}</div></li>
+            {% else %}
+                <li><a class="page-link text-primary d-inline-block" href="?page={{ link_page }}">{{ link_page }}</a></li>
+            {% endif %}
+        {% else %}
+            <li class="disabled"><a class="page-link text-secondary d-inline-block text-muted" href="#">・・・</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if transacts.has_next %}
+        <li><a class="page-link text-primary d-inline-block" href="?page={{ transacts.next_page_number }}">＞</a></li>
+    {% else %}
+        <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
+    {% endif %}
+</ul>
+{% endblock %}

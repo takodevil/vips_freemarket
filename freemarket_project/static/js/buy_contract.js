@@ -8,10 +8,12 @@ window.addEventListener('DOMContentLoaded', function(){
     var message = document.getElementById("message");
     message.innerHTML = "";
     var sellerAddr = document.getElementById("id_sellerAddr").innerHTML;
+    var price = document.getElementById("id_price").innerHTML;
     $("#buy").click(function(){
         // 入力値を読み取って商品データをコントラクト上に登録する
         var stock = document.getElementById("id_stock").innerHTML;
         var ordercount = document.getElementById("id_ordercount").value;
+        var amount = Number(ordercount) * Number(price);
         if (stock < ordercount) {
             message.innerHTML = "在庫が不足しています。"
         }
@@ -27,22 +29,28 @@ window.addEventListener('DOMContentLoaded', function(){
                 var result = web3.eth.sendTransaction({
                     from:vipstarcoin_address,
                     to:sellerAddr,
-                    value:1000000,
+                    value:amount,
                     gas:3000000
                     });
                 result.then(
                     function(receipt){
                         window.alert("購入に成功しました。");
-                        // 支払いに成功したトランザクションハッシュをコントラクトに登録する？
-                        web3.eth.getTransaction(receipt["transactionHash"]).then(
-                            function(receipt){
-                                console.log(receipt["from"]);
-                                console.log(receipt["to"]);
-                                console.log(receipt["value"]);
+                        // 支払いに成功したトランザクションハッシュを、商品IDと時刻とともにコントラクトに登録する
+                        // この時在庫も減少させる
+                        contract.methods.registerTransact(
+                            receipt["transactionHash"],
+                            product_no,
+                            price,
+                            ordercount
+                            ).send({
+                                from:vipstarcoin_address,
+                                gas:3000000
+                            }).then(
+                            function(){
+                                sessionStorage.removeItem('ProductsInfo');
+                                location.href = 'http://localhost:8000/';
                             }
                         );
-                        sessionStorage.removeItem('ProductsInfo');
-                        location.href = 'http://localhost:8000/';
                     },
                     function(){
                         message.innerHTML = "購入に失敗しました。";

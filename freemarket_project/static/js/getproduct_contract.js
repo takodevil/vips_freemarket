@@ -26,6 +26,10 @@ window.addEventListener('DOMContentLoaded', function(){
                     function(error,result){
                         // 最後に商品のインデックスを追加しておく
                         result['id'] = numItems-copy_numItems;
+                        // 日本語対策
+                        result['1'] = web3.utils.hexToUtf8(result['1']);
+                        result['2'] = web3.utils.hexToUtf8(result['2']);
+                        result['3'] = web3.utils.hexToUtf8(result['3']);
                         // 削除済は不要なので除外
                         if (result['0'] != 0x0000000000000000000000000000000000000000){
                             // 検索フラグがONの場合はデータをフィルタする

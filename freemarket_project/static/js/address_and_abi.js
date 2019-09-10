@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0xd2f7d7d360C51aC0Ee4C3965aFc4EB01677Ff154";
+var address = "0x54A0D742A785cb817Aadf1A4EB2147eC5e12c215";
 //abi情報
 var abi =
 [
@@ -60,6 +60,37 @@ var abi =
         {
           "name": "",
           "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "transacts",
+      "outputs": [
+        {
+          "name": "tx_hash",
+          "type": "string"
+        },
+        {
+          "name": "item_id",
+          "type": "uint256"
+        },
+        {
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "name": "ordercount",
+          "type": "uint256"
         }
       ],
       "payable": false,
@@ -362,6 +393,77 @@ var abi =
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_tx_hash",
+          "type": "string"
+        },
+        {
+          "name": "_item_id",
+          "type": "uint256"
+        },
+        {
+          "name": "_price",
+          "type": "uint256"
+        },
+        {
+          "name": "_ordercount",
+          "type": "uint256"
+        }
+      ],
+      "name": "registerTransact",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_transact_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTransact",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getTransactcount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {

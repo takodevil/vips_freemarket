@@ -32,8 +32,9 @@
                 メニュー
               </button>
               <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="dropdown1">
+                  <a id="header_list" class="dropdown-item text-primary" href="{% url 'products:list' %}">商品一覧</a>
                 <a id="header_sell" class="dropdown-item text-primary" href="{% url 'products:sell' %}">新規出品</a>
-                <a id="header_history" class="dropdown-item text-primary" href="#">取引履歴確認</a>
+                <a id="header_transact" class="dropdown-item text-primary" href="{% url 'products:transact' %}">取引履歴確認</a>
                 <a id="header_modify_account" class="dropdown-item text-primary" href="{% url 'modify_account' %}">アカウント修正</a>
                 <a id="logout" class="dropdown-item text-primary" href="{% url 'logout' %}">ログアウト</a>
               </div>

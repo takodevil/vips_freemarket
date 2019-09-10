@@ -11,7 +11,7 @@ contract VIPSMarket {
     constructor() public {
         owner = msg.sender;
 		numItems = 0;
-		transaction_count;
+		transaction_count = 0;
 		stopped = false;
     }
 	// オーナーだけが実行できる
@@ -160,11 +160,63 @@ contract VIPSMarket {
     // ================
 
 	// 取引データ
-	/* 誰がどの商品をどれだけ買ったか
+	/* 誰がいつどの商品をどれだけ買ったか
+		トランザクションハッシュでfrom,to,valueがわかる
+		日付時刻は？
+		編集される可能性があるので当時の価格を記録しておく
 		購入ボタンを押したときに送金する
 		送金自体はsolidityではなくweb3.jsで直接送る
 	*/
+	struct transact{
+		string tx_hash;
+		uint item_id;
+		uint price;
+		uint ordercount;
+	}
+	mapping(uint => transact) public transacts;
 
+	// 取引データ登録
+    function registerTransact(
+		string memory _tx_hash,
+		uint _item_id,
+		uint _price,
+		uint _ordercount
+	) public onlyUser isStopped {
+		// 注文数が1以上であること
+		require(_ordercount >= 1);
+		// 在庫が十分あること
+		require(items[_item_id].stock >= _ordercount);
+
+        transacts[transaction_count].tx_hash = _tx_hash;
+        transacts[transaction_count].item_id = _item_id;
+		transacts[transaction_count].price = _price;
+        transacts[transaction_count].ordercount = _ordercount;
+		// 在庫を減らす
+		items[_item_id].stock -= _ordercount;
+		transaction_count++;
+    }
+
+	// 取引データ取得
+    function getTransact(uint _transact_id) public view 
+		returns(
+			string memory,
+			uint,
+			uint,
+			uint
+		)
+	{
+        return (
+			transacts[_transact_id].tx_hash,
+			transacts[_transact_id].item_id,
+			transacts[_transact_id].price,
+			transacts[_transact_id].ordercount
+		);
+    }
+
+	// 全体のトランザクション数を取得
+	function getTransactcount() public view returns(uint){
+		return transaction_count;
+	}
 
     // ================
     // セキュリティー対策

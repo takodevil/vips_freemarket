@@ -10,6 +10,8 @@ window.addEventListener('DOMContentLoaded', function(){
         message.innerHTML = "";
         // 入力値を読み取ってアカウントをコントラクト上に登録する
         var username = document.getElementById("id_username").value;
+        // 日本語入力対策
+        username = web3.utils.utf8ToHex(username);
         var email_address = document.getElementById("id_email_address").value;
         var vipstarcoin_address = document.getElementById("id_vipstarcoin_address").value;
 
