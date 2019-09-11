@@ -12,7 +12,10 @@ window.addEventListener('DOMContentLoaded', function(){
         var product_name = web3.utils.utf8ToHex(document.getElementById("id_product_name").value);
         var price = document.getElementById("id_price").value;
         var stock = document.getElementById("id_stock").value;
-        var description = web3.utils.utf8ToHex(document.getElementById("id_description").value);
+        var description = document.getElementById("id_description").value;
+        if (description != null){
+             description = web3.utils.utf8ToHex(description);
+        }
         var image_uri = document.getElementById("id_image_uri").value;
         // アドレスはログインしていればローカルから取れる
         var vipstarcoin_address = localStorage.getItem('vipsmarket_address');

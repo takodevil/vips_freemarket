@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x54A0D742A785cb817Aadf1A4EB2147eC5e12c215";
+var address = "0xe4dee861DBBF94827aBDE21393282b428F7136C4";
 //abi情報
 var abi =
 [
@@ -91,6 +91,18 @@ var abi =
         {
           "name": "ordercount",
           "type": "uint256"
+        },
+        {
+          "name": "registered_time",
+          "type": "string"
+        },
+        {
+          "name": "buyerAddr",
+          "type": "address"
+        },
+        {
+          "name": "sellerAddr",
+          "type": "address"
         }
       ],
       "payable": false,
@@ -413,6 +425,18 @@ var abi =
         {
           "name": "_ordercount",
           "type": "uint256"
+        },
+        {
+          "name": "_registered_time",
+          "type": "string"
+        },
+        {
+          "name": "_buyerAddr",
+          "type": "address"
+        },
+        {
+          "name": "_sellerAddr",
+          "type": "address"
         }
       ],
       "name": "registerTransact",
@@ -446,6 +470,18 @@ var abi =
         {
           "name": "",
           "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
         }
       ],
       "payable": false,

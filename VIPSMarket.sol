@@ -162,7 +162,7 @@ contract VIPSMarket {
 	// 取引データ
 	/* 誰がいつどの商品をどれだけ買ったか
 		トランザクションハッシュでfrom,to,valueがわかる
-		日付時刻は？
+		フィルタ用に購入者と出品者のアドレスを登録しておく
 		編集される可能性があるので当時の価格を記録しておく
 		購入ボタンを押したときに送金する
 		送金自体はsolidityではなくweb3.jsで直接送る
@@ -172,6 +172,9 @@ contract VIPSMarket {
 		uint item_id;
 		uint price;
 		uint ordercount;
+		string registered_time;
+		address buyerAddr;
+		address sellerAddr;
 	}
 	mapping(uint => transact) public transacts;
 
@@ -180,17 +183,26 @@ contract VIPSMarket {
 		string memory _tx_hash,
 		uint _item_id,
 		uint _price,
-		uint _ordercount
+		uint _ordercount,
+		string memory _registered_time,
+		address _buyerAddr,
+		address _sellerAddr
 	) public onlyUser isStopped {
 		// 注文数が1以上であること
 		require(_ordercount >= 1);
 		// 在庫が十分あること
 		require(items[_item_id].stock >= _ordercount);
+		// 実行者が購入者であること
+		require(msg.sender == _buyerAddr);
 
         transacts[transaction_count].tx_hash = _tx_hash;
         transacts[transaction_count].item_id = _item_id;
 		transacts[transaction_count].price = _price;
         transacts[transaction_count].ordercount = _ordercount;
+        transacts[transaction_count].registered_time = _registered_time;
+        transacts[transaction_count].buyerAddr = _buyerAddr;
+        transacts[transaction_count].sellerAddr = _sellerAddr;
+
 		// 在庫を減らす
 		items[_item_id].stock -= _ordercount;
 		transaction_count++;
@@ -202,14 +214,21 @@ contract VIPSMarket {
 			string memory,
 			uint,
 			uint,
-			uint
+			uint,
+			string memory,
+			address,
+			address
 		)
 	{
         return (
 			transacts[_transact_id].tx_hash,
 			transacts[_transact_id].item_id,
 			transacts[_transact_id].price,
-			transacts[_transact_id].ordercount
+			transacts[_transact_id].ordercount,
+			transacts[_transact_id].registered_time,
+			transacts[_transact_id].buyerAddr,
+			transacts[_transact_id].sellerAddr
+
 		);
     }
 

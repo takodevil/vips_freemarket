@@ -9,10 +9,11 @@ window.addEventListener('DOMContentLoaded', function(){
     message.innerHTML = "";
     var sellerAddr = document.getElementById("id_sellerAddr").innerHTML;
     var price = document.getElementById("id_price").innerHTML;
+    var now = new Date().toLocaleString();
     $("#buy").click(function(){
         // 入力値を読み取って商品データをコントラクト上に登録する
         var stock = document.getElementById("id_stock").innerHTML;
-        var ordercount = document.getElementById("id_ordercount").value;
+        var ordercount = Number(document.getElementById("id_ordercount").value);
         var amount = Number(ordercount) * Number(price);
         if (stock < ordercount) {
             message.innerHTML = "在庫が不足しています。"
@@ -41,7 +42,10 @@ window.addEventListener('DOMContentLoaded', function(){
                             receipt["transactionHash"],
                             product_no,
                             price,
-                            ordercount
+                            ordercount,
+                            now,
+                            vipstarcoin_address,
+                            sellerAddr
                             ).send({
                                 from:vipstarcoin_address,
                                 gas:3000000

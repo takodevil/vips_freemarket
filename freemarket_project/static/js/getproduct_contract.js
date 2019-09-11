@@ -29,7 +29,10 @@ window.addEventListener('DOMContentLoaded', function(){
                         // 日本語対策
                         result['1'] = web3.utils.hexToUtf8(result['1']);
                         result['2'] = web3.utils.hexToUtf8(result['2']);
-                        result['3'] = web3.utils.hexToUtf8(result['3']);
+                        console.log(result['3']);
+                        if(result['3']!=null){
+                            result['3'] = web3.utils.hexToUtf8(result['3']);
+                        }
                         // 削除済は不要なので除外
                         if (result['0'] != 0x0000000000000000000000000000000000000000){
                             // 検索フラグがONの場合はデータをフィルタする

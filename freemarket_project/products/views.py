@@ -133,5 +133,5 @@ def product_transact(request):
             transacts = paginator.page(1)
         return TemplateResponse(request, 'transact.html', {'transacts': transacts})
 
-    else:
-        return TemplateResponse(request, 'gettransact.html')
+    #else:
+    return TemplateResponse(request, 'gettransact.html')
