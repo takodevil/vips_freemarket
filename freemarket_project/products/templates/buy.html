@@ -42,9 +42,9 @@
                     </script>
                     <div id="contents">
                       {% if product.image_uri %}
-                        <img src={{ product.image_uri }} onerror='this.src="{% static 'img/noimage.png' %}"' width="400" height="auto">
+                        <img src={{ product.image_uri }} onerror='this.src="{% static 'img/noimage.png' %}"' width="300" height="auto">
                       {% else %}
-                        <img src="{% static 'img/noimage.png' %}">
+                        <img src="{% static 'img/noimage.png' %}" width="300" height="auto">
                       {% endif %}
                     </div>
                     <div id="id_image_uri">

@@ -1,15 +1,11 @@
 from django.db import models
-from django.utils import timezone
+from django import forms
 
+class Account(models.Model):
 
-class Product(models.Model):
-
-    product_name = models.CharField(max_length=200)
-    seller = models.CharField(max_length=200)
-    price = models.PositiveIntegerField()
-    stock = models.PositiveIntegerField()
-    description = models.CharField(max_length=10000,blank=True)
-    googledocid  = models.CharField(max_length=200, blank=True)
+    username = models.CharField(max_length=254, blank=False)
+    email_address = models.CharField(max_length=254, blank=False)
+    vipstarcoin_address = models.CharField(max_length=254, blank=False)
 
     def __str__(self):
-        return "<{0}>".format(self.product_name)
+        return self.username

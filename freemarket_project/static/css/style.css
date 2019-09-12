@@ -52,6 +52,10 @@ form > ul > li:not(:first-child) {
     padding-top: 8px;
 }
 
+#id_shipping_address {
+    height:100px;
+}
+
 #id_product_name {
     width: 800px;
     height:32px;

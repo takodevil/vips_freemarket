@@ -1,6 +1,4 @@
 from django import forms
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 
 class LoginForm(forms.Form):
     vipstarcoin_address = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
@@ -9,19 +7,14 @@ class LoginForm(forms.Form):
         fields = ('vipstarcoin_address',)
 
 class SignUpForm(forms.Form):
-    username = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
-    email_address = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
-    vipstarcoin_address = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
+    username = forms.CharField(label="ハンドルネーム（公開）", max_length=254, required=True, widget=forms.TextInput())
+    email_address = forms.CharField(label="gmailアドレス（公開）", max_length=254, required=True, widget=forms.EmailInput())
+    email_password = forms.CharField(label="gmailパスワード（非公開）", max_length=254, required=True, widget=forms.PasswordInput())
+    vipstarcoin_address = forms.CharField(label="VIPSアドレス（公開）",max_length=254, required=True, widget=forms.TextInput())
+    shipping_address = forms.CharField(label="発送先住所（相手の出品者にのみ公開）",max_length=1000, required=False, widget=forms.Textarea())
 
     class Meta:
-        fields = ('username', 'email_address', 'vipstarcoin_address')
-
-    def clean_email(self):
-        email = self.cleaned_data["email_address"]
-        try:
-            validate_email(email)
-        except ValidationError:
-            raise ValidationError("正しいメールアドレスを指定して下さい。")
+        fields = ('username', 'email_address', 'email_password', 'vipstarcoin_address', 'shipping_address')
 
 class ModifyForm(forms.Form):
     username = forms.CharField(max_length=254, required=True, widget=forms.TextInput())
@@ -29,11 +22,3 @@ class ModifyForm(forms.Form):
 
     class Meta:
         fields = ('username', 'email_address')
-
-    def clean_email(self):
-        email = self.cleaned_data["email_address"]
-        try:
-            validate_email(email)
-        except ValidationError:
-            raise ValidationError("正しいメールアドレスを指定して下さい。")
-
