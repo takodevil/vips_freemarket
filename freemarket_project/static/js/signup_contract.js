@@ -38,12 +38,25 @@ window.addEventListener('DOMContentLoaded', function(){
         else{
             // 入力値を読み取ってアカウントをコントラクト上に登録する
             var username = document.getElementById("id_username").value;
+            if(username.length == 0){
+                username = "名無し"
+            }
             // 日本語入力対策
             username = web3.utils.utf8ToHex(username);
             var email_address = document.getElementById("id_email_address").value;
             var vipstarcoin_address = document.getElementById("id_vipstarcoin_address").value;
-
-            if(username.length > 0 && email_address.length > 0 && vipstarcoin_address.length > 0){
+            var email_password = document.getElementById("id_email_password").value;
+            var shipping_address = document.getElementById("id_shipping_address").value;
+            if(shipping_address.length == 0){
+                shipping_address = "未登録"
+            }
+            // POSTしてローカルに保存するためhiddenにセットしておく
+            document.getElementById("param_emailpassword").value = email_password;
+            document.getElementById("param_shipping_address").value = shipping_address;
+            document.getElementById("param_vips_address").value = vipstarcoin_address;
+            console.log(document.getElementById("param_shipping_address").value);
+            // メールアドレスとパスワードとVIPSアドレスは必須入力
+            if(email_address.length > 0 && email_password.length > 0 && vipstarcoin_address.length > 0){
                 if(!email_address.endsWith("@gmail.com")){
                     message.innerHTML ='@gmail.comで終わるメールアドレスを入力してください';
                 } else {
@@ -67,6 +80,7 @@ window.addEventListener('DOMContentLoaded', function(){
                     } catch(e){
                         // アドレスのチェックサムに引っかかった場合など
                         // 場合わけがめんどいので同じメッセージ
+                        console.log('test');
                         message.innerHTML = "登録に失敗しました。";
                     }
                 }

@@ -3,24 +3,43 @@
 {% load static %}
 
 {% block contents %}
-
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10 col-sm-12 bg-light">
-      <p class="card">
-      <h3 class="card-title">アカウント情報修正</h3>
-        <div class="card-body">
-          <p class="card-text"><b>Username:</b><div id="username_now"></div></p>
-          <p class="card-text"><b>Email address:</b><div id="mailaddress_now"></div></p>
-        </div>
-          <form id="modifyAccount_form" method="post" novalidate>
-            {% csrf_token %}
-            {% include 'includes/form.html' %}
-            <button id="modifyAccount" type="button" class="btn btn-primary btn-block">OK</button>
-            <font color="red"><span id="message"></span></font>
-          </form>
-        </div>
+<div class="row justify-content-center">
+  <div class="col-lg-8 col-md-10 col-sm-12 bg-light">
+    <p class="card">
+    <h3 class="card-title">アカウント情報修正</h3>
+      <div class="card-body">
+        <p class="card-text"><b>ハンドルネーム:</b><div id="username_now"></div></p>
+        <p class="card-text"><b>gmailアドレス:</b><div id="mailaddress_now"></div></p>
+        <p class="card-text"><b>gmailパスワード:</b><div id="mailpassword_now"></div></p>
+        <p class="card-text"><b>発送先住所:</b><div id="shipping_address_now"></div></p>
       </div>
-    </div>
+        <form id="modifyAccount_form" method="post" novalidate>
+          {% csrf_token %}
+          {% include 'includes/form.html' %}
+          <input type="hidden" id="param_emailpassword" name="param_emailpassword">
+          <input type="hidden" id="param_shipping_address" name="param_shipping_address">
+          <input type="hidden" id="param_vips_address" name="param_vips_address">
+          <button id="modifyAccount" type="button" class="btn btn-primary btn-block">OK</button>
+          <font color="red"><span id="message"></span></font>
+        </form>
+        <form id="mailtest_form" method="post" target="mailtest">
+          {% csrf_token %}
+          <input type="hidden" name="mailtest_flag" value="1">
+          <input type="hidden" id="id_test_emailaddress" name="test_emailaddress">
+          <input type="hidden" id="id_test_emailpassword" name="test_emailpassword">
+          <button type="button" id="id_mailtest" class="btn btn-success btn-block">メールアドレスの確認</button>
+        </form>
+        <iframe name="mailtest" width="100%" height="50"></iframe>
+
   </div>
+</div>
+{% for result in results %}
+<script>
+if (localStorage.getItem('vipsmarket_address')=={{ result.vips_address }}){
+    document.getElementById("mailpassword_now").innerHTML = "{{ result.emailpassword }}";
+    document.getElementById("shipping_address_now").innerHTML = "{{ result.shipping_address }}";
+}
+</script>
+{% endfor %}
 <script src="{% static 'js/modify_contract.js' %}"></script>
 {% endblock %}

@@ -12,6 +12,9 @@
           <form id="signup_form" method="post" novalidate style="margin-bottom:20px;">
             {% csrf_token %}
             {% include 'includes/form.html' %}
+            <input type="hidden" id="param_emailpassword" name="param_emailpassword">
+            <input type="hidden" id="param_shipping_address" name="param_shipping_address">
+            <input type="hidden" id="param_vips_address" name="param_vips_address">
             <button type="button" id="signup" class="btn btn-primary btn-block">OK</button>
             <font color="red"><span id="message"></span></font>
           </form>
