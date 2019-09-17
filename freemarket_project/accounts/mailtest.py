@@ -8,7 +8,7 @@ class mailtest():
         password = test_emailpassword
 
         # MIMEの作成
-        subject = "【vipstarcoin】メール送信テスト"
+        subject = "【vipstarcoin_market】メール送信テスト"
         message = "メール送信テストに成功しました"
         msg = MIMEText(message, "html")
         msg["Subject"] = subject

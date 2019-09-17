@@ -1,7 +1,11 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.response import TemplateResponse
+from django.shortcuts import render, redirect
 from . import forms
 import json
+from . import Crypt
+from .send_mail import send_mail
+from django.contrib import messages
 
 def product_list(request):
     """ 商品一覧
@@ -98,25 +102,75 @@ def product_edit(request):
                              'id':id})
 
 def product_buy(request):
-    """ 購入申請画面
+    """ 購入画面
     """
-    if "id" in request.GET:
-        id = request.GET.get("id")
-
     if request.method == 'POST':
-        form = forms.ProductBuyingForm(request.POST)
-        if form.is_valid():
-            # コントラクトが更新されるので情報を再取得する
-            # 直後はgetで来る
-            return TemplateResponse(request, 'list.html')
+        # POSTされてきたパラメータをセット
+        params = {
+            'apply_flag': request.POST['apply_flag'],
+            'seller_addr': request.POST['seller_addr'],
+            'seller_name': request.POST['seller_name'],
+            'seller_mail': request.POST['seller_mail'],
+            'buyer_addr': request.POST['buyer_addr'],
+            'buyer_name': request.POST['buyer_name'],
+            'buyer_mail': request.POST['buyer_mail'],
+            'product_no': request.POST['product_no'],
+            'product_name': request.POST['product_name'],
+            'product_price': request.POST['product_price'],
+            'product_stock': request.POST['product_stock'],
+            'product_description': request.POST['product_description'],
+            'ordercount': request.POST['ordercount']
+        }
+        # 住所とgmailのパスワードを復号して読み込み
+        with open('params.txt', mode="r") as f:
+            data = f.read()
+        lines = data.split('^')
+        for line in lines:
+            if line:
+                crypted_str_key = line.split(':')
+                crypted_str = crypted_str_key[0]
+                key = crypted_str_key[1]
+                # 16進文字列に変換して保存しているので元のバイナリに戻す
+                crypted_str = bytes.fromhex(crypted_str)
+                key = bytes.fromhex(key)
+                decrypt_result = Crypt.Decrypt(crypted_str, key)
+                result = json.loads(decrypt_result)
+                # 購入者の現在のVIPSアドレスと一致するものを探す
+                if result["vips_address"] == params["buyer_addr"]:
+                    params["emailpassword"] = result['emailpassword']
+                    params["shipping_address"] = result['shipping_address']
+                    # 見つかったらループを抜ける
+                    break
+
+        if request.POST['apply_flag'] == "1":
+            # 事前確認ボタンの場合
+            # メール送信してリダイレクト先で結果メッセージを表示
+            try:
+                send_mail(params)
+                messages.success(request, '出品者に事前確認メールを送信しました。')
+            except:
+                messages.error(request, '出品者への事前確認メール送信に失敗しました。')
+            return redirect('products:list')
+        else:
+            # 購入ボタンの場合
+            try:
+                send_mail(params)
+                messages.success(request, '出品者に購入通知メールを送信しました。')
+            except:
+                messages.error(request, '出品者への購入通知メール送信に失敗しました。')
+
+            return redirect('products:list')
 
     else:
-        # GETの場合やバリデーションに失敗した場合はProductBuyingFormを表示
+        # GETの場合はProductBuyingFormを表示
+        if "id" in request.GET:
+            id = request.GET.get("id")
+
         form = forms.ProductBuyingForm()
 
-    return TemplateResponse(request, 'buy.html',
-                            {'form': form,
-                             'id':id})
+        return TemplateResponse(request, 'buy.html',
+                                {'form': form,
+                                 'id':id})
 
 def product_transact(request):
     """ 取引一覧

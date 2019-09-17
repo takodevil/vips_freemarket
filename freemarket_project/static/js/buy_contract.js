@@ -10,6 +10,33 @@ window.addEventListener('DOMContentLoaded', function(){
     var sellerAddr = document.getElementById("id_sellerAddr").innerHTML;
     var price = document.getElementById("id_price").innerHTML;
     var now = new Date().toLocaleString();
+    $("#apply").click(function(){
+        // 事前確認のボタン　メール送信するためのパラメータを詰め込んでPOSTする
+        contract.methods.getAccount(sellerAddr).call({},
+            function(error,result){
+                // 事前確認であることのフラグ
+                document.getElementById("param_apply_flag").value = "1";
+                // 出品者情報
+                document.getElementById("param_seller_addr").value = result[0];
+                document.getElementById("param_seller_name").value = web3.utils.hexToUtf8(result[1]);
+                document.getElementById("param_seller_mail").value = result[2];
+                // 購入者情報
+                document.getElementById("param_buyer_addr").value = localStorage.getItem('vipsmarket_address');
+                document.getElementById("param_buyer_name").value = localStorage.getItem('vipsmarket_name');
+                document.getElementById("param_buyer_mail").value = localStorage.getItem('vipsmarket_email');
+                // 商品情報
+                document.getElementById("param_product_no").value = document.getElementById("id_no").innerHTML;
+                document.getElementById("param_product_name").value = document.getElementById("id_product").innerHTML;
+                document.getElementById("param_product_price").value = document.getElementById("id_price").innerHTML;
+                document.getElementById("param_product_stock").value = document.getElementById("id_stock").innerHTML;
+                document.getElementById("param_product_description").value =  document.getElementById("id_description").innerHTML;
+                // 注文数量
+                document.getElementById("param_ordercount").value = Number(document.getElementById("id_ordercount").value);
+            }
+        ).then(function(){
+            $('#buy_form').submit();
+        });
+    });
     $("#buy").click(function(){
         // 入力値を読み取って商品データをコントラクト上に登録する
         var stock = document.getElementById("id_stock").innerHTML;

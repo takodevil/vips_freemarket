@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x0f34804B63Cc0894f48D168c3753446BDc53632C";
+var address = "0xdFAde4aEF838912F6311490f3fEf888232fE7B68";
 //abi情報
 var abi =
 [
@@ -210,7 +210,12 @@ var abi =
     },
     {
       "constant": true,
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
       "name": "getAccount",
       "outputs": [
         {
@@ -224,6 +229,14 @@ var abi =
         {
           "name": "",
           "type": "string"
+        },
+        {
+          "name": "",
+          "type": "bool"
+        },
+        {
+          "name": "",
+          "type": "bool"
         }
       ],
       "payable": false,

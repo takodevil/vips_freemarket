@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', function(){
         var vipstarcoin_address = document.getElementById("id_vipstarcoin_address").value;
         if(vipstarcoin_address.length > 0){
             try {
-                contract.methods.getAccount().call({
+                contract.methods.getAccount(vipstarcoin_address).call({
                     from:vipstarcoin_address,
                     gas:3000000
                 },function(error, result){

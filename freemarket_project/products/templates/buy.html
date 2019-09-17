@@ -3,13 +3,31 @@
 {% load static %}
 
 {% block contents %}
-<form method="post">
+<form id="buy_form" method="post">
     {% csrf_token %}
         <p>
             　注文数量　<input type="number" id="id_ordercount" size="10" required>
         </p>
+
+    <input type="hidden" id="param_apply_flag" name="apply_flag">
+    <input type="hidden" id="param_seller_addr" name="seller_addr">
+    <input type="hidden" id="param_seller_name" name="seller_name">
+    <input type="hidden" id="param_seller_mail" name="seller_mail">
+    <input type="hidden" id="param_buyer_addr" name="buyer_addr">
+    <input type="hidden" id="param_buyer_name" name="buyer_name">
+    <input type="hidden" id="param_buyer_mail" name="buyer_mail">
+    <input type="hidden" id="param_product_no" name="product_no">
+    <input type="hidden" id="param_product_name" name="product_name">
+    <input type="hidden" id="param_product_price" name="product_price">
+    <input type="hidden" id="param_product_stock" name="product_stock">
+    <input type="hidden" id="param_product_description" name="product_description">
+    <input type="hidden" id="param_ordercount" name="ordercount">
+
     <button type="button" id="buy" class="btn btn-primary">購入</button>
+    <button type="button" id="apply" class="btn btn-primary">出品者に事前確認メールを送信</button>
     <font color="red"><span id="message"></span></font>
+</form>
+
 <table>
     <tr>
         <td>
@@ -57,7 +75,6 @@
         </td>
     </tr>
 </table>
-</form>
 <script src="{% static 'js/escapeHTML.js' %}"></script>
 <script>
     // 商品情報一覧はセッションストレージにJSON文字列で保存されているのでIDでどの商品か特定する
@@ -72,7 +89,9 @@
     document.getElementById("id_product").innerHTML = escapeHtml(target['2']);
     document.getElementById("id_price").innerHTML = escapeHtml(target['4']);
     document.getElementById("id_stock").innerHTML = escapeHtml(target['6']);
-    document.getElementById("id_description").innerHTML = escapeHtml(target['3']);
+    if (target['3'] != null){
+        document.getElementById("id_description").innerHTML = escapeHtml(target['3']);
+    }
     document.getElementById("id_image_uri").innerHTML = escapeHtml(target['5']);
 </script>
 <script src="{% static 'js/buy_contract.js' %}"></script>
