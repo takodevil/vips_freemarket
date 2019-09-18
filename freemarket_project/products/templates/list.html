@@ -3,13 +3,6 @@
 {% load static %}
 
 {% block contents %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 <input type="button" id="id_Search" class="btn btn-primary" value="自分の商品のみ表示" >
 <input type="button" id="id_All" class="btn btn-primary" value="全件表示">
 <table class="table table-bordered table-hover table-striped">
@@ -86,5 +79,13 @@
         <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
     {% endif %}
 </ul>
+{% if messages %}
+{% for message in messages %}
+    <script>
+        window.alert("{{ message }}");
+    </script>
+    {% endfor %}
+{% endif %}
+
 <script src="{% static 'js/search_product.js' %}"></script>
 {% endblock %}

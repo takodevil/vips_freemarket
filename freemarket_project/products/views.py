@@ -144,7 +144,7 @@ def product_buy(request):
 
         if request.POST['apply_flag'] == "1":
             # 事前確認ボタンの場合
-            # メール送信してリダイレクト先で結果メッセージを表示
+            # メール送信してリダイレクト先のlist.htmlで結果メッセージを表示
             try:
                 send_mail(params)
                 messages.success(request, '出品者に事前確認メールを送信しました。')

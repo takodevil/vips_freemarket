@@ -13,7 +13,7 @@
         <p class="card-text"><b>gmailパスワード:</b><div id="mailpassword_now"></div></p>
         <p class="card-text"><b>発送先住所:</b><div id="shipping_address_now"></div></p>
       </div>
-        <form id="modifyAccount_form" method="post" novalidate>
+        <form id="modifyAccount_form" method="post" novalidate style="margin-bottom:20px;">
           {% csrf_token %}
           {% include 'includes/form.html' %}
           <input type="hidden" id="param_emailpassword" name="param_emailpassword">
@@ -29,7 +29,7 @@
           <input type="hidden" id="id_test_emailpassword" name="test_emailpassword">
           <button type="button" id="id_mailtest" class="btn btn-success btn-block">メールアドレスの確認</button>
         </form>
-        <iframe name="mailtest" width="100%" height="50"></iframe>
+        <iframe name="mailtest" width="100%" height="50" frameborder="0"></iframe>
 
   </div>
 </div>

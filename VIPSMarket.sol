@@ -6,6 +6,7 @@ contract VIPSMarket {
 	uint public numItems;
 	uint public transaction_count;
 	bool public stopped;
+	uint public review_count;
 
 	// コントラクトをデプロイしたアドレスをオーナーに設定するコンストラクタ
     constructor() public {
@@ -41,7 +42,7 @@ contract VIPSMarket {
 	mapping(address => Account) public accounts;
 	
 	// アカウント登録
-    function registerAccount(string memory _name, string memory _email) payable public {
+    function registerAccount(string memory _name, string memory _email) payable public noReentrancy {
         require(!accounts[msg.sender].registered);
         require(msg.value >= 10000);
 		accounts[msg.sender].registered = true;
@@ -50,7 +51,7 @@ contract VIPSMarket {
 		accounts[msg.sender].vips_address = msg.sender;
     }
 	// アカウント修正
-    function modifyAccount(string memory _name, string memory _email) public onlyUser {
+    function modifyAccount(string memory _name, string memory _email) public onlyUser noReentrancy {
         accounts[msg.sender].name = _name;
         accounts[msg.sender].email = _email;
     }
@@ -86,7 +87,7 @@ contract VIPSMarket {
 	mapping(uint => item) public items;
 
 	// 出品する関数
-    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped {
+    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped noReentrancy {
         items[numItems].sellerAddr = msg.sender;
         items[numItems].seller = accounts[msg.sender].name;
         items[numItems].name = _name;
@@ -107,7 +108,7 @@ contract VIPSMarket {
 		5:image_uri
 		6:stock
 	*/
-    function getItem(uint _numItems) public view 
+    function getItem(uint _numItems) public view
 		returns(
 			address, 
 			string memory, 
@@ -134,7 +135,7 @@ contract VIPSMarket {
 		return numItems;
 	}
 	// 商品データを編集
-	function editItem(uint _numItems, string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped{
+	function editItem(uint _numItems, string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped noReentrancy{
 		require(msg.sender == items[_numItems].sellerAddr);
 		
 		items[_numItems].name = _name;
@@ -178,6 +179,9 @@ contract VIPSMarket {
 	}
 	mapping(uint => transact) public transacts;
 
+	// 評価とレビュー用に、誰がどの商品を購入済かのマッピングを追加しておく
+	mapping(address => mapping(uint => bool)) public who_bought_what;
+
 	// 取引データ登録
     function registerTransact(
 		string memory _tx_hash,
@@ -187,7 +191,7 @@ contract VIPSMarket {
 		string memory _registered_time,
 		address _buyerAddr,
 		address _sellerAddr
-	) public onlyUser isStopped {
+	) public onlyUser isStopped noReentrancy {
 		// 注文数が1以上であること
 		require(_ordercount >= 1);
 		// 在庫が十分あること
@@ -203,13 +207,15 @@ contract VIPSMarket {
         transacts[transaction_count].buyerAddr = _buyerAddr;
         transacts[transaction_count].sellerAddr = _sellerAddr;
 
+		who_bought_what[_buyerAddr][_item_id] = true;
+
 		// 在庫を減らす
 		items[_item_id].stock -= _ordercount;
 		transaction_count++;
     }
 
 	// 取引データ取得
-    function getTransact(uint _transact_id) public view 
+    function getTransact(uint _transact_id) public view
 		returns(
 			string memory,
 			uint,
@@ -228,7 +234,6 @@ contract VIPSMarket {
 			transacts[_transact_id].registered_time,
 			transacts[_transact_id].buyerAddr,
 			transacts[_transact_id].sellerAddr
-
 		);
     }
 
@@ -238,18 +243,105 @@ contract VIPSMarket {
 	}
 
     // ================
+    // 評価とレビュー
+    // ================
+
+	// どの商品についての取引をどっちがどっちにどんな評価をしたか
+	struct review {
+		uint item_id;
+		address buyerAddr;
+		address sellerAddr;
+		bool buyertoseller;
+		uint evaluation;
+		string comment;
+		bool done;
+	}
+	mapping(uint => review) public reviews;
+
+	function register_review (
+		uint _item_id,
+		address _buyerAddr,
+		address _sellerAddr,
+		bool _buyertoseller,
+		uint _evaluation,
+		string memory _comment
+	) public onlyUser isStopped noReentrancy{
+		// 購入者が出品者を評価する場合は実行者が購入者であること
+		if(_buyertoseller == true){
+			require(msg.sender == _buyerAddr);
+		}
+		// その逆
+		else{
+			require(msg.sender == _sellerAddr);
+		}
+		// 購入者は商品を購入済であること
+		require(who_bought_what[_buyerAddr][_item_id] == true);
+		// 評価は１～５の５段階評価
+		require(_evaluation >= 1 && _evaluation <= 5);
+
+		reviews[review_count].item_id = _item_id;
+		reviews[review_count].buyerAddr = _buyerAddr;
+		reviews[review_count].sellerAddr = _sellerAddr;
+		reviews[review_count].buyertoseller = _buyertoseller;
+		reviews[review_count].evaluation = _evaluation;
+		reviews[review_count].comment = _comment;
+		// 評価済ならカウントは増やさない
+		if(reviews[review_count].done != true) {
+			reviews[review_count].done = true;
+			review_count++;
+		}
+	}
+
+	function get_review (
+		uint _review_id
+	) public view onlyUser isStopped 
+		returns(
+			uint,
+			address,
+			address,
+			bool,
+			uint,
+			string memory
+		)
+	{
+		return (
+			reviews[_review_id].item_id,
+			reviews[_review_id].buyerAddr,
+			reviews[_review_id].sellerAddr,
+			reviews[_review_id].buyertoseller,
+			reviews[_review_id].evaluation,
+			reviews[_review_id].comment
+		);
+	}
+
+	// 全体のレビュー数を取得
+	function getReviewcount() public view returns(uint){
+		return review_count;
+	}
+
+    // ================
     // セキュリティー対策
     // ================
 
-    // Circuit Breaker
+    // Circuit Breaker 止めたら止まる
     modifier isStopped {
         require(!stopped);
         _;
     }
     
     // Circuit Breakerを発動，停止する関数
-    function toggleCircuit(bool _stopped) public onlyOwner {
+    function toggleCircuit(bool _stopped) public onlyOwner{
         stopped = _stopped;
     }
+
+	// リエントランシ対策
+	// 実行中はロックをかけて再実行できないようにする
+	bool locked = false;
+	modifier noReentrancy() {
+		require(!locked);
+		locked = true;
+		_;
+		locked = false;
+	}
 
 }

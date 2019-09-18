@@ -1,8 +1,31 @@
 //コントラクトのアドレス
-var address = "0xdFAde4aEF838912F6311490f3fEf888232fE7B68";
+var address = "0xc50BdB9c1b1c0ee0D2Df6D8AA9165527Fe1a281f";
 //abi情報
 var abi =
 [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "who_bought_what",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
     {
       "constant": true,
       "inputs": [],
@@ -60,6 +83,20 @@ var abi =
         {
           "name": "",
           "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "review_count",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
         }
       ],
       "payable": false,
@@ -146,6 +183,49 @@ var abi =
         {
           "name": "stock",
           "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "reviews",
+      "outputs": [
+        {
+          "name": "item_id",
+          "type": "uint256"
+        },
+        {
+          "name": "buyerAddr",
+          "type": "address"
+        },
+        {
+          "name": "sellerAddr",
+          "type": "address"
+        },
+        {
+          "name": "buyertoseller",
+          "type": "bool"
+        },
+        {
+          "name": "evaluation",
+          "type": "uint256"
+        },
+        {
+          "name": "comment",
+          "type": "string"
+        },
+        {
+          "name": "done",
+          "type": "bool"
         }
       ],
       "payable": false,
@@ -505,6 +585,93 @@ var abi =
       "constant": true,
       "inputs": [],
       "name": "getTransactcount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_item_id",
+          "type": "uint256"
+        },
+        {
+          "name": "_buyerAddr",
+          "type": "address"
+        },
+        {
+          "name": "_sellerAddr",
+          "type": "address"
+        },
+        {
+          "name": "_buyertoseller",
+          "type": "bool"
+        },
+        {
+          "name": "_evaluation",
+          "type": "uint256"
+        },
+        {
+          "name": "_comment",
+          "type": "string"
+        }
+      ],
+      "name": "register_review",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_review_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "get_review",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "bool"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getReviewcount",
       "outputs": [
         {
           "name": "",
