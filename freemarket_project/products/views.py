@@ -180,12 +180,32 @@ def product_transact(request):
         transacts = json.loads(request.POST['prm'])
         # ページネーション
         page = request.GET.get('page', 1)
-        paginator = Paginator(transacts, 10)
+        paginator = Paginator(transacts, 2)
         try:
             transacts = paginator.page(page)
         except (EmptyPage, PageNotAnInteger):
             transacts = paginator.page(1)
         return TemplateResponse(request, 'transact.html', {'transacts': transacts})
+    else:
+        return TemplateResponse(request, 'gettransact.html')
 
-    #else:
-    return TemplateResponse(request, 'gettransact.html')
+def product_eval(request):
+    """ 評価とレビュー
+    """
+    if request.method == 'POST':
+        return TemplateResponse(request, 'gettransact.html')
+    else:
+        tx_hash = request.GET.get("tx_hash")
+        item_id = request.GET.get("item_id")
+        buyerAddr = request.GET.get("buyerAddr")
+        sellerAddr = request.GET.get("sellerAddr")
+        buyertoseller = request.GET.get("buyertoseller")
+
+    return TemplateResponse(request, 'eval.html',
+                            {
+                                'tx_hash': tx_hash,
+                                'item_id': item_id,
+                                'buyerAddr': buyerAddr,
+                                'sellerAddr': sellerAddr,
+                                'buyertoseller': buyertoseller
+                            })

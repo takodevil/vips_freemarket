@@ -1,31 +1,8 @@
 //コントラクトのアドレス
-var address = "0xc50BdB9c1b1c0ee0D2Df6D8AA9165527Fe1a281f";
+var address = "0xf71Bd8C76466D86b4582c87240f5d5ff4966f8b1";
 //abi情報
 var abi =
 [
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        },
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "who_bought_what",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
     {
       "constant": true,
       "inputs": [],
@@ -68,6 +45,25 @@ var abi =
         },
         {
           "name": "banned",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "registered_tx_hashes",
+      "outputs": [
+        {
+          "name": "",
           "type": "bool"
         }
       ],
@@ -598,6 +594,10 @@ var abi =
     {
       "constant": false,
       "inputs": [
+        {
+          "name": "_tx_hash",
+          "type": "string"
+        },
         {
           "name": "_item_id",
           "type": "uint256"

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+{{ tx_hash }}
+{{ item_id }}
+{{ buyerAddr }}
+{{ sellerAddr }}
+{{ buyertoseller }}
+
+
+    <div id="star_field"></div>
+    <div id="star_input" style="border: solid 1px; height: 1.5em; width: 2em;"></div>
+<form method="post">
+
+    <input type="submit" class="btn btn-primary" value="確認">
+</form>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.raty.js' %}"></script>
+<script src="{% static 'js/eval_contract.js' %}"></script>
+{% endblock %}

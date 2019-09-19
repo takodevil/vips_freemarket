@@ -10,6 +10,7 @@
 <table class="table table-bordered table-hover table-striped">
     <thead class="thead-dark">
     <tr align="center">
+        <th scope="col">　　　　　　</th>
         <th scope="col">購入者アドレス</th>
         <th scope="col">出品者アドレス</th>
         <th scope="col">支払金額</th>
@@ -23,10 +24,11 @@
     <tbody>
     {% for transact in transacts %}
       <tr class="table-light" align="center">
+          <td class="eval" style="vertical-align:middle;"></td>
           <td class="buyerAddr" style="vertical-align:middle;"></td>
           <td class="sellerAddr" style="vertical-align:middle;"></td>
           <td class="amount" style="vertical-align:middle;"></td>
-          <td style="vertical-align:middle;">{{ transact.1 }}</td>
+          <td class="item_id" style="vertical-align:middle;">{{ transact.1 }}</td>
           <td style="vertical-align:middle;">{{ transact.2 }}</td>
           <td style="vertical-align:middle;">{{ transact.3 }}</td>
           <td style="vertical-align:middle;">{{ transact.4 }}</td>

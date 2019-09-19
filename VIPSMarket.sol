@@ -178,9 +178,8 @@ contract VIPSMarket {
 		address sellerAddr;
 	}
 	mapping(uint => transact) public transacts;
-
-	// •]‰¿‚ÆƒŒƒrƒ…[—p‚ÉA’N‚ª‚Ç‚Ì¤•i‚ðw“üÏ‚©‚Ìƒ}ƒbƒsƒ“ƒO‚ð’Ç‰Á‚µ‚Ä‚¨‚­
-	mapping(address => mapping(uint => bool)) public who_bought_what;
+	// •]‰¿‚ÆƒŒƒrƒ…[—p‚ÉA“o˜^Ïƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ƒnƒbƒVƒ…‚ð’Ç‰Á‚µ‚Ä‚¨‚­
+	mapping(string => bool) public registered_tx_hashes;
 
 	// Žæˆøƒf[ƒ^“o˜^
     function registerTransact(
@@ -207,7 +206,7 @@ contract VIPSMarket {
         transacts[transaction_count].buyerAddr = _buyerAddr;
         transacts[transaction_count].sellerAddr = _sellerAddr;
 
-		who_bought_what[_buyerAddr][_item_id] = true;
+		registered_tx_hashes[_tx_hash] = true;
 
 		// ÝŒÉ‚ðŒ¸‚ç‚·
 		items[_item_id].stock -= _ordercount;
@@ -259,6 +258,7 @@ contract VIPSMarket {
 	mapping(uint => review) public reviews;
 
 	function register_review (
+	    string memory _tx_hash,
 		uint _item_id,
 		address _buyerAddr,
 		address _sellerAddr,
@@ -266,7 +266,11 @@ contract VIPSMarket {
 		uint _evaluation,
 		string memory _comment
 	) public onlyUser isStopped noReentrancy{
-		// w“üŽÒ‚ªo•iŽÒ‚ð•]‰¿‚·‚éê‡‚ÍŽÀsŽÒ‚ªw“üŽÒ‚Å‚ ‚é‚±‚Æ
+		// w“üÏ‚Å‚ ‚é‚±‚Æ
+		require(registered_tx_hashes[_tx_hash] == true);
+		// •]‰¿‚Í‚P`‚T‚Ì‚T’iŠK•]‰¿
+		require(_evaluation >= 1 && _evaluation <= 5);
+		// w“üŽÒ‚ªo•iŽÒ‚ð•]‰¿‚·‚éê‡
 		if(_buyertoseller == true){
 			require(msg.sender == _buyerAddr);
 		}
@@ -274,11 +278,6 @@ contract VIPSMarket {
 		else{
 			require(msg.sender == _sellerAddr);
 		}
-		// w“üŽÒ‚Í¤•i‚ðw“üÏ‚Å‚ ‚é‚±‚Æ
-		require(who_bought_what[_buyerAddr][_item_id] == true);
-		// •]‰¿‚Í‚P`‚T‚Ì‚T’iŠK•]‰¿
-		require(_evaluation >= 1 && _evaluation <= 5);
-
 		reviews[review_count].item_id = _item_id;
 		reviews[review_count].buyerAddr = _buyerAddr;
 		reviews[review_count].sellerAddr = _sellerAddr;
