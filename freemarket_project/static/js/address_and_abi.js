@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0xf71Bd8C76466D86b4582c87240f5d5ff4966f8b1";
+var address = "0xB6fe6798cB16C4ACE6c18CC6A057a3d5D3483C23";
 //abi情報
 var abi =
 [
