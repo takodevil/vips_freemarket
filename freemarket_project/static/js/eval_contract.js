@@ -5,6 +5,10 @@ window.addEventListener('DOMContentLoaded', function(){
         web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
         var contract = new web3.eth.Contract(abi,address);
     }
+    tx_hash = document.getElementById("tx_hash").value;
+    buyertoseller = document.getElementById("buyertoseller").value;
+    console.log(tx_hash);
+    console.log(buyertoseller);
 
     $("#eval").click(function(){
         // ５段階評価の数値を取得　DOMから現在表示中の値を取得する
@@ -23,10 +27,18 @@ window.addEventListener('DOMContentLoaded', function(){
         // アドレスはログインしていればローカルから取れる
         var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
         try{
-            var result = contract.methods.register_review(tx_hash, item_id, buyerAddr, sellerAddr, buyertoseller, evaluation, comment).send({
-                from:vipstarcoin_address,
-                gas:3000000
-                });
+            var result = contract.methods.register_review(
+                            tx_hash,
+                            buyertoseller,
+                            item_id,
+                            buyerAddr,
+                            sellerAddr,
+                            evaluation,
+                            comment
+                         ).send({
+                            from:vipstarcoin_address,
+                            gas:3000000
+                         });
             result.then(
                 function(){
                     window.alert("登録に成功しました。");

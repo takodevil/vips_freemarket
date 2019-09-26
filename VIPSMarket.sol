@@ -59,14 +59,16 @@ contract VIPSMarket {
 	function getAccount(address _addr) public onlyUser view returns(address, string memory, string memory, bool, bool)  {
 		return (_addr, accounts[_addr].name, accounts[_addr].email, accounts[_addr].registered, accounts[_addr].banned);
 	}
-	// アカウントban（オーナー）
-    function banAccount(address _target) public onlyOwner {
+	// アカウントban
+    function banAccount(address _target) public onlyUser {
         require(!accounts[_target].banned);
+        require(msg.value >= 10000);
 		accounts[msg.sender].banned = true;
     }
-	// アカウントban解除（オーナー）
-    function bancancelAccount(address _target) public onlyOwner {
+	// アカウントban解除
+    function bancancelAccount(address _target) public onlyUser {
         require(accounts[_target].banned);
+        require(msg.value >= 10000);
 		accounts[msg.sender].banned = false;
     }
 
@@ -246,23 +248,29 @@ contract VIPSMarket {
     // ================
 
 	// どの商品についての取引をどっちがどっちにどんな評価をしたか
+	// １つのトランザクションで双方向に評価
+	// 0：出品者を評価 1：購入者を評価
 	struct review {
 		uint item_id;
 		address buyerAddr;
 		address sellerAddr;
-		bool buyertoseller;
 		uint evaluation;
 		string comment;
-		bool done;
 	}
-	mapping(uint => review) public reviews;
+	mapping(string => mapping(uint => review)) public reviews;
+	// ユーザ単位で評価を記録
+	struct review_by_user {
+	    uint evaluation_count;
+	    uint evaluation_sum;
+	}
+	mapping(address => review_by_user) public review_by_users;
 
 	function register_review (
 	    string memory _tx_hash,
+		bool _buyertoseller,
 		uint _item_id,
 		address _buyerAddr,
 		address _sellerAddr,
-		bool _buyertoseller,
 		uint _evaluation,
 		string memory _comment
 	) public onlyUser isStopped noReentrancy{
@@ -278,45 +286,73 @@ contract VIPSMarket {
 		else{
 			require(msg.sender == _sellerAddr);
 		}
-		reviews[review_count].item_id = _item_id;
-		reviews[review_count].buyerAddr = _buyerAddr;
-		reviews[review_count].sellerAddr = _sellerAddr;
-		reviews[review_count].buyertoseller = _buyertoseller;
-		reviews[review_count].evaluation = _evaluation;
-		reviews[review_count].comment = _comment;
-		// 評価済ならカウントは増やさない
-		if(reviews[review_count].done != true) {
-			reviews[review_count].done = true;
-			review_count++;
+		// 出品者を評価
+		if(_buyertoseller == true){
+    		reviews[_tx_hash][0].item_id = _item_id;
+    		reviews[_tx_hash][0].buyerAddr = _buyerAddr;
+    		reviews[_tx_hash][0].sellerAddr = _sellerAddr;
+    		reviews[_tx_hash][0].evaluation = _evaluation;
+    		reviews[_tx_hash][0].comment = _comment;
+		    review_by_users[_sellerAddr].evaluation_count++;
+		    review_by_users[_sellerAddr].evaluation_sum += _evaluation;
+		}
+		// 購入者を評価
+		else{
+    		reviews[_tx_hash][1].item_id = _item_id;
+    		reviews[_tx_hash][1].buyerAddr = _buyerAddr;
+    		reviews[_tx_hash][1].sellerAddr = _sellerAddr;
+    		reviews[_tx_hash][1].evaluation = _evaluation;
+    		reviews[_tx_hash][1].comment = _comment;
+		    review_by_users[_buyerAddr].evaluation_count++;
+		    review_by_users[_buyerAddr].evaluation_sum += _evaluation;
 		}
 	}
 
 	function get_review (
-		uint _review_id
+		string memory _tx_hash,
+		bool _buyertoseller
 	) public view onlyUser isStopped 
 		returns(
 			uint,
 			address,
 			address,
-			bool,
 			uint,
 			string memory
 		)
 	{
-		return (
-			reviews[_review_id].item_id,
-			reviews[_review_id].buyerAddr,
-			reviews[_review_id].sellerAddr,
-			reviews[_review_id].buyertoseller,
-			reviews[_review_id].evaluation,
-			reviews[_review_id].comment
-		);
+	    if(_buyertoseller == true){
+    		return (
+    			reviews[_tx_hash][0].item_id,
+    			reviews[_tx_hash][0].buyerAddr,
+    			reviews[_tx_hash][0].sellerAddr,
+    			reviews[_tx_hash][0].evaluation,
+    			reviews[_tx_hash][0].comment
+    		);
+	    }
+	   else {
+    		return (
+    			reviews[_tx_hash][1].item_id,
+    			reviews[_tx_hash][1].buyerAddr,
+    			reviews[_tx_hash][1].sellerAddr,
+    			reviews[_tx_hash][1].evaluation,
+    			reviews[_tx_hash][1].comment
+    		);
+	   } 
 	}
 
-	// 全体のレビュー数を取得
-	function getReviewcount() public view returns(uint){
-		return review_count;
-	}
+    function get_review_by_user(
+        address _targetAddr
+    ) public view onlyUser isStopped 
+        returns(
+            uint,
+            uint
+        )
+    {
+        return (
+            review_by_users[_targetAddr].evaluation_count,
+            review_by_users[_targetAddr].evaluation_sum
+        );
+    }
 
     // ================
     // セキュリティー対策
