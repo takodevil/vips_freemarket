@@ -60,13 +60,13 @@ contract VIPSMarket {
 		return (_addr, accounts[_addr].name, accounts[_addr].email, accounts[_addr].registered, accounts[_addr].banned);
 	}
 	// ƒAƒJƒEƒ“ƒgban
-    function banAccount(address _target) public onlyUser {
+    function banAccount(address _target) payable public onlyUser {
         require(!accounts[_target].banned);
         require(msg.value >= 10000);
 		accounts[msg.sender].banned = true;
     }
 	// ƒAƒJƒEƒ“ƒgban‰ðœ
-    function bancancelAccount(address _target) public onlyUser {
+    function bancancelAccount(address _target) payable public onlyUser {
         require(accounts[_target].banned);
         require(msg.value >= 10000);
 		accounts[msg.sender].banned = false;
@@ -267,19 +267,20 @@ contract VIPSMarket {
 
 	function register_review (
 	    string memory _tx_hash,
-		bool _buyertoseller,
+		uint _buyertoseller,
 		uint _item_id,
 		address _buyerAddr,
 		address _sellerAddr,
 		uint _evaluation,
-		string memory _comment
+		string memory _comment,
+		uint _now_eval
 	) public onlyUser isStopped noReentrancy{
 		// w“üÏ‚Å‚ ‚é‚±‚Æ
 		require(registered_tx_hashes[_tx_hash] == true);
 		// •]‰¿‚Í‚P`‚T‚Ì‚T’iŠK•]‰¿
 		require(_evaluation >= 1 && _evaluation <= 5);
 		// w“üŽÒ‚ªo•iŽÒ‚ð•]‰¿‚·‚éê‡
-		if(_buyertoseller == true){
+		if(_buyertoseller == 0){
 			require(msg.sender == _buyerAddr);
 		}
 		// ‚»‚Ì‹t
@@ -287,30 +288,46 @@ contract VIPSMarket {
 			require(msg.sender == _sellerAddr);
 		}
 		// o•iŽÒ‚ð•]‰¿
-		if(_buyertoseller == true){
+		if(_buyertoseller == 0){
+			// –¢•]‰¿‚Ìê‡
+			if(_now_eval == 0){
+			    review_by_users[_sellerAddr].evaluation_count++;
+			    review_by_users[_sellerAddr].evaluation_sum += _evaluation;
+			}
+			// •]‰¿Ï‚Ìê‡
+			else{
+			    review_by_users[_sellerAddr].evaluation_sum -= _now_eval;
+			    review_by_users[_sellerAddr].evaluation_sum += _evaluation;
+			}
     		reviews[_tx_hash][0].item_id = _item_id;
     		reviews[_tx_hash][0].buyerAddr = _buyerAddr;
     		reviews[_tx_hash][0].sellerAddr = _sellerAddr;
     		reviews[_tx_hash][0].evaluation = _evaluation;
     		reviews[_tx_hash][0].comment = _comment;
-		    review_by_users[_sellerAddr].evaluation_count++;
-		    review_by_users[_sellerAddr].evaluation_sum += _evaluation;
 		}
 		// w“üŽÒ‚ð•]‰¿
 		else{
+			// –¢•]‰¿‚Ìê‡
+			if(_now_eval == 0){
+			    review_by_users[_buyerAddr].evaluation_count++;
+			    review_by_users[_buyerAddr].evaluation_sum += _evaluation;
+			}
+			// •]‰¿Ï‚Ìê‡
+			else{
+			    review_by_users[_buyerAddr].evaluation_sum -= _now_eval;
+			    review_by_users[_buyerAddr].evaluation_sum += _evaluation;
+			}
     		reviews[_tx_hash][1].item_id = _item_id;
     		reviews[_tx_hash][1].buyerAddr = _buyerAddr;
     		reviews[_tx_hash][1].sellerAddr = _sellerAddr;
     		reviews[_tx_hash][1].evaluation = _evaluation;
     		reviews[_tx_hash][1].comment = _comment;
-		    review_by_users[_buyerAddr].evaluation_count++;
-		    review_by_users[_buyerAddr].evaluation_sum += _evaluation;
 		}
 	}
 
 	function get_review (
 		string memory _tx_hash,
-		bool _buyertoseller
+		uint _buyertoseller
 	) public view onlyUser isStopped 
 		returns(
 			uint,
@@ -320,7 +337,7 @@ contract VIPSMarket {
 			string memory
 		)
 	{
-	    if(_buyertoseller == true){
+	    if(_buyertoseller == 0){
     		return (
     			reviews[_tx_hash][0].item_id,
     			reviews[_tx_hash][0].buyerAddr,

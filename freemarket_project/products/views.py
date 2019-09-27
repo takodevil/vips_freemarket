@@ -180,7 +180,7 @@ def product_transact(request):
         transacts = json.loads(request.POST['prm'])
         # ページネーション
         page = request.GET.get('page', 1)
-        paginator = Paginator(transacts, 2)
+        paginator = Paginator(transacts, 10)
         try:
             transacts = paginator.page(page)
         except (EmptyPage, PageNotAnInteger):
@@ -193,6 +193,7 @@ def product_eval(request):
     """ 評価とレビュー
     """
     if request.method == 'POST':
+        # 登録に成功しているので取引一覧の画面に戻るだけ
         return TemplateResponse(request, 'gettransact.html')
     else:
         tx_hash = request.GET.get("tx_hash")

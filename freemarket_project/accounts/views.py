@@ -120,3 +120,5 @@ def modify_account(request):
 
         return render(request, 'modify_account.html', {'form': form,'results':results})
 
+def user_list(request):
+    pass

@@ -8,6 +8,7 @@ if (!localStorage.getItem('vipsmarket_address')){
     document.getElementById("header_dropdown").style.display="none";
     document.getElementById("header_sell").style.display="none";
     document.getElementById("header_list").style.display="none";
+    document.getElementById("header_user").style.display="none";
     document.getElementById("header_transact").style.display="none";
     document.getElementById("header_modify_account").style.display="none";
     document.getElementById("logout").style.display="none";
@@ -18,6 +19,7 @@ if (!localStorage.getItem('vipsmarket_address')){
     document.getElementById("header_dropdown").style.display="block";
     document.getElementById("header_sell").style.display="block";
     document.getElementById("header_list").style.display="block";
+    document.getElementById("header_user").style.display="block";
     document.getElementById("header_transact").style.display="block";
     document.getElementById("header_modify_account").style.display="block";
     document.getElementById("logout").style.display="block";

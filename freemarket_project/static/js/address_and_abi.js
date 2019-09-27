@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x71ABDdF28b9A10a92B9c26FBa0103BAa45634038";
+var address = "0xce9F9f4775f19bB20D0202f2b7348Ce5B9fE5A38";
 //abi情報
 var abi =
 [
@@ -65,6 +65,45 @@ var abi =
         {
           "name": "",
           "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "reviews",
+      "outputs": [
+        {
+          "name": "item_id",
+          "type": "uint256"
+        },
+        {
+          "name": "buyerAddr",
+          "type": "address"
+        },
+        {
+          "name": "sellerAddr",
+          "type": "address"
+        },
+        {
+          "name": "evaluation",
+          "type": "uint256"
+        },
+        {
+          "name": "comment",
+          "type": "string"
         }
       ],
       "payable": false,
@@ -190,38 +229,18 @@ var abi =
       "inputs": [
         {
           "name": "",
-          "type": "uint256"
+          "type": "address"
         }
       ],
-      "name": "reviews",
+      "name": "review_by_users",
       "outputs": [
         {
-          "name": "item_id",
+          "name": "evaluation_count",
           "type": "uint256"
         },
         {
-          "name": "buyerAddr",
-          "type": "address"
-        },
-        {
-          "name": "sellerAddr",
-          "type": "address"
-        },
-        {
-          "name": "buyertoseller",
-          "type": "bool"
-        },
-        {
-          "name": "evaluation",
+          "name": "evaluation_sum",
           "type": "uint256"
-        },
-        {
-          "name": "comment",
-          "type": "string"
-        },
-        {
-          "name": "done",
-          "type": "bool"
         }
       ],
       "payable": false,
@@ -329,8 +348,8 @@ var abi =
       ],
       "name": "banAccount",
       "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -343,8 +362,8 @@ var abi =
       ],
       "name": "bancancelAccount",
       "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -599,6 +618,10 @@ var abi =
           "type": "string"
         },
         {
+          "name": "_buyertoseller",
+          "type": "uint256"
+        },
+        {
           "name": "_item_id",
           "type": "uint256"
         },
@@ -611,16 +634,16 @@ var abi =
           "type": "address"
         },
         {
-          "name": "_buyertoseller",
-          "type": "bool"
-        },
-        {
           "name": "_evaluation",
           "type": "uint256"
         },
         {
           "name": "_comment",
           "type": "string"
+        },
+        {
+          "name": "_now_eval",
+          "type": "uint256"
         }
       ],
       "name": "register_review",
@@ -633,7 +656,11 @@ var abi =
       "constant": true,
       "inputs": [
         {
-          "name": "_review_id",
+          "name": "_tx_hash",
+          "type": "string"
+        },
+        {
+          "name": "_buyertoseller",
           "type": "uint256"
         }
       ],
@@ -653,10 +680,6 @@ var abi =
         },
         {
           "name": "",
-          "type": "bool"
-        },
-        {
-          "name": "",
           "type": "uint256"
         },
         {
@@ -670,9 +693,18 @@ var abi =
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "getReviewcount",
+      "inputs": [
+        {
+          "name": "_targetAddr",
+          "type": "address"
+        }
+      ],
+      "name": "get_review_by_user",
       "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
         {
           "name": "",
           "type": "uint256"
