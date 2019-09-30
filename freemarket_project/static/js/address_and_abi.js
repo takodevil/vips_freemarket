@@ -1,8 +1,27 @@
 //コントラクトのアドレス
-var address = "0xce9F9f4775f19bB20D0202f2b7348Ce5B9fE5A38";
+var address = "0x6AD1B65A368DAA229B2c8C823252049D768e9312";
 //abi情報
 var abi =
 [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "map_uid_addr",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
     {
       "constant": true,
       "inputs": [],
@@ -46,6 +65,18 @@ var abi =
         {
           "name": "banned",
           "type": "bool"
+        },
+        {
+          "name": "user_id",
+          "type": "uint256"
+        },
+        {
+          "name": "evaluation_count",
+          "type": "uint256"
+        },
+        {
+          "name": "evaluation_sum",
+          "type": "uint256"
         }
       ],
       "payable": false,
@@ -126,20 +157,6 @@ var abi =
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "review_count",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
       "inputs": [
         {
           "name": "",
@@ -183,6 +200,20 @@ var abi =
     },
     {
       "constant": true,
+      "inputs": [],
+      "name": "user_count",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
           "name": "",
@@ -217,29 +248,6 @@ var abi =
         },
         {
           "name": "stock",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "review_by_users",
-      "outputs": [
-        {
-          "name": "evaluation_count",
-          "type": "uint256"
-        },
-        {
-          "name": "evaluation_sum",
           "type": "uint256"
         }
       ],
@@ -332,6 +340,63 @@ var abi =
         {
           "name": "",
           "type": "bool"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_user_id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAccount_byid",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "bool"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getusercounts",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
         }
       ],
       "payable": false,
@@ -685,29 +750,6 @@ var abi =
         {
           "name": "",
           "type": "string"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_targetAddr",
-          "type": "address"
-        }
-      ],
-      "name": "get_review_by_user",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        },
-        {
-          "name": "",
-          "type": "uint256"
         }
       ],
       "payable": false,

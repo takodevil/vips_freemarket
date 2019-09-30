@@ -5,14 +5,15 @@ contract VIPSMarket {
 	address owner;
 	uint public numItems;
 	uint public transaction_count;
+	uint public user_count;
 	bool public stopped;
-	uint public review_count;
 
 	// コントラクトをデプロイしたアドレスをオーナーに設定するコンストラクタ
     constructor() public {
         owner = msg.sender;
 		numItems = 0;
 		transaction_count = 0;
+		user_count = 0;
 		stopped = false;
     }
 	// オーナーだけが実行できる
@@ -38,8 +39,13 @@ contract VIPSMarket {
 		string email;
 		bool registered;
 		bool banned;
+		uint user_id;
+		uint evaluation_count;
+	    uint evaluation_sum;
 	}	
 	mapping(address => Account) public accounts;
+	// ユーザIDとアドレスの紐付け
+	mapping(uint => address) public map_uid_addr;
 	
 	// アカウント登録
     function registerAccount(string memory _name, string memory _email) payable public noReentrancy {
@@ -49,16 +55,62 @@ contract VIPSMarket {
         accounts[msg.sender].name = _name;   
         accounts[msg.sender].email = _email; 
 		accounts[msg.sender].vips_address = msg.sender;
+		accounts[msg.sender].user_id = user_count;
+		map_uid_addr[user_count] = msg.sender;
+		user_count++;
     }
 	// アカウント修正
     function modifyAccount(string memory _name, string memory _email) public onlyUser noReentrancy {
         accounts[msg.sender].name = _name;
         accounts[msg.sender].email = _email;
     }
-	// アカウント情報取得
-	function getAccount(address _addr) public onlyUser view returns(address, string memory, string memory, bool, bool)  {
-		return (_addr, accounts[_addr].name, accounts[_addr].email, accounts[_addr].registered, accounts[_addr].banned);
+	// アカウント情報取得（アドレス指定）
+	function getAccount(address _addr) public onlyUser view 
+		returns(
+			address, 
+			string memory, 
+			string memory, 
+			bool, 
+			bool, 
+			uint
+		)  
+	{
+		return (
+			_addr, 
+			accounts[_addr].name, 
+			accounts[_addr].email, 
+			accounts[_addr].registered, 
+			accounts[_addr].banned, 
+			accounts[_addr].user_id
+		);
 	}
+
+	// アカウント情報取得（ID指定）
+	function getAccount_byid(uint _user_id) public onlyUser view 
+		returns(
+			address, 
+			string memory, 
+			string memory, 
+			bool, 
+			uint,
+			uint
+		)  
+	{
+		return (
+			accounts[map_uid_addr[_user_id]].vips_address, 
+			accounts[map_uid_addr[_user_id]].name, 
+			accounts[map_uid_addr[_user_id]].email, 
+			accounts[map_uid_addr[_user_id]].banned, 
+			accounts[map_uid_addr[_user_id]].evaluation_count, 
+			accounts[map_uid_addr[_user_id]].evaluation_sum
+		);
+	}
+
+	// アカウント数取得
+	function getusercounts() public view returns(uint){
+		return user_count;
+	}
+
 	// アカウントban
     function banAccount(address _target) payable public onlyUser {
         require(!accounts[_target].banned);
@@ -258,13 +310,7 @@ contract VIPSMarket {
 		string comment;
 	}
 	mapping(string => mapping(uint => review)) public reviews;
-	// ユーザ単位で評価を記録
-	struct review_by_user {
-	    uint evaluation_count;
-	    uint evaluation_sum;
-	}
-	mapping(address => review_by_user) public review_by_users;
-
+	// 評価を登録
 	function register_review (
 	    string memory _tx_hash,
 		uint _buyertoseller,
@@ -291,13 +337,13 @@ contract VIPSMarket {
 		if(_buyertoseller == 0){
 			// 未評価の場合
 			if(_now_eval == 0){
-			    review_by_users[_sellerAddr].evaluation_count++;
-			    review_by_users[_sellerAddr].evaluation_sum += _evaluation;
+			    accounts[_sellerAddr].evaluation_count++;
+			    accounts[_sellerAddr].evaluation_sum += _evaluation;
 			}
 			// 評価済の場合
 			else{
-			    review_by_users[_sellerAddr].evaluation_sum -= _now_eval;
-			    review_by_users[_sellerAddr].evaluation_sum += _evaluation;
+			    accounts[_sellerAddr].evaluation_sum -= _now_eval;
+			    accounts[_sellerAddr].evaluation_sum += _evaluation;
 			}
     		reviews[_tx_hash][0].item_id = _item_id;
     		reviews[_tx_hash][0].buyerAddr = _buyerAddr;
@@ -309,13 +355,13 @@ contract VIPSMarket {
 		else{
 			// 未評価の場合
 			if(_now_eval == 0){
-			    review_by_users[_buyerAddr].evaluation_count++;
-			    review_by_users[_buyerAddr].evaluation_sum += _evaluation;
+			    accounts[_buyerAddr].evaluation_count++;
+			    accounts[_buyerAddr].evaluation_sum += _evaluation;
 			}
 			// 評価済の場合
 			else{
-			    review_by_users[_buyerAddr].evaluation_sum -= _now_eval;
-			    review_by_users[_buyerAddr].evaluation_sum += _evaluation;
+			    accounts[_buyerAddr].evaluation_sum -= _now_eval;
+			    accounts[_buyerAddr].evaluation_sum += _evaluation;
 			}
     		reviews[_tx_hash][1].item_id = _item_id;
     		reviews[_tx_hash][1].buyerAddr = _buyerAddr;
@@ -324,7 +370,7 @@ contract VIPSMarket {
     		reviews[_tx_hash][1].comment = _comment;
 		}
 	}
-
+	// 評価情報取得
 	function get_review (
 		string memory _tx_hash,
 		uint _buyertoseller
@@ -356,20 +402,6 @@ contract VIPSMarket {
     		);
 	   } 
 	}
-
-    function get_review_by_user(
-        address _targetAddr
-    ) public view onlyUser isStopped 
-        returns(
-            uint,
-            uint
-        )
-    {
-        return (
-            review_by_users[_targetAddr].evaluation_count,
-            review_by_users[_targetAddr].evaluation_sum
-        );
-    }
 
     // ================
     // セキュリティー対策

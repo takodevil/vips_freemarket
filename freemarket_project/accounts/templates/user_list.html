@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block contents %}
+
+<table class="table table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+    <tr align="center">
+        <th scope="col">ユーザ名</th>
+        <th scope="col">メールアドレス</th>
+        <th scope="col">平均評価（1～5)</th>
+        <th scope="col">評価された回数</th>
+        <th scope="col">VIPSアドレス</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user_list in user_lists %}
+      <tr class="table-light" align="center">
+          <td class="username" style="vertical-align:middle;">{{ user_list.1 }}</td>
+          <td class="mailaddr" style="vertical-align:middle;">{{ user_list.2 }}</td>
+          <td class="avg_eval" style="vertical-align:middle;">{{ user_list.avg_eval }}</td>
+          <td class="eval_cnt" style="vertical-align:middle;">{{ user_list.4 }}</td>
+          <td class="vips_addr" style="vertical-align:middle;">{{ user_list.0 }}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+</table>
+<ul class="pagination">
+  {% if user_lists.has_previous %}
+    <li><a class="page-link text-primary d-inline-block" href="?page={{ user_lists.previous_page_number }}">＜</a></li>
+  {% else %}
+    <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＜</div></li>
+  {% endif %}
+
+    {% for link_page in user_lists.paginator.page_range %}
+        {% if link_page %}
+            {% if link_page == user_lists.number %}
+                <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">{{ link_page }}</div></li>
+            {% else %}
+                <li><a class="page-link text-primary d-inline-block" href="?page={{ link_page }}">{{ link_page }}</a></li>
+            {% endif %}
+        {% else %}
+            <li class="disabled"><a class="page-link text-secondary d-inline-block text-muted" href="#">・・・</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if user_lists.has_next %}
+        <li><a class="page-link text-primary d-inline-block" href="?page={{ user_lists.next_page_number }}">＞</a></li>
+    {% else %}
+        <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
+    {% endif %}
+</ul>
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}

@@ -1,4 +1,6 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
+from django.template.response import TemplateResponse
 from .forms import SignUpForm, ModifyForm, LoginForm
 from django.http import HttpResponse
 from .mailtest import mailtest
@@ -121,4 +123,18 @@ def modify_account(request):
         return render(request, 'modify_account.html', {'form': form,'results':results})
 
 def user_list(request):
-    pass
+    """ユーザ一覧
+    """
+    if request.method == 'POST':
+        # json文字列で取引の全データを受け取る
+        params = json.loads(request.POST['prm'])
+        # ページネーション
+        page = request.GET.get('page', 1)
+        paginator = Paginator(params, 10)
+        try:
+            user_lists = paginator.page(page)
+        except (EmptyPage, PageNotAnInteger):
+            user_lists = paginator.page(1)
+        return TemplateResponse(request, 'user_list.html', {'user_lists': user_lists})
+    else:
+        return TemplateResponse(request, 'getuser.html')

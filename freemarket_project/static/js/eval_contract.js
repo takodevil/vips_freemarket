@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', function(){
     var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
     // 現在の評価を取得
     var now_eval = 0;
+    // 自分の相手に対する評価
     contract.methods.get_review(tx_hash, buyertoseller).call({
                     from:vipstarcoin_address,
                     gas:3000000
@@ -34,6 +35,38 @@ window.addEventListener('DOMContentLoaded', function(){
                         now_eval = Number(result[3]);
                     }
                  });
+    // 相手の自分に対する評価
+    // フラグ反転
+    if(buyertoseller == 0){
+        buyertoseller = 1;
+    }
+    else{
+        buyertoseller = 0;
+    }
+    contract.methods.get_review(tx_hash, buyertoseller).call({
+                    from:vipstarcoin_address,
+                    gas:3000000
+                 }, function(error,result){
+                    console.log(result);
+                    // 未評価はevaluationが0
+                    if (result[3] != "0"){
+                        evaluation = Number(result[3]);
+                        comment =  web3.utils.hexToUtf8(result[4]);
+                        document.getElementById("rateit2").innerHTML += "相手の評価：";
+                        for(var i = 0; i < evaluation; i++){
+                            document.getElementById("rateit2").innerHTML += "★";
+                        };
+                        document.getElementById("comment2").innerHTML = comment;
+                        now_eval = Number(result[3]);
+                    }
+                 });
+    // 元に戻す
+    if(buyertoseller == 0){
+        buyertoseller = 1;
+    }
+    else{
+        buyertoseller = 0;
+    }
 
     $("#eval").click(function(){
         // ５段階評価の数値を取得　DOMから現在表示中の値を取得する
