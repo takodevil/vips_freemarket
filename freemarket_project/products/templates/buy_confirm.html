@@ -5,10 +5,11 @@
 {% block contents %}
 <form id="buy_form" method="post">
     {% csrf_token %}
+      <input type="hidden" name="confirmed" value="1">
     <p>　注文数量：</p>
-    <p><input type="number" id="id_ordercount" name="ordercount_confirm" min="1" size="5" required></p>
+    <p><input type="number" id="id_ordercount" name="ordercount_confirm" min="1" size="5" required value={{ ordercount_confirm }}></p>
     <p>　メール本文（任意）：</p>
-    <p><textarea id="param_mail_text" name="mail_text" rows="4" cols="80"></textarea></p>
+    <p><textarea id="param_mail_text" name="mail_text" rows="4" cols="80" readonly>{{ mail_text }}</textarea></p>
 
     <input type="hidden" id="param_apply_flag" name="apply_flag">
     <input type="hidden" id="param_seller_addr" name="seller_addr">
@@ -23,8 +24,8 @@
     <input type="hidden" id="param_product_stock" name="product_stock">
     <input type="hidden" id="param_product_description" name="product_description">
     <input type="hidden" id="param_ordercount" name="ordercount">
-    <input type="submit" class="btn btn-primary" value="確認"></input>
-    <button type="button" id="apply" class="btn btn-primary">出品者に事前確認メールを送信</button>
+    <button type="button" id="buy" class="btn btn-primary">注文</button>
+    <a href="javascript:history.back()">戻る</a>
     <font color="red"><span id="message"></span></font>
 </form>
 

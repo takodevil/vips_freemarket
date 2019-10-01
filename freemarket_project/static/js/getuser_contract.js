@@ -23,8 +23,6 @@ window.addEventListener('DOMContentLoaded', function(){
                 function(error,result){
                     result["1"] = web3.utils.hexToUtf8(result["1"]);
                     result["avg_eval"] = Math.round((Number(result["5"]) / Number(result["4"])) * 10) / 10;
-                    console.log(result["5"]);
-                    console.log(result["4"]);
                     if(isNaN(result["avg_eval"]) || !isFinite(result["avg_eval"])){
                         result["avg_eval"] = "未評価";
                     }
@@ -39,4 +37,5 @@ window.addEventListener('DOMContentLoaded', function(){
             });
         };
      });
+
 });

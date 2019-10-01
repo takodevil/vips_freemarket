@@ -52,7 +52,6 @@ window.addEventListener('DOMContentLoaded', function(){
                     if (result[3] != "0"){
                         evaluation = Number(result[3]);
                         comment =  web3.utils.hexToUtf8(result[4]);
-                        document.getElementById("rateit2").innerHTML += "相手の評価：";
                         for(var i = 0; i < evaluation; i++){
                             document.getElementById("rateit2").innerHTML += "★";
                         };

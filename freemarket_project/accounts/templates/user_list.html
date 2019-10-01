@@ -7,6 +7,7 @@
 <table class="table table-bordered table-hover table-striped">
     <thead class="thead-dark">
     <tr align="center">
+        <th scope="col">　</th>
         <th scope="col">ユーザ名</th>
         <th scope="col">メールアドレス</th>
         <th scope="col">平均評価（1～5)</th>
@@ -17,6 +18,16 @@
     <tbody>
     {% for user_list in user_lists %}
       <tr class="table-light" align="center">
+          <td class="banned" style="vertical-align:middle;">
+              <script>
+              if("{{ user_list.3 }}" == "False"){
+                  document.write('<input type="button" id="{{ user_list.0 }}" class="ban btn btn-primary" value="BAN" >');
+              }
+              else{
+                  document.write('<input type="button" id="{{ user_list.0 }}" class="ban_cancel btn btn-primary" value="BAN解除" >');
+              }
+              </script>
+          </td>
           <td class="username" style="vertical-align:middle;">{{ user_list.1 }}</td>
           <td class="mailaddr" style="vertical-align:middle;">{{ user_list.2 }}</td>
           <td class="avg_eval" style="vertical-align:middle;">{{ user_list.avg_eval }}</td>
@@ -51,5 +62,5 @@
         <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
     {% endif %}
 </ul>
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/ban_contract.js' %}"></script>
 {% endblock %}

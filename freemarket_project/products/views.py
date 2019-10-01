@@ -119,7 +119,8 @@ def product_buy(request):
             'product_price': request.POST['product_price'],
             'product_stock': request.POST['product_stock'],
             'product_description': request.POST['product_description'],
-            'ordercount': request.POST['ordercount']
+            'ordercount': request.POST['ordercount'],
+            'mail_text': request.POST['mail_text']
         }
         # 住所とgmailのパスワードを復号して読み込み
         with open('params.txt', mode="r") as f:
@@ -153,13 +154,25 @@ def product_buy(request):
             return redirect('products:list')
         else:
             # 購入ボタンの場合
-            try:
-                send_mail(params)
-                messages.success(request, '出品者に購入通知メールを送信しました。')
-            except:
-                messages.error(request, '出品者への購入通知メール送信に失敗しました。')
+            # ２回目の場合はメール送信してリダイレクト先のlist.htmlで結果メッセージを表示
+            if 'confirmed' in request.POST:
+                try:
+                    send_mail(params)
+                    messages.success(request, '出品者に購入通知メールを送信しました。')
+                except:
+                    messages.error(request, '出品者への購入通知メール送信に失敗しました。')
+                return redirect('products:list')
+            else:
+                # 1回目の場合は確認画面を再度表示
+                id = request.GET.get("id")
+                # 元画面の注文数量とメール本文を引き継ぎ
+                ordercount_confirm = request.POST['ordercount_confirm']
+                mail_text = request.POST['mail_text']
 
-            return redirect('products:list')
+                return TemplateResponse(request, 'buy_confirm.html',
+                                        {'ordercount_confirm': ordercount_confirm,
+                                         'mail_text': mail_text,
+                                         'id': id})
 
     else:
         # GETの場合はProductBuyingFormを表示

@@ -24,9 +24,15 @@ contract VIPSMarket {
 	// 登録済みユーザだけが実行できる
     modifier onlyUser {
         require(accounts[msg.sender].registered);
-        require(!accounts[msg.sender].banned);
         _;
     }
+
+	// banされているユーザは実行できない
+	modifier notBannedUser {
+        require(!accounts[msg.sender].banned);
+        _;
+	}
+
 
     // ================
     // アカウント
@@ -141,7 +147,7 @@ contract VIPSMarket {
 	mapping(uint => item) public items;
 
 	// 出品する関数
-    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped noReentrancy {
+    function exhibit(string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser notBannedUser isStopped noReentrancy {
         items[numItems].sellerAddr = msg.sender;
         items[numItems].seller = accounts[msg.sender].name;
         items[numItems].name = _name;
@@ -189,7 +195,7 @@ contract VIPSMarket {
 		return numItems;
 	}
 	// 商品データを編集
-	function editItem(uint _numItems, string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser isStopped noReentrancy{
+	function editItem(uint _numItems, string memory _name, uint _price, uint _stock, string memory _description, string memory _image_uri) public onlyUser notBannedUser isStopped noReentrancy{
 		require(msg.sender == items[_numItems].sellerAddr);
 		
 		items[_numItems].name = _name;
@@ -199,7 +205,7 @@ contract VIPSMarket {
 		items[_numItems].image_uri = _image_uri;
 	}
 	// 商品を削除
-	function removeItem(uint _numItems) public onlyUser isStopped{
+	function removeItem(uint _numItems) public onlyUser notBannedUser isStopped{
 		require(msg.sender == items[_numItems].sellerAddr);
 		// 値としてゼロを割り当てる
 		delete items[_numItems];
@@ -244,7 +250,7 @@ contract VIPSMarket {
 		string memory _registered_time,
 		address _buyerAddr,
 		address _sellerAddr
-	) public onlyUser isStopped noReentrancy {
+	) public onlyUser notBannedUser isStopped noReentrancy {
 		// 注文数が1以上であること
 		require(_ordercount >= 1);
 		// 在庫が十分あること
@@ -320,7 +326,7 @@ contract VIPSMarket {
 		uint _evaluation,
 		string memory _comment,
 		uint _now_eval
-	) public onlyUser isStopped noReentrancy{
+	) public onlyUser notBannedUser isStopped noReentrancy{
 		// 購入済であること
 		require(registered_tx_hashes[_tx_hash] == true);
 		// 評価は１～５の５段階評価

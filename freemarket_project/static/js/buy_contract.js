@@ -19,32 +19,38 @@ window.addEventListener('DOMContentLoaded', function(){
         else if (ordercount <= 0) {
             message.innerHTML = "注文数量には１以上の値を入力してください"
         }
+        else if (!Number.isInteger(ordercount)){
+            message.innerHTML = "注文数量には整数を入力してください"
+        }
         else {
-        // 事前確認のボタン　メール送信するためのパラメータを詰め込んでPOSTする
-            contract.methods.getAccount(sellerAddr).call({},
-                function(error,result){
-                    // 事前確認であることのフラグ
-                    document.getElementById("param_apply_flag").value = "1";
-                    // 出品者情報
-                    document.getElementById("param_seller_addr").value = result[0];
-                    document.getElementById("param_seller_name").value = web3.utils.hexToUtf8(result[1]);
-                    document.getElementById("param_seller_mail").value = result[2];
-                    // 購入者情報
-                    document.getElementById("param_buyer_addr").value = localStorage.getItem('vipsmarket_address');
-                    document.getElementById("param_buyer_name").value = localStorage.getItem('vipsmarket_name');
-                    document.getElementById("param_buyer_mail").value = localStorage.getItem('vipsmarket_email');
-                    // 商品情報
-                    document.getElementById("param_product_no").value = document.getElementById("id_no").innerHTML;
-                    document.getElementById("param_product_name").value = document.getElementById("id_product").innerHTML;
-                    document.getElementById("param_product_price").value = document.getElementById("id_price").innerHTML;
-                    document.getElementById("param_product_stock").value = document.getElementById("id_stock").innerHTML;
-                    document.getElementById("param_product_description").value =  document.getElementById("id_description").innerHTML;
-                    // 注文数量
-                    document.getElementById("param_ordercount").value = Number(document.getElementById("id_ordercount").value);
-                }
-            ).then(function(){
-                $('#buy_form').submit();
-            });
+            if(confirm("出品者に事前確認メールを送信します。本当によろしいですか？")){
+
+               // 事前確認のボタン　メール送信するためのパラメータを詰め込んでPOSTする
+                contract.methods.getAccount(sellerAddr).call({},
+                    function(error,result){
+                        // 事前確認であることのフラグ
+                        document.getElementById("param_apply_flag").value = "1";
+                        // 出品者情報
+                        document.getElementById("param_seller_addr").value = result[0];
+                        document.getElementById("param_seller_name").value = web3.utils.hexToUtf8(result[1]);
+                        document.getElementById("param_seller_mail").value = result[2];
+                        // 購入者情報
+                        document.getElementById("param_buyer_addr").value = localStorage.getItem('vipsmarket_address');
+                        document.getElementById("param_buyer_name").value = localStorage.getItem('vipsmarket_name');
+                        document.getElementById("param_buyer_mail").value = localStorage.getItem('vipsmarket_email');
+                        // 商品情報
+                        document.getElementById("param_product_no").value = document.getElementById("id_no").innerHTML;
+                        document.getElementById("param_product_name").value = document.getElementById("id_product").innerHTML;
+                        document.getElementById("param_product_price").value = document.getElementById("id_price").innerHTML;
+                        document.getElementById("param_product_stock").value = document.getElementById("id_stock").innerHTML;
+                        document.getElementById("param_product_description").value =  document.getElementById("id_description").innerHTML;
+                        // 注文数量
+                        document.getElementById("param_ordercount").value = Number(document.getElementById("id_ordercount").value);
+                    }
+                ).then(function(){
+                    $('#buy_form').submit();
+                });
+             }
          }
     });
     $("#buy").click(function(){
@@ -58,8 +64,11 @@ window.addEventListener('DOMContentLoaded', function(){
         else if (ordercount <= 0) {
             message.innerHTML = "注文数量には１以上の値を入力してください"
         }
+        else if (!Number.isInteger(ordercount)){
+            message.innerHTML = "注文数量には整数を入力してください"
+        }
         else {
-            if(confirm(amount + "送金されます。本当に注文してもよろしいですか？")){
+            if(confirm(amount + "VIPS送金されます。本当に注文してもよろしいですか？")){
                 // アドレスはログインしていればローカルから取れる
                 var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
                 // 商品番号を取得
