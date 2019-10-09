@@ -11,6 +11,7 @@ if (!localStorage.getItem('vipsmarket_address')){
     document.getElementById("header_user").style.display="none";
     document.getElementById("header_transact").style.display="none";
     document.getElementById("header_modify_account").style.display="none";
+    document.getElementById("header_ban_history").style.display="none";
     document.getElementById("logout").style.display="none";
 } else {
 // ログイン済
@@ -22,5 +23,6 @@ if (!localStorage.getItem('vipsmarket_address')){
     document.getElementById("header_user").style.display="block";
     document.getElementById("header_transact").style.display="block";
     document.getElementById("header_modify_account").style.display="block";
+    document.getElementById("header_ban_history").style.display="block";
     document.getElementById("logout").style.display="block";
 }

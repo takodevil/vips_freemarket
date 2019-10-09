@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', function(){
             message.innerHTML = "注文数量には整数を入力してください"
         }
         else {
-            if(confirm("出品者に事前確認メールを送信します。本当によろしいですか？")){
+            if(confirm("出品者に事前確認メールを送信します。メールには登録済の発送先住所が記載されます。本当によろしいですか？")){
 
                // 事前確認のボタン　メール送信するためのパラメータを詰め込んでPOSTする
                 contract.methods.getAccount(sellerAddr).call({},
@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', function(){
             message.innerHTML = "注文数量には整数を入力してください"
         }
         else {
-            if(confirm(amount + "VIPS送金されます。本当に注文してもよろしいですか？")){
+            if(confirm(amount + "VIPS送金され、出品者への通知メールには発送先住所が記載されます。本当に注文してもよろしいですか？")){
                 // アドレスはログインしていればローカルから取れる
                 var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
                 // 商品番号を取得

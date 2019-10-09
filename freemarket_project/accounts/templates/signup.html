@@ -9,6 +9,15 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">サインアップ</h3>
+          <p>ハンドルネーム、gmailアドレス、VIPSアドレスはブロックチェーン上に永続的に記録されます。<br>
+            個人情報を特定できる情報を記載しないでください。<br>
+            また、利用するgmailアカウントには「安全性の低いアプリのアクセス」を許可する必要があります。<br>
+            専用のアカウントを用意することを強く推奨します。
+          </p>
+          <p>VIPSアドレスにはPCウォレットのアドレスの一つを記載してください。<br>
+          アカウント登録には、そのアドレスに10000VIPS+α（少量のガス代）の残高が必要です。<br>
+          アドレスは登録後に変更することはできません。</p>
+          <p>gmailパスワードおよび発送先住所はローカルのPCに暗号化した上で保存され、出品者への確認メール送信と商品購入時の通知メール送信時に復号して利用されます。</p>
           <form id="signup_form" method="post" novalidate style="margin-bottom:20px;">
             {% csrf_token %}
             {% include 'includes/form.html' %}

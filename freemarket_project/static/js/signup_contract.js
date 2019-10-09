@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', function(){
         // メールアドレスの確認が終わっているか確認
         // かなり強引
         var doc = document.getElementsByTagName("iframe")[0].contentDocument;
-        if(doc.body.innerHTML != 'メールを送信しました。受信できていることを確認してください'){
+        if(doc.body.innerHTML != 'メールを送信しました。受信できていることを確認してOKボタンを押してください'){
             message.innerHTML = 'メールアドレスの確認を行なってください'
         }
         else{

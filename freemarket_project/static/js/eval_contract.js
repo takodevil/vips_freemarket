@@ -15,6 +15,21 @@ window.addEventListener('DOMContentLoaded', function(){
     }
     // アドレスはログインしていればローカルから取れる
     var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
+    // 自分は取引に関係ない第３者か？
+    var other_flag = 0;
+    if (vipstarcoin_address.toLowerCase() != document.getElementById("buyerAddr").value.toLowerCase() && vipstarcoin_address.toLowerCase() != document.getElementById("sellerAddr").value.toLowerCase()){
+        other_flag = 1;
+    }
+    if (other_flag == 1){
+         $("#eval").hide();
+         $("#rateit1").hide();
+         $("#label1").text("出品者⇒購入者への評価");
+         $("#label2").text("出品者⇒購入者へのコメント");
+         $("#label3").text("購入者⇒出品者への評価");
+         $("#label4").text("購入者⇒出品者へのコメント");
+　       $("#comment").attr('readonly',true);
+　       $("#comment2").attr('readonly',true);
+    }
     // 現在の評価を取得
     var now_eval = 0;
     // 自分の相手に対する評価
@@ -27,7 +42,9 @@ window.addEventListener('DOMContentLoaded', function(){
                     if (result[3] != "0"){
                         evaluation = Number(result[3]);
                         comment =  web3.utils.hexToUtf8(result[4]);
-                        document.getElementById("rateit0").innerHTML += "現在の評価：";
+                        if (other_flag == 0){
+                            document.getElementById("rateit0").innerHTML += "現在の評価：";
+                        }
                         for(var i = 0; i < evaluation; i++){
                             document.getElementById("rateit0").innerHTML += "★";
                         };

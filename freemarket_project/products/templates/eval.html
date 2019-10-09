@@ -8,7 +8,7 @@
 {% block contents %}
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'js/RateIt/jquery.rateit.min.js' %}"></script>
-<p>評価</p>
+<p id="label1">評価</p>
 <div style="color:rgb(191,66,66)" id="rateit0"></div>
 <div id="rateit1" class="rateit"
     data-rateit-value="4"
@@ -17,10 +17,9 @@
     data-rateit-step="1">
 </div>
 <form id="eval_form">
-    <p>コメント</p>
+    <p id="label2">コメント</p>
     <div><textarea id="comment" rows="4" cols="100"></textarea></div>
     <input id="eval" type="button" class="btn btn-primary" value="送信">
-    <a href="{% url 'products:transact' %}">戻る</a>
     <input id="tx_hash" type="hidden" value={{ tx_hash }}></input>
     <input id="item_id" type="hidden" value={{ item_id }}></input>
     <input id="buyerAddr" type="hidden" value={{ buyerAddr }}></input>
@@ -28,10 +27,11 @@
     <input id="buyertoseller" type="hidden" value={{ buyertoseller }}></input>
     <font color="red"><span id="message"></span></font>
 </form>
-<p>相手の評価</p>
+<p id="label3">相手の評価</p>
 <div style="color:rgb(191,66,66)"  id="rateit2"></div>
-<p>相手のコメント</p>
+<p id="label4">相手のコメント</p>
 <div><textarea id="comment2" rows="4" cols="100" readonly></textarea></div>
+<a href="{% url 'products:transact' %}">戻る</a>
 
 <script>
     $("#rateit1").rateit();

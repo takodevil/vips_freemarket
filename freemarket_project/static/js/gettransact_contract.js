@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function(){
     var result_array = [];
     var transaction_count = 0;
     var copy_transaction_count = 0;
-    // 商品の全体数を取得しておく
+    // 取引の全体数を取得しておく
     contract.methods.getTransactcount().call({},
         function(error,result){
             transaction_count = result;

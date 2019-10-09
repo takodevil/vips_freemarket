@@ -32,22 +32,24 @@ window.addEventListener('DOMContentLoaded', function(){
                     $(".buyerAddr").eq(i).text(result_array[i]["from"]);
                     $(".sellerAddr").eq(i).text(result_array[i]["to"]);
                     $(".amount").eq(i).text(result_array[i]["value"]);
+
+                    tx_hash = result_array[i]["hash"]
+                    item_id = $(".item_id").eq(i).text();
+                    buyerAddr = result_array[i]["from"];
+                    sellerAddr = result_array[i]["to"];
                     // 自分が購入者なら出品者を評価し、出品者なら購入者を評価できるようにする
+                    // 関係ないユーザは参照のみ
                     if (localStorage.getItem('vipsmarket_address') == result_array[i]["from"].toLowerCase()){
-                        tx_hash = result_array[i]["hash"]
-                        item_id = $(".item_id").eq(i).text();
-                        buyerAddr = result_array[i]["from"];
-                        sellerAddr = result_array[i]["to"];
                         buyertoseller = true;
                         str = '<td class="eval" style="vertical-align:middle;"><a href="eval?tx_hash=' + tx_hash + '&item_id=' + item_id + '&buyerAddr=' + buyerAddr + '&sellerAddr=' + sellerAddr + '&buyertoseller=' + buyertoseller + '">出品者を評価</a></td>'
                         $(".eval").eq(i).replaceWith(str);
                     }else if(localStorage.getItem('vipsmarket_address') == result_array[i]["to"].toLowerCase()){
-                        tx_hash = result_array[i]["hash"]
-                        item_id = $(".item_id").eq(i).text();
-                        buyerAddr = result_array[i]["from"];
-                        sellerAddr = result_array[i]["to"];
                         buyertoseller = false;
                         str = '<td class="eval" style="vertical-align:middle;"><a href="eval?tx_hash=' + tx_hash + '&item_id=' + item_id + '&buyerAddr=' + buyerAddr + '&sellerAddr=' + sellerAddr + '&buyertoseller=' + buyertoseller + '">購入者を評価</a></td>'
+                        $(".eval").eq(i).replaceWith(str);
+                    }else {
+                        buyertoseller = false;
+                        str = '<td class="eval" style="vertical-align:middle;"><a href="eval?tx_hash=' + tx_hash + '&item_id=' + item_id + '&buyerAddr=' + buyerAddr + '&sellerAddr=' + sellerAddr + '&buyertoseller=' + buyertoseller + '">評価を見る</a></td>'
                         $(".eval").eq(i).replaceWith(str);
                     }
                 }

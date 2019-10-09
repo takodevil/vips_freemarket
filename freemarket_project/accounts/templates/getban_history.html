@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block contents %}
+<table class="table table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+    <tr align="center">
+        <th scope="col">　　　　</th>
+        <th scope="col">実行者アドレス</th>
+        <th scope="col">対象者アドレス</th>
+    </tr>
+    </thead>
+</table>
+<form id="getBan_history_form" method="post">
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <input type="hidden" id="Items" name="prm">
+</form>
+<script src="{% static 'js/getban_history_contract.js' %}"></script>
+{% endblock %}

@@ -6,55 +6,59 @@ window.addEventListener('DOMContentLoaded', function(){
     }
 
     $(".ban").click(function(event){
-        var target_addr = event.target.id;
-        var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
-        try{
-            var result = contract.methods.banAccount(
-                            target_addr
-                         ).send({
-                            from:vipstarcoin_address,
-                            gas:3000000,
-                            value:10000
-                         });
-            result.then(
-                function(){
-                    window.alert("BANに成功しました。");
-                    location.href = "http://localhost:8000/user_list/";
-                },
-                function(){
-                    window.alert("BANに失敗しました。");
-                }
-            );
-        }
-        catch(e){
-            console.error(e);
+        if(confirm("このユーザをBANします。この処理には10000VIPS必要です。本当によろしいですか？")){
+            var target_addr = event.target.id;
+            var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
+            try{
+                var result = contract.methods.banAccount(
+                                target_addr
+                             ).send({
+                                from:vipstarcoin_address,
+                                gas:3000000,
+                                value:10000
+                             });
+                result.then(
+                    function(){
+                        window.alert("BANに成功しました。");
+                        location.href = "http://localhost:8000/user_list/";
+                    },
+                    function(){
+                        window.alert("BANに失敗しました。");
+                    }
+                );
+            }
+            catch(e){
+                console.error(e);
+            }
         }
     });
 
     $(".ban_cancel").click(function(){
-        var target_addr = event.target.id;
-        var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
-        try{
-            var result = contract.methods.bancancelAccount(
-                            target_addr
-                         ).send({
-                            from:vipstarcoin_address,
-                            gas:3000000,
-                            value:10000
-                         });
-            result.then(
-                function(){
-                    window.alert("BANの解除に成功しました。");
-                    location.href = "http://localhost:8000/user_list/";
-                },
-                function(){
-                    window.alert("BANの解除に失敗しました。");
-                }
-            );
-        }
-        catch(e){
-            console.error(e);
-        }
+        if(confirm("このユーザのBANを解除します。この処理には10000VIPS必要です。本当によろしいですか？")){
+            var target_addr = event.target.id;
+            var vipstarcoin_address = localStorage.getItem('vipsmarket_address');
+            try{
+                var result = contract.methods.bancancelAccount(
+                                target_addr
+                             ).send({
+                                from:vipstarcoin_address,
+                                gas:3000000,
+                                value:10000
+                             });
+                result.then(
+                    function(){
+                        window.alert("BANの解除に成功しました。");
+                        location.href = "http://localhost:8000/user_list/";
+                    },
+                    function(){
+                        window.alert("BANの解除に失敗しました。");
+                    }
+                );
+            }
+            catch(e){
+                console.error(e);
+            }
+         }
     });
 });
 

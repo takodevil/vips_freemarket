@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x87A3D0e15e7ea236E0Fad9636390F878dE9866aC";
+var address = "0x46D2A4807cC1A0722644BfC39C8A03F6285BA78C";
 //abi情報
 var abi =
 [
@@ -258,6 +258,20 @@ var abi =
     {
       "constant": true,
       "inputs": [],
+      "name": "ban_history_count",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
       "name": "transaction_count",
       "outputs": [
         {
@@ -429,6 +443,51 @@ var abi =
       "outputs": [],
       "payable": true,
       "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_ban_history_count",
+          "type": "uint256"
+        }
+      ],
+      "name": "getban_history",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getban_history_count",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {

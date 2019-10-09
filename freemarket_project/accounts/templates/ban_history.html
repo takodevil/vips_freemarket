@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block contents %}
+
+<table class="table table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+    <tr align="center">
+        <th scope="col">　　　　</th>
+        <th scope="col">実行者アドレス</th>
+        <th scope="col">対象者アドレス</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ban_history in ban_histories %}
+      <tr class="table-light" align="center">
+          <td class="banned" style="vertical-align:middle;">
+              <script>
+              if("{{ ban_history.2 }}" == 0){
+                  document.write('BAN');
+              }
+              else{
+                  document.write('BAN解除');
+              }
+              </script>
+          </td>
+          <td class="executor" style="vertical-align:middle;">{{ ban_history.0 }}</td>
+          <td class="target" style="vertical-align:middle;">{{ ban_history.1 }}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+</table>
+<ul class="pagination">
+  {% if ban_histories.has_previous %}
+    <li><a class="page-link text-primary d-inline-block" href="?page={{ ban_histories.previous_page_number }}">＜</a></li>
+  {% else %}
+    <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＜</div></li>
+  {% endif %}
+
+    {% for link_page in ban_histories.paginator.page_range %}
+        {% if link_page %}
+            {% if link_page == ban_histories.number %}
+                <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">{{ link_page }}</div></li>
+            {% else %}
+                <li><a class="page-link text-primary d-inline-block" href="?page={{ link_page }}">{{ link_page }}</a></li>
+            {% endif %}
+        {% else %}
+            <li class="disabled"><a class="page-link text-secondary d-inline-block text-muted" href="#">・・・</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if ban_histories.has_next %}
+        <li><a class="page-link text-primary d-inline-block" href="?page={{ ban_histories.next_page_number }}">＞</a></li>
+    {% else %}
+        <li class="disabled"><div class="page-link text-secondary d-inline-block disabled" href="#">＞</div></li>
+    {% endif %}
+</ul>
+{% endblock %}

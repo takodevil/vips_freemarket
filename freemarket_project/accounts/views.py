@@ -27,7 +27,7 @@ def signup(request):
                 test_emailaddress = request.POST['test_emailaddress']
                 test_emailpassword = request.POST['test_emailpassword']
                 mailtest(test_emailaddress,test_emailpassword)
-                return HttpResponse('メールを送信しました。受信できていることを確認してください')
+                return HttpResponse('メールを送信しました。受信できていることを確認してOKボタンを押してください')
             except:
                 return HttpResponse('メール送信に失敗しました。')
         else:
@@ -60,7 +60,7 @@ def modify_account(request):
                 test_emailaddress = request.POST['test_emailaddress']
                 test_emailpassword = request.POST['test_emailpassword']
                 mailtest(test_emailaddress,test_emailpassword)
-                return HttpResponse('メールを送信しました。受信できていることを確認してください')
+                return HttpResponse('メールを送信しました。受信できていることを確認してOKボタンを押してください')
             except:
                 return HttpResponse('メール送信に失敗しました。')
         else:
@@ -138,3 +138,20 @@ def user_list(request):
         return TemplateResponse(request, 'user_list.html', {'user_lists': user_lists})
     else:
         return TemplateResponse(request, 'getuser.html')
+
+def ban_history(request):
+    """BAN履歴
+    """
+    if request.method == 'POST':
+        # json文字列で取引の全データを受け取る
+        params = json.loads(request.POST['prm'])
+        # ページネーション
+        page = request.GET.get('page', 1)
+        paginator = Paginator(params, 10)
+        try:
+            ban_histories = paginator.page(page)
+        except (EmptyPage, PageNotAnInteger):
+            ban_histories = paginator.page(1)
+        return TemplateResponse(request, 'ban_history.html', {'ban_histories': ban_histories})
+    else:
+        return TemplateResponse(request, 'getban_history.html')

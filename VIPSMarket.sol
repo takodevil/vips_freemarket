@@ -6,6 +6,7 @@ contract VIPSMarket {
 	uint public numItems;
 	uint public transaction_count;
 	uint public user_count;
+	uint public ban_history_count;
 	bool public stopped;
 
 	// コントラクトをデプロイしたアドレスをオーナーに設定するコンストラクタ
@@ -14,6 +15,7 @@ contract VIPSMarket {
 		numItems = 0;
 		transaction_count = 0;
 		user_count = 0;
+		ban_history_count = 0;
 		stopped = false;
     }
 	// オーナーだけが実行できる
@@ -121,15 +123,49 @@ contract VIPSMarket {
     function banAccount(address _target) payable public onlyUser {
         require(!accounts[_target].banned);
         require(msg.value >= 10000);
-		accounts[msg.sender].banned = true;
+		accounts[_target].banned = true;
+		banhistories[ban_history_count].executor = msg.sender;
+		banhistories[ban_history_count].target = _target;
+		banhistories[ban_history_count].cancelflag = 0;
+		ban_history_count++;
     }
 	// アカウントban解除
     function bancancelAccount(address _target) payable public onlyUser {
         require(accounts[_target].banned);
         require(msg.value >= 10000);
-		accounts[msg.sender].banned = false;
+		accounts[_target].banned = false;
+		banhistories[ban_history_count].executor = msg.sender;
+		banhistories[ban_history_count].target = _target;
+		banhistories[ban_history_count].cancelflag = 1;
+		ban_history_count++;
     }
+    // 履歴
+    struct banhistory{
+        address executor;
+        address target;
+        uint cancelflag;
+    }
+    mapping(uint => banhistory) banhistories;
+    
+    function getban_history(uint _ban_history_count) public view onlyUser
+		returns(
+			address, 
+			address,
+			uint,
+			uint
+		)
+	{
+        return (
+			banhistories[_ban_history_count].executor, 
+			banhistories[_ban_history_count].target, 
+			banhistories[_ban_history_count].cancelflag,
+			_ban_history_count
+		);
+    }         
 
+	function getban_history_count() public view onlyUser returns(uint){
+		return ban_history_count;
+	}
     // ================
     // 商品
     // ================
