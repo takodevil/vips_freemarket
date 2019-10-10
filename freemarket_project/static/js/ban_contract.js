@@ -20,6 +20,7 @@ window.addEventListener('DOMContentLoaded', function(){
                 result.then(
                     function(){
                         window.alert("BANに成功しました。");
+                        sessionStorage.removeItem('ProductsInfo');
                         location.href = "http://localhost:8000/user_list/";
                     },
                     function(){
@@ -48,6 +49,7 @@ window.addEventListener('DOMContentLoaded', function(){
                 result.then(
                     function(){
                         window.alert("BANの解除に成功しました。");
+                        sessionStorage.removeItem('ProductsInfo');
                         location.href = "http://localhost:8000/user_list/";
                     },
                     function(){

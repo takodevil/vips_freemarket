@@ -10,7 +10,7 @@ class mailtest():
         # MIMEの作成
         subject = "【vipstarcoin_market】メール送信テスト"
         message = "メール送信テストに成功しました"
-        msg = MIMEText(message, "html")
+        msg = MIMEText(message, "plain")
         msg["Subject"] = subject
         msg["To"] = account
         msg["From"] = account

@@ -24,17 +24,16 @@ window.addEventListener('DOMContentLoaded', function(){
                 // ループ回数が分かっているので消化したらsubmitする
                 contract.methods.getItem(i).call({},
                     function(error,result){
-                        // 最後に商品のインデックスを追加しておく
-                        result['id'] = numItems-copy_numItems;
-                        // 日本語対策
-                        result['1'] = web3.utils.hexToUtf8(result['1']);
-                        result['2'] = web3.utils.hexToUtf8(result['2']);
-                        console.log(result['3']);
-                        if(result['3']!=null){
-                            result['3'] = web3.utils.hexToUtf8(result['3']);
-                        }
                         // 削除済は不要なので除外
                         if (result['0'] != 0x0000000000000000000000000000000000000000){
+                            // 最後に商品のインデックスを追加しておく
+                            result['id'] = numItems-copy_numItems;
+                            // 日本語対策
+                            result['1'] = web3.utils.hexToUtf8(result['1']);
+                            result['2'] = web3.utils.hexToUtf8(result['2']);
+                            if(result['3']!=null){
+                                result['3'] = web3.utils.hexToUtf8(result['3']);
+                            }
                             // 検索フラグがONの場合はデータをフィルタする
                             if (sessionStorage.getItem('SearchFlag') == 'on'){
                                 if(result['0'].toLowerCase() == localStorage.getItem('vipsmarket_address').toLowerCase()){

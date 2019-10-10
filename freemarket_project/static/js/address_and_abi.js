@@ -1,5 +1,5 @@
 //コントラクトのアドレス
-var address = "0x46D2A4807cC1A0722644BfC39C8A03F6285BA78C";
+var address = "0x8395834a82F59Dd099cFB87b130feBE5147494A4";
 //abi情報
 var abi =
 [
@@ -620,20 +620,6 @@ var abi =
         }
       ],
       "name": "removeItem",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_numItems",
-          "type": "uint256"
-        }
-      ],
-      "name": "removeItemOwner",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",

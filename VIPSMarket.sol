@@ -178,7 +178,7 @@ contract VIPSMarket {
 		string description;
 		uint price;
 	    string image_uri;
-		uint stock;	
+		uint stock;
 	}
 	mapping(uint => item) public items;
 
@@ -203,6 +203,7 @@ contract VIPSMarket {
 		4:price
 		5:image_uri
 		6:stock
+		7:banned
 	*/
     function getItem(uint _numItems) public view
 		returns(
@@ -215,17 +216,23 @@ contract VIPSMarket {
 			uint
 		)
 	{
-        return (
-			items[_numItems].sellerAddr, 
-			items[_numItems].seller, 
-			items[_numItems].name, 
-			items[_numItems].description, 
-			items[_numItems].price, 
-			items[_numItems].image_uri, 
-			items[_numItems].stock
-		);
+	    if(ban_item(_numItems) == false){
+            return (
+    			items[_numItems].sellerAddr, 
+    			items[_numItems].seller, 
+    			items[_numItems].name, 
+    			items[_numItems].description, 
+    			items[_numItems].price, 
+    			items[_numItems].image_uri, 
+    			items[_numItems].stock
+    		);
+		}
     }
-	
+    function ban_item(uint _numItems) private view returns(bool){
+        (,,,,bool banned,) = getAccount(items[_numItems].sellerAddr);
+        return banned;
+    }
+
 	// 全体の商品登録数を取得
 	function getnumItems() public view returns(uint){
 		return numItems;
@@ -243,11 +250,6 @@ contract VIPSMarket {
 	// 商品を削除
 	function removeItem(uint _numItems) public onlyUser notBannedUser isStopped{
 		require(msg.sender == items[_numItems].sellerAddr);
-		// 値としてゼロを割り当てる
-		delete items[_numItems];
-	}
-	// 商品を削除（オーナー）
-	function removeItemOwner(uint _numItems) public onlyOwner isStopped{
 		// 値としてゼロを割り当てる
 		delete items[_numItems];
 	}

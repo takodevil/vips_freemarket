@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', function(){
         document.getElementById("id_Search").disabled = false;
         document.getElementById("id_All").disabled = false;
     }
+
     $('#id_Search').on("click",function(){
         // 一旦検索ボタンが押されたら検索状態を記憶して再度getさせる
         sessionStorage.setItem('SearchFlag','on');

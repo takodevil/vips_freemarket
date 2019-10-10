@@ -45,7 +45,6 @@
         </ul>
     </div>
   </div>
-
 <body>
 {% block contents %}
 {% endblock %}
@@ -54,6 +53,11 @@
 <script src="{% static 'js/web3.min.js' %}"></script>
 <script src="{% static 'js/logout.js' %}"></script>
 <script src="{% static 'js/header_control.js' %}"></script>
+<script src="{% static 'js/escapeHTML.js' %}"></script>
+<script>
+    document.getElementById("vipsmarket_name").innerHTML = escapeHtml(document.getElementById("vipsmarket_name").innerHTML);
+</script>
+
 <script src="{% static 'js/address_and_abi.js' %}"></script>
 </body>
 </html>

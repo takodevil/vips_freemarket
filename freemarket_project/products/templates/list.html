@@ -31,7 +31,7 @@
                 {% endif %}
               </div>
           </td>
-          <td style="vertical-align:middle;">
+          <td class="command" style="vertical-align:middle;">
               <script>
               // 自分が出品している商品なら編集、他人が出品している商品なら購入、未ログインなら空
               // 商品IDを次の画面にクエリパラメータとして渡す
@@ -44,7 +44,7 @@
                 }
                 </script>
           </td>
-          <td style="vertical-align:middle;">{{ product.id }}</td>
+          <td class="product_id" style="vertical-align:middle;">{{ product.id }}</td>
           <td style="vertical-align:middle;">{{ product.2 }}</td>
           <td style="vertical-align:middle;">{{ product.1 }}</td>
           <td style="vertical-align:middle;">{{ product.4 }}</td>
